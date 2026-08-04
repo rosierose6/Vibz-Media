@@ -23,6 +23,7 @@ import { VectorGraphicsDemo } from "./scenes/VectorGraphicsDemo";
 import { ParticlesDemo } from "./scenes/ParticlesDemo";
 import { WaveformDemo } from "./scenes/WaveformDemo";
 import { MediabunnyDemo } from "./scenes/MediabunnyDemo";
+import { UpscaleDemo } from "./scenes/UpscaleDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
@@ -117,6 +118,15 @@ const MEDIABUNNY_DEFAULTS = {
   sourceFile: "ai-clip.mp4",
   label: "mediabunny",
   meta: null as MediaInfo | null,
+};
+
+const UPSCALE_DEFAULTS = {
+  beforeFile: "presenter-photo.jpg",
+  afterFile: "presenter-photo-upscaled-4x.png",
+  scale: 4,
+  model: "realesrgan-x4plus",
+  engine: "sharp",
+  label: "real-esrgan",
 };
 
 async function readMetaText(
@@ -566,6 +576,43 @@ export const RemotionRoot: React.FC = () => {
             durationInFrames,
             props: { ...props, sourceFile, label, meta },
           };
+        }}
+      />
+
+      {/* Real-ESRGAN upscale — npm run upscale */}
+      <Composition
+        id="UpscaleDemo"
+        component={UpscaleDemo}
+        durationInFrames={90}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={UPSCALE_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          try {
+            const response = await fetch(staticFile("upscale-meta.json"));
+            if (!response.ok) return {};
+            const meta = (await response.json()) as {
+              beforeFile?: string;
+              afterFile?: string;
+              scale?: number;
+              model?: string;
+              engine?: string;
+            };
+            return {
+              props: {
+                ...props,
+                beforeFile: meta.beforeFile ?? props.beforeFile,
+                afterFile: meta.afterFile ?? props.afterFile,
+                scale: meta.scale ?? props.scale,
+                model: meta.model ?? props.model,
+                engine: meta.engine ?? props.engine,
+                label: `real-esrgan · ${meta.scale ?? props.scale}×`,
+              },
+            };
+          } catch {
+            return {};
+          }
         }}
       />
 
