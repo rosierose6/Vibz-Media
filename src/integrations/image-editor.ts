@@ -212,7 +212,7 @@ function applyColorCorrection(pipeline: Sharp, cc: ColorCorrection): Sharp {
   next = next.modulate({
     brightness: Math.max(0.1, brightness),
     saturation: Math.max(0, saturation),
-    hue,
+    hue: Math.round(hue),
   });
 
   if (cc.contrast !== undefined && cc.contrast !== 1) {
