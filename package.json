@@ -13,6 +13,7 @@
     "avatar": "tsx scripts/generate-avatar.ts",
     "captions": "tsx scripts/generate-captions.ts",
     "video": "tsx scripts/generate-video.ts",
+    "video:server": "tsx scripts/video-server.ts",
     "render:voiceover": "npx remotion render src/index.ts VoiceoverDemo out/voiceover-demo.mp4",
     "render:avatar": "npx remotion render src/index.ts AvatarDemo out/avatar-demo.mp4",
     "render:captions": "npx remotion render src/index.ts CaptionsDemo out/captions-demo.mp4",
