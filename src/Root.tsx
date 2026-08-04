@@ -15,9 +15,11 @@ import { AiVideoDemo } from "./scenes/AiVideoDemo";
 import { MusicDemo } from "./scenes/MusicDemo";
 import { BgRemoveDemo } from "./scenes/BgRemoveDemo";
 import { EditorDemo } from "./scenes/EditorDemo";
+import { TimelineDemo } from "./scenes/TimelineDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
+import type { RemotionSequenceData } from "./integrations/timeline";
 
 const VOICEOVER_DEFAULTS = {
   text: "Welcome to the future of video.",
@@ -58,6 +60,12 @@ const EDITOR_DEFAULTS: RemotionEditorProps = {
   durationInFrames: 240,
   tracks: [],
   effects: [],
+};
+
+const TIMELINE_DEFAULTS = {
+  sequences: [] as RemotionSequenceData[],
+  fps: 30,
+  durationInFrames: 300,
 };
 
 async function readMetaText(
@@ -302,6 +310,45 @@ export const RemotionRoot: React.FC = () => {
             return {
               props: { ...props, ...next },
               durationInFrames: Math.max(1, next.durationInFrames),
+            };
+          } catch {
+            return { durationInFrames: props.durationInFrames };
+          }
+        }}
+      />
+
+      {/* Timeline sequences — run `npm run timeline` */}
+      <Composition
+        id="TimelineDemo"
+        component={TimelineDemo}
+        durationInFrames={300}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={TIMELINE_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          try {
+            const response = await fetch(staticFile("timeline.json"));
+            if (!response.ok) {
+              return { durationInFrames: props.durationInFrames };
+            }
+            const payload = (await response.json()) as {
+              sequences?: RemotionSequenceData[];
+              fps?: number;
+              durationInFrames?: number;
+            };
+            return {
+              props: {
+                ...props,
+                sequences: payload.sequences ?? props.sequences,
+                fps: payload.fps ?? props.fps,
+                durationInFrames:
+                  payload.durationInFrames ?? props.durationInFrames,
+              },
+              durationInFrames: Math.max(
+                1,
+                payload.durationInFrames ?? props.durationInFrames,
+              ),
             };
           } catch {
             return { durationInFrames: props.durationInFrames };
