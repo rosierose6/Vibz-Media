@@ -28,6 +28,7 @@ import { RifeDemo } from "./scenes/RifeDemo";
 import { GfpganDemo } from "./scenes/GfpganDemo";
 import { Sam2Demo } from "./scenes/Sam2Demo";
 import { StemDemo } from "./scenes/StemDemo";
+import { DenoiseDemo } from "./scenes/DenoiseDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
@@ -179,6 +180,15 @@ const STEM_DEFAULTS = {
   engine: "ffmpeg-ms",
   model: "mid-side",
   label: "audio-separator",
+};
+
+const DENOISE_DEFAULTS = {
+  beforeFile: "voiceover-noisy.wav",
+  afterFile: "voiceover-clean.wav",
+  playFile: "voiceover-clean.wav",
+  peaks: { before: [] as number[], after: [] as number[] },
+  engine: "ffmpeg",
+  label: "deepfilternet",
 };
 
 async function readMetaText(
@@ -832,6 +842,48 @@ export const RemotionRoot: React.FC = () => {
                 engine: meta.engine ?? props.engine,
                 model: meta.model ?? props.model,
                 label: `audio-separator · ${meta.engine ?? props.engine}`,
+              },
+            };
+          } catch {
+            return {};
+          }
+        }}
+      />
+
+      {/* DeepFilterNet denoise — npm run denoise */}
+      <Composition
+        id="DenoiseDemo"
+        component={DenoiseDemo}
+        durationInFrames={150}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={DENOISE_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          try {
+            const response = await fetch(staticFile("denoise-meta.json"));
+            if (!response.ok) return {};
+            const meta = (await response.json()) as {
+              beforeFile?: string;
+              afterFile?: string;
+              playFile?: string;
+              peaks?: { before: number[]; after: number[] };
+              engine?: string;
+              durationSec?: number | null;
+            };
+            const durationInFrames = meta.durationSec
+              ? Math.max(90, Math.ceil(meta.durationSec * 30))
+              : undefined;
+            return {
+              ...(durationInFrames ? { durationInFrames } : {}),
+              props: {
+                ...props,
+                beforeFile: meta.beforeFile ?? props.beforeFile,
+                afterFile: meta.afterFile ?? props.afterFile,
+                playFile: meta.playFile ?? props.playFile,
+                peaks: meta.peaks ?? props.peaks,
+                engine: meta.engine ?? props.engine,
+                label: `deepfilternet · ${meta.engine ?? props.engine}`,
               },
             };
           } catch {
