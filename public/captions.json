@@ -1,0 +1,90 @@
+{
+  "segments": [
+    {
+      "text": "Welcome to the future of video.",
+      "start": 0,
+      "end": 2.4,
+      "words": [
+        {
+          "word": "Welcome",
+          "start": 0,
+          "end": 0.632,
+          "confidence": 0.5
+        },
+        {
+          "word": "to",
+          "start": 0.672,
+          "end": 0.8240000000000001,
+          "confidence": 0.5
+        },
+        {
+          "word": "the",
+          "start": 0.8640000000000001,
+          "end": 1.112,
+          "confidence": 0.5
+        },
+        {
+          "word": "future",
+          "start": 1.1520000000000001,
+          "end": 1.6880000000000002,
+          "confidence": 0.5
+        },
+        {
+          "word": "of",
+          "start": 1.7280000000000002,
+          "end": 1.8800000000000001,
+          "confidence": 0.5
+        },
+        {
+          "word": "video.",
+          "start": 1.9200000000000002,
+          "end": 2.4,
+          "confidence": 0.5
+        }
+      ]
+    }
+  ],
+  "language": "en",
+  "duration": 2.4,
+  "words": [
+    {
+      "word": "Welcome",
+      "start": 0,
+      "end": 0.632,
+      "confidence": 0.5
+    },
+    {
+      "word": "to",
+      "start": 0.672,
+      "end": 0.8240000000000001,
+      "confidence": 0.5
+    },
+    {
+      "word": "the",
+      "start": 0.8640000000000001,
+      "end": 1.112,
+      "confidence": 0.5
+    },
+    {
+      "word": "future",
+      "start": 1.1520000000000001,
+      "end": 1.6880000000000002,
+      "confidence": 0.5
+    },
+    {
+      "word": "of",
+      "start": 1.7280000000000002,
+      "end": 1.8800000000000001,
+      "confidence": 0.5
+    },
+    {
+      "word": "video.",
+      "start": 1.9200000000000002,
+      "end": 2.4,
+      "confidence": 0.5
+    }
+  ],
+  "audioFile": "voiceover.wav",
+  "source": "offline",
+  "generatedAt": "2026-08-04T04:49:40.357Z"
+}
