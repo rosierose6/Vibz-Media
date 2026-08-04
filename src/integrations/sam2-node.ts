@@ -205,6 +205,7 @@ async function segmentWithSam2(
   maskPath: string,
   points: Sam2Point[],
   model: Sam2Model,
+  normalized?: boolean,
 ): Promise<SegmentObjectResult | null> {
   const py = findSam2Python();
   if (!py) return null;
@@ -229,7 +230,7 @@ async function segmentWithSam2(
   const meta = await sharp(input).metadata();
   const width = meta.width ?? 0;
   const height = meta.height ?? 0;
-  const pixelPoints = toPixelPoints(points, width, height, true);
+  const pixelPoints = toPixelPoints(points, width, height, normalized);
 
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "vanta-sam2-"));
   try {
@@ -340,7 +341,13 @@ export async function segmentObject(
   if (cutoutPath) fs.mkdirSync(path.dirname(cutoutPath), { recursive: true });
 
   if (!options.fallback) {
-    const viaSam = await segmentWithSam2(input, maskPath, points, model);
+    const viaSam = await segmentWithSam2(
+      input,
+      maskPath,
+      points,
+      model,
+      options.normalized,
+    );
     if (viaSam) {
       if (cutoutPath) {
         await applyMaskCutout(input, maskPath, cutoutPath);
@@ -416,7 +423,7 @@ export async function trackObject(
     const result = useSam
       ? await segmentObject(framePath, {
           points,
-          normalized: options.normalized ?? true,
+          normalized: options.normalized,
           output: maskPath,
           model,
         })
