@@ -28,14 +28,17 @@ export const ParticlesDemo: React.FC<ParticlesDemoProps> = ({
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
 
-  const factory =
-    PRESETS[preset] ?? PRESETS.links;
+  const factory = PRESETS[preset] ?? PRESETS.links;
   const system = createParticles(
-    factory({
-      count: preset === "links" ? 60 : undefined,
-      colors: preset === "links" ? ["#ffffff"] : undefined,
-      background: preset === "links" ? "#0d1117" : undefined,
-    }),
+    factory(
+      preset === "links"
+        ? {
+            count: 60,
+            colors: ["#ffffff"],
+            background: "#0d1117",
+          }
+        : {},
+    ),
   );
   const { particles, links, background } = system.getStateAtFrame(frame, fps);
 

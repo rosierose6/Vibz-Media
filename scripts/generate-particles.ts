@@ -23,11 +23,15 @@ async function main() {
 
   const factory = PRESETS[preset];
   const system = createParticles(
-    factory({
-      count: preset === "links" ? 60 : undefined,
-      colors: preset === "links" ? ["#ffffff"] : undefined,
-      background: preset === "links" ? "#0d1117" : undefined,
-    }),
+    factory(
+      preset === "links"
+        ? {
+            count: 60,
+            colors: ["#ffffff"],
+            background: "#0d1117",
+          }
+        : {},
+    ),
   );
 
   const sample = system.getStateAtFrame(30, 30);
