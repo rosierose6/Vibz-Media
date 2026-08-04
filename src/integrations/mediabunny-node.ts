@@ -8,9 +8,9 @@ import path from "path";
 import { promisify } from "util";
 import {
   ALL_FORMATS,
+  BufferSource,
+  BufferTarget,
   Conversion,
-  FilePathSource,
-  FilePathTarget,
   Input,
   MovOutputFormat,
   Mp3OutputFormat,
@@ -35,12 +35,21 @@ function resolveMediaPath(url: string): string {
     path.resolve(process.cwd(), cleaned),
     path.resolve(process.cwd(), "public", path.basename(cleaned)),
     path.resolve(process.cwd(), "out", path.basename(cleaned)),
-    path.resolve(__dirname, "../../", cleaned),
   ];
   for (const candidate of candidates) {
     if (fs.existsSync(candidate)) return candidate;
   }
   throw new Error(`Media not found: ${url}`);
+}
+
+function openInput(filePath: string): Input {
+  // BufferSource avoids FilePathSource, which is stubbed out in the
+  // CJS/browser build that tsx resolves under Node.
+  const bytes = fs.readFileSync(filePath);
+  return new Input({
+    source: new BufferSource(bytes),
+    formats: ALL_FORMATS,
+  });
 }
 
 function ffmpegEnv(): NodeJS.ProcessEnv {
@@ -80,10 +89,7 @@ function defaultOutPath(src: string, format: MediaContainerFormat): string {
  */
 export async function inspectMedia(url: string): Promise<MediaInfo> {
   const filePath = resolveMediaPath(url);
-  const input = new Input({
-    source: new FilePathSource(filePath),
-    formats: ALL_FORMATS,
-  });
+  const input = openInput(filePath);
 
   try {
     const duration = await input.computeDuration();
@@ -149,13 +155,11 @@ async function convertWithMediabunny(
   format: MediaContainerFormat,
   options: ConvertMediaOptions,
 ): Promise<ConvertMediaResult | null> {
-  const input = new Input({
-    source: new FilePathSource(filePath),
-    formats: ALL_FORMATS,
-  });
+  const input = openInput(filePath);
+  const target = new BufferTarget();
   const output = new Output({
     format: outputFormatFor(format),
-    target: new FilePathTarget(outPath),
+    target,
   });
 
   try {
@@ -179,8 +183,10 @@ async function convertWithMediabunny(
     }
 
     await conversion.execute();
-    const bytes = fs.existsSync(outPath) ? fs.statSync(outPath).size : 0;
-    return { outPath, format, engine: "mediabunny", bytes };
+    const buffer = target.buffer;
+    if (!buffer) return null;
+    fs.writeFileSync(outPath, Buffer.from(buffer));
+    return { outPath, format, engine: "mediabunny", bytes: buffer.byteLength };
   } catch {
     return null;
   } finally {
