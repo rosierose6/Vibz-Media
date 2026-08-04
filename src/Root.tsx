@@ -13,7 +13,10 @@ import { AvatarDemo } from "./scenes/AvatarDemo";
 import { CaptionsDemo } from "./scenes/CaptionsDemo";
 import { AiVideoDemo } from "./scenes/AiVideoDemo";
 import { MusicDemo } from "./scenes/MusicDemo";
+import { BgRemoveDemo } from "./scenes/BgRemoveDemo";
+import { EditorDemo } from "./scenes/EditorDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
+import type { RemotionEditorProps } from "./integrations/video-editor";
 
 const VOICEOVER_DEFAULTS = {
   text: "Welcome to the future of video.",
@@ -39,6 +42,20 @@ const MUSIC_DEFAULTS = {
   prompt: "cinematic orchestral tension building",
   audioFile: "soundtrack.wav",
   bpm: 96,
+};
+
+const BG_REMOVE_DEFAULTS = {
+  cutoutFile: "cutout.png",
+  label: "imgly · background removal",
+};
+
+const EDITOR_DEFAULTS: RemotionEditorProps = {
+  width: 1920,
+  height: 1080,
+  fps: 30,
+  durationInFrames: 240,
+  tracks: [],
+  effects: [],
 };
 
 async function readMetaText(
@@ -243,6 +260,49 @@ export const RemotionRoot: React.FC = () => {
             };
           } catch {
             return { props: { ...props, prompt, bpm }, durationInFrames: 900 };
+          }
+        }}
+      />
+
+      {/* Cutout demo — run `npm run cutout` after adding public/presenter-photo.jpg */}
+      <Composition
+        id="BgRemoveDemo"
+        component={BgRemoveDemo}
+        durationInFrames={150}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={BG_REMOVE_DEFAULTS}
+      />
+
+      {/* Programmatic editor project — run `npm run editor` */}
+      <Composition
+        id="EditorDemo"
+        component={EditorDemo}
+        durationInFrames={240}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={EDITOR_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          try {
+            const response = await fetch(staticFile("editor-project.json"));
+            if (!response.ok) {
+              return { durationInFrames: props.durationInFrames };
+            }
+            const payload = (await response.json()) as {
+              remotionProps?: RemotionEditorProps;
+            };
+            const next = payload.remotionProps;
+            if (!next) {
+              return { durationInFrames: props.durationInFrames };
+            }
+            return {
+              props: { ...props, ...next },
+              durationInFrames: Math.max(1, next.durationInFrames),
+            };
+          } catch {
+            return { durationInFrames: props.durationInFrames };
           }
         }}
       />

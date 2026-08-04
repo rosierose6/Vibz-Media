@@ -16,13 +16,18 @@
     "video:server": "tsx scripts/video-server.ts",
     "music": "tsx scripts/generate-music.ts",
     "music:server": "tsx scripts/music-server.ts",
+    "cutout": "tsx scripts/generate-cutout.ts",
+    "editor": "tsx scripts/generate-editor-project.ts",
     "render:voiceover": "npx remotion render src/index.ts VoiceoverDemo out/voiceover-demo.mp4",
     "render:avatar": "npx remotion render src/index.ts AvatarDemo out/avatar-demo.mp4",
     "render:captions": "npx remotion render src/index.ts CaptionsDemo out/captions-demo.mp4",
     "render:video": "npx remotion render src/index.ts AiVideoDemo out/ai-video-demo.mp4",
-    "render:music": "npx remotion render src/index.ts MusicDemo out/music-demo.mp4"
+    "render:music": "npx remotion render src/index.ts MusicDemo out/music-demo.mp4",
+    "render:cutout": "npx remotion render src/index.ts BgRemoveDemo out/cutout-demo.mp4",
+    "render:editor": "npx remotion render src/index.ts EditorDemo out/editor-demo.mp4"
   },
   "dependencies": {
+    "@imgly/background-removal-node": "^1.4.5",
     "@remotion/cli": "^4.0.0",
     "@remotion/media-utils": "^4.0.419",
     "@remotion/motion-blur": "^4.0.0",
