@@ -1,0 +1,36 @@
+{
+  "sourceFile": "ai-clip.mp4",
+  "outputDir": "generated/scenes",
+  "scenes": [
+    {
+      "index": 1,
+      "start": 0,
+      "end": 6,
+      "startFrame": 1,
+      "endFrame": 144,
+      "file": "generated/scenes/ai-clip-Scene-001.mp4"
+    }
+  ],
+  "thumbs": [
+    "generated/scenes/ai-clip-Scene-001-01.jpg",
+    "generated/scenes/ai-clip-Scene-001-02.jpg",
+    "generated/scenes/ai-clip-Scene-001-03.jpg",
+    "generated/scenes/multi-scene-Scene-001-01.jpg",
+    "generated/scenes/multi-scene-Scene-001-02.jpg",
+    "generated/scenes/multi-scene-Scene-001-03.jpg",
+    "generated/scenes/multi-scene-Scene-002-01.jpg",
+    "generated/scenes/multi-scene-Scene-002-02.jpg",
+    "generated/scenes/multi-scene-Scene-002-03.jpg",
+    "generated/scenes/multi-scene-Scene-003-01.jpg",
+    "generated/scenes/multi-scene-Scene-003-02.jpg",
+    "generated/scenes/multi-scene-Scene-003-03.jpg"
+  ],
+  "detector": "content",
+  "threshold": 20,
+  "engine": "scenedetect",
+  "fps": 24,
+  "durationSec": 6,
+  "sceneCount": 1,
+  "sceneDetectAvailable": true,
+  "generatedAt": "2026-08-04T20:23:59.745Z"
+}
