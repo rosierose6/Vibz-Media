@@ -16,6 +16,7 @@ import { MusicDemo } from "./scenes/MusicDemo";
 import { BgRemoveDemo } from "./scenes/BgRemoveDemo";
 import { EditorDemo } from "./scenes/EditorDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
+import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
 
 const VOICEOVER_DEFAULTS = {
@@ -31,6 +32,7 @@ const AVATAR_DEFAULTS = {
 const CAPTIONS_DEFAULTS = {
   audioFile: "voiceover.wav",
   words: [] as CaptionWord[],
+  preset: "tiktok" as CaptionPresetName,
 };
 
 const AI_VIDEO_DEFAULTS = {

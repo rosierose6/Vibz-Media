@@ -1,42 +1,72 @@
 import React from "react";
-import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import {
+  AbsoluteFill,
+  interpolate,
+  spring,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
 import type { CaptionWord } from "../integrations/auto-captions";
 import {
   CAPTION_PRESETS,
   getActiveWordIndex,
+  getCaptionStyleCSS,
   getVisibleWords,
-  type CaptionStyle,
+  type CaptionPresetName,
+  type CaptionStyleConfig,
 } from "../integrations/animated-captions";
 
 export interface AnimatedCaptionProps {
   words: CaptionWord[];
-  style?: CaptionStyle;
+  /** Named preset: tiktok | youtube | reels | karaoke */
+  preset?: CaptionPresetName;
+  /** Optional overrides merged onto the preset */
+  styleConfig?: Partial<CaptionStyleConfig>;
   maxWords?: number;
 }
 
 /**
  * Frame-accurate word captions for Remotion sequences.
+ *
+ *   const captions = await transcribe("./audio.wav");
+ *   const currentTime = frame / fps;
+ *   const activeWord = getActiveWordIndex(captions, currentTime);
+ *   const style = CAPTION_PRESETS.tiktok;
  */
 export const AnimatedCaption: React.FC<AnimatedCaptionProps> = ({
   words,
-  style = "tiktok",
-  maxWords = 4,
+  preset = "tiktok",
+  styleConfig,
+  maxWords,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const currentTime = frame / fps;
-  const preset = CAPTION_PRESETS[style] ?? CAPTION_PRESETS.tiktok;
-  const visible = getVisibleWords(words, currentTime, maxWords);
+  const style: CaptionStyleConfig = {
+    ...CAPTION_PRESETS[preset],
+    ...styleConfig,
+  };
+  const windowSize = maxWords ?? style.maxWordsPerLine ?? 4;
+  const visible = getVisibleWords(words, currentTime, windowSize);
   const activeIndex = getActiveWordIndex(words, currentTime);
 
   if (visible.length === 0) return null;
 
   const positionStyle =
-    preset.position === "top"
+    style.position === "top"
       ? { justifyContent: "flex-start" as const, paddingTop: 120 }
-      : preset.position === "center"
+      : style.position === "center"
         ? { justifyContent: "center" as const }
         : { justifyContent: "flex-end" as const, paddingBottom: 140 };
+
+  const youtubeBar =
+    style.style === "subtitle" && style.backgroundColor
+      ? {
+          backgroundColor: style.backgroundColor,
+          padding: style.padding ?? 12,
+          borderRadius: 4,
+        }
+      : null;
 
   return (
     <AbsoluteFill
@@ -54,6 +84,7 @@ export const AnimatedCaption: React.FC<AnimatedCaptionProps> = ({
           gap: 14,
           maxWidth: 1400,
           padding: "0 80px",
+          ...youtubeBar,
         }}
       >
         {visible.map((word) => {
@@ -65,35 +96,24 @@ export const AnimatedCaption: React.FC<AnimatedCaptionProps> = ({
             fps,
             config: { damping: 14, stiffness: 160, mass: 0.6 },
           });
-          const scale = isActive
-            ? interpolate(enter, [0, 1], [0.92, 1.12], {
-                extrapolateRight: "clamp",
-              })
-            : interpolate(enter, [0, 1], [0.85, 1], {
-                extrapolateRight: "clamp",
-              });
+          const css = getCaptionStyleCSS(style, isActive);
+          const scaleBoost =
+            style.style === "pop" || style.style === "tiktok"
+              ? interpolate(enter, [0, 1], [0.88, isActive ? 1.12 : 1], {
+                  extrapolateRight: "clamp",
+                })
+              : 1;
 
           return (
             <span
               key={`${word.word}-${word.start}`}
               style={{
+                ...css,
                 fontFamily:
+                  style.fontFamily ??
                   '"Helvetica Neue", Helvetica, Arial, sans-serif',
-                fontSize: preset.fontSize ?? 64,
-                fontWeight: 700,
-                letterSpacing: "-0.02em",
-                color: isActive
-                  ? (preset.activeColor ?? "#F2C94C")
-                  : (preset.color ?? "#F2EBE3"),
-                opacity: isActive ? 1 : 0.55,
-                transform: `scale(${scale})`,
-                display: "inline-block",
-                textShadow: isActive
-                  ? "0 2px 24px rgba(242,201,76,0.35)"
-                  : "0 2px 18px rgba(0,0,0,0.55)",
-                WebkitTextStroke: preset.outline
-                  ? `${preset.outlineWidth ?? 2}px ${preset.outlineColor ?? "#0a0a0a"}`
-                  : undefined,
+                transform: `scale(${scaleBoost})`,
+                opacity: isActive ? 1 : style.style === "karaoke" ? 0.45 : 0.55,
               }}
             >
               {word.word}

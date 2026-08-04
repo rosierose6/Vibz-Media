@@ -9,10 +9,16 @@ import {
 import { GradientBackground } from "../components/GradientBackground";
 import { AnimatedCaption } from "../components/AnimatedCaption";
 import type { CaptionWord } from "../integrations/auto-captions";
+import {
+  CAPTION_PRESETS,
+  getActiveWordIndex,
+  type CaptionPresetName,
+} from "../integrations/animated-captions";
 
 export interface CaptionsDemoProps {
   audioFile: string;
   words: CaptionWord[];
+  preset: CaptionPresetName;
 }
 
 /**
@@ -20,13 +26,22 @@ export interface CaptionsDemoProps {
  *
  *   npm run tts
  *   npm run captions
+ *
+ *   const captions = await transcribe("./audio.wav");
+ *   const currentTime = frame / fps;
+ *   const activeWord = getActiveWordIndex(captions, currentTime);
+ *   const style = CAPTION_PRESETS.tiktok;
  */
 export const CaptionsDemo: React.FC<CaptionsDemoProps> = ({
   audioFile = "voiceover.wav",
   words = [],
+  preset = "tiktok",
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const currentTime = frame / fps;
+  const activeWord = getActiveWordIndex(words, currentTime);
+  const style = CAPTION_PRESETS[preset];
 
   return (
     <AbsoluteFill>
@@ -49,11 +64,17 @@ export const CaptionsDemo: React.FC<CaptionsDemoProps> = ({
             textTransform: "uppercase",
           }}
         >
-          whisperx · word captions · {Math.floor(frame / fps)}s
+          {preset} ·{" "}
+          {activeWord >= 0 ? words[activeWord]?.word : "—"} ·{" "}
+          {currentTime.toFixed(1)}s
         </div>
       </AbsoluteFill>
 
-      <AnimatedCaption words={words} style="tiktok" maxWords={4} />
+      <AnimatedCaption
+        words={words}
+        preset={preset}
+        maxWords={style.maxWordsPerLine}
+      />
     </AbsoluteFill>
   );
 };

@@ -9,8 +9,16 @@
  * this handles the visual presentation layer.
  *
  * Usage:
- *   import { AnimatedCaption } from "../components/AnimatedCaption";
- *   <AnimatedCaption words={words} style="tiktok" />
+ *   import { transcribe } from "./auto-captions";
+ *   import { getActiveWordIndex, CAPTION_PRESETS } from "./animated-captions";
+ *
+ *   const captions = await transcribe("./audio.wav");
+ *   const currentTime = frame / fps;
+ *   const activeWord = getActiveWordIndex(captions, currentTime);
+ *   const style = CAPTION_PRESETS.tiktok; // or youtube, reels, karaoke
+ *
+ *   // In a composition:
+ *   <AnimatedCaption words={captions} preset="tiktok" />
  *
  * Repos:
  *   - https://github.com/ahgsql/remotion-subtitles — Animated subtitles for Remotion from SRT files
@@ -139,7 +147,9 @@ export function getCaptionStyleCSS(
 /**
  * Default style presets matching common social media caption styles
  */
-export const CAPTION_PRESETS: Record<string, CaptionStyleConfig> = {
+export type CaptionPresetName = "tiktok" | "youtube" | "reels" | "karaoke";
+
+export const CAPTION_PRESETS: Record<CaptionPresetName, CaptionStyleConfig> = {
   tiktok: {
     style: "tiktok",
     fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
