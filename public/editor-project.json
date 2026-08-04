@@ -1,0 +1,38 @@
+{
+  "config": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "durationInFrames": 180
+  },
+  "tracks": [
+    {
+      "type": "video",
+      "src": "ai-clip.mp4",
+      "startFrame": 0,
+      "endFrame": 180,
+      "layer": 0,
+      "id": "track_1_mse7ru8y",
+      "properties": {}
+    }
+  ],
+  "effects": [],
+  "remotionProps": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "durationInFrames": 180,
+    "tracks": [
+      {
+        "type": "video",
+        "src": "ai-clip.mp4",
+        "startFrame": 0,
+        "endFrame": 180,
+        "layer": 0,
+        "id": "track_1_mse7ru8y",
+        "properties": {}
+      }
+    ],
+    "effects": []
+  }
+}
