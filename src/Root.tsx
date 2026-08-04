@@ -30,6 +30,7 @@ import { Sam2Demo } from "./scenes/Sam2Demo";
 import { StemDemo } from "./scenes/StemDemo";
 import { DenoiseDemo } from "./scenes/DenoiseDemo";
 import { AutoEditDemo } from "./scenes/AutoEditDemo";
+import { SceneDetectDemo } from "./scenes/SceneDetectDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
@@ -202,6 +203,22 @@ const AUTOEDIT_DEFAULTS = {
   outputDurationSec: 0,
   savedPct: 0,
   label: "auto-editor",
+};
+
+const SCENEDETECT_DEFAULTS = {
+  sourceFile: "generated/multi-scene.mp4",
+  scenes: [] as Array<{
+    index: number;
+    start: number;
+    end: number;
+    file: string | null;
+  }>,
+  thumbs: [] as string[],
+  engine: "ffmpeg",
+  detector: "content",
+  threshold: 27,
+  sceneCount: 0,
+  label: "pyscenedetect",
 };
 
 async function readMetaText(
@@ -947,6 +964,57 @@ export const RemotionRoot: React.FC = () => {
                   meta.outputDurationSec ?? props.outputDurationSec,
                 savedPct: meta.savedPct ?? props.savedPct,
                 label: `auto-editor · ${meta.engine ?? props.engine}`,
+              },
+            };
+          } catch {
+            return {};
+          }
+        }}
+      />
+
+      {/* PySceneDetect — npm run scenes */}
+      <Composition
+        id="SceneDetectDemo"
+        component={SceneDetectDemo}
+        durationInFrames={150}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={SCENEDETECT_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          try {
+            const response = await fetch(staticFile("scenes-meta.json"));
+            if (!response.ok) return {};
+            const meta = (await response.json()) as {
+              sourceFile?: string;
+              scenes?: Array<{
+                index: number;
+                start: number;
+                end: number;
+                file: string | null;
+              }>;
+              thumbs?: string[];
+              engine?: string;
+              detector?: string;
+              threshold?: number;
+              sceneCount?: number;
+              durationSec?: number | null;
+            };
+            const durationInFrames = meta.durationSec
+              ? Math.max(90, Math.ceil(meta.durationSec * 30))
+              : undefined;
+            return {
+              ...(durationInFrames ? { durationInFrames } : {}),
+              props: {
+                ...props,
+                sourceFile: meta.sourceFile ?? props.sourceFile,
+                scenes: meta.scenes ?? props.scenes,
+                thumbs: meta.thumbs ?? props.thumbs,
+                engine: meta.engine ?? props.engine,
+                detector: meta.detector ?? props.detector,
+                threshold: meta.threshold ?? props.threshold,
+                sceneCount: meta.sceneCount ?? props.sceneCount,
+                label: `pyscenedetect · ${meta.engine ?? props.engine}`,
               },
             };
           } catch {
