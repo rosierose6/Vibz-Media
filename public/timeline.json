@@ -1,0 +1,119 @@
+{
+  "timeline": {
+    "config": {
+      "fps": 30,
+      "durationInFrames": 300,
+      "trackCount": 4
+    },
+    "clips": [
+      {
+        "trackIndex": 0,
+        "type": "video",
+        "src": "ai-clip.mp4",
+        "startFrame": 0,
+        "endFrame": 150,
+        "id": "clip-mse7x2mb-u7pq4r"
+      },
+      {
+        "trackIndex": 1,
+        "type": "image",
+        "src": "cutout.png",
+        "startFrame": 60,
+        "endFrame": 240,
+        "opacity": 1,
+        "id": "clip-mse7x2mb-qcui8a"
+      },
+      {
+        "trackIndex": 2,
+        "type": "audio",
+        "src": "soundtrack.wav",
+        "startFrame": 0,
+        "endFrame": 300,
+        "volume": 0.4,
+        "id": "clip-mse7x2mb-p20z3c"
+      },
+      {
+        "trackIndex": 3,
+        "type": "audio",
+        "src": "voiceover.wav",
+        "startFrame": 0,
+        "endFrame": 90,
+        "volume": 1,
+        "id": "clip-mse7x2mb-og744z"
+      },
+      {
+        "trackIndex": 4,
+        "type": "text",
+        "text": "Timeline → Remotion Sequences",
+        "startFrame": 15,
+        "endFrame": 300,
+        "id": "clip-mse7x2mb-qog71k"
+      }
+    ],
+    "keyframes": [],
+    "playheadFrame": 0
+  },
+  "sequences": [
+    {
+      "id": "clip-mse7x2mb-u7pq4r",
+      "from": 0,
+      "durationInFrames": 150,
+      "trackIndex": 0,
+      "type": "video",
+      "src": "ai-clip.mp4",
+      "style": {
+        "keyframes": {}
+      }
+    },
+    {
+      "id": "clip-mse7x2mb-qcui8a",
+      "from": 60,
+      "durationInFrames": 180,
+      "trackIndex": 1,
+      "type": "image",
+      "src": "cutout.png",
+      "style": {
+        "opacity": 1,
+        "keyframes": {}
+      }
+    },
+    {
+      "id": "clip-mse7x2mb-p20z3c",
+      "from": 0,
+      "durationInFrames": 300,
+      "trackIndex": 2,
+      "type": "audio",
+      "src": "soundtrack.wav",
+      "style": {
+        "volume": 0.4,
+        "keyframes": {}
+      }
+    },
+    {
+      "id": "clip-mse7x2mb-og744z",
+      "from": 0,
+      "durationInFrames": 90,
+      "trackIndex": 3,
+      "type": "audio",
+      "src": "voiceover.wav",
+      "style": {
+        "volume": 1,
+        "keyframes": {}
+      }
+    },
+    {
+      "id": "clip-mse7x2mb-qog71k",
+      "from": 15,
+      "durationInFrames": 285,
+      "trackIndex": 4,
+      "type": "text",
+      "text": "Timeline → Remotion Sequences",
+      "style": {
+        "keyframes": {}
+      }
+    }
+  ],
+  "fps": 30,
+  "durationInFrames": 300,
+  "generatedAt": "2026-08-04T05:29:02.339Z"
+}

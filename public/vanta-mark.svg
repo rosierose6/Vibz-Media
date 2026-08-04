@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs><linearGradient id="bg" x1="85.35533905932738%" y1="14.644660940672622%" x2="14.64466094067263%" y2="85.35533905932738%"><stop offset="0%" stop-color="#0a0a0a" stop-opacity="1" /><stop offset="100%" stop-color="#1a1a2e" stop-opacity="1" /></linearGradient></defs>
+  <circle cx="960" cy="540" r="200" fill="url(#bg)" stroke="#FFD700" stroke-width="2" opacity="1" />
+  <text x="960" y="560" font-size="120" font-family="&quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif" font-weight="100" fill="#FFFFFF" text-anchor="middle" letter-spacing="0" opacity="1">VANTA</text>
+</svg>

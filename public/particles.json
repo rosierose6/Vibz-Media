@@ -1,0 +1,40 @@
+{
+  "preset": "confetti",
+  "presets": [
+    "links",
+    "snow",
+    "confetti",
+    "fireworks",
+    "stars",
+    "bubbles",
+    "firefly"
+  ],
+  "options": {
+    "preset": "confetti",
+    "width": 1920,
+    "height": 1080,
+    "count": 90,
+    "colors": [
+      "#FFD700",
+      "#FF4444",
+      "#44FF44",
+      "#4488FF",
+      "#FF88FF"
+    ],
+    "background": "#111111",
+    "linkDistance": 280,
+    "size": [
+      3,
+      8
+    ],
+    "speed": 1.2,
+    "seed": 42
+  },
+  "sample": {
+    "frame": 30,
+    "particleCount": 90,
+    "linkCount": 0,
+    "background": "#111111"
+  },
+  "generatedAt": "2026-08-04T05:43:36.461Z"
+}

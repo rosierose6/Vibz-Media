@@ -89,7 +89,7 @@ export async function inspectMedia(url: string): Promise<MediaInfo> {
     const duration = await input.computeDuration();
     const ext = path.extname(filePath).replace(/^\./, "").toLowerCase();
     const format =
-      (input as { format?: { name?: string } }).format?.name ?? ext || null;
+      (input as { format?: { name?: string } }).format?.name ?? (ext || null);
     const videoTrack = await input.getPrimaryVideoTrack();
     const audioTrack = await input.getPrimaryAudioTrack();
     const tagsRaw = (await input.getMetadataTags()) as {

@@ -1,0 +1,100 @@
+{
+  "categories": {
+    "geometric": [
+      "crossfade",
+      "fade",
+      "wipe-left",
+      "wipe-right",
+      "wipe-up",
+      "wipe-down"
+    ],
+    "3d": [
+      "cube",
+      "flip",
+      "rotate",
+      "swap"
+    ],
+    "creative": [
+      "pixelate",
+      "morph",
+      "kaleidoscope",
+      "glitch",
+      "burn",
+      "ripple"
+    ],
+    "film": [
+      "dissolve",
+      "dip-to-black",
+      "dip-to-white",
+      "film-burn"
+    ],
+    "directional": [
+      "slide-left",
+      "slide-right",
+      "slide-up",
+      "slide-down",
+      "zoom-in",
+      "zoom-out"
+    ],
+    "pattern": [
+      "circle-reveal",
+      "diamond-reveal",
+      "heart-reveal",
+      "star-reveal"
+    ]
+  },
+  "count": 30,
+  "names": [
+    "crossfade",
+    "fade",
+    "wipe-left",
+    "wipe-right",
+    "wipe-up",
+    "wipe-down",
+    "cube",
+    "flip",
+    "rotate",
+    "swap",
+    "pixelate",
+    "morph",
+    "kaleidoscope",
+    "glitch",
+    "burn",
+    "ripple",
+    "dissolve",
+    "dip-to-black",
+    "dip-to-white",
+    "film-burn",
+    "slide-left",
+    "slide-right",
+    "slide-up",
+    "slide-down",
+    "zoom-in",
+    "zoom-out",
+    "circle-reveal",
+    "diamond-reveal",
+    "heart-reveal",
+    "star-reveal"
+  ],
+  "samples": {
+    "cube": {
+      "type": "cube",
+      "config": {
+        "duration": 30,
+        "direction": "left",
+        "easing": "ease-in-out",
+        "intensity": 0.5
+      }
+    },
+    "glitch": {
+      "type": "glitch",
+      "config": {
+        "duration": 14,
+        "direction": "left",
+        "easing": "ease-in-out",
+        "intensity": 0.8
+      }
+    }
+  },
+  "generatedAt": "2026-08-04T05:31:55.174Z"
+}
