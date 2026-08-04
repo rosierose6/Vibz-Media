@@ -27,6 +27,7 @@ import { UpscaleDemo } from "./scenes/UpscaleDemo";
 import { RifeDemo } from "./scenes/RifeDemo";
 import { GfpganDemo } from "./scenes/GfpganDemo";
 import { Sam2Demo } from "./scenes/Sam2Demo";
+import { StemDemo } from "./scenes/StemDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
@@ -161,6 +162,23 @@ const SAM2_DEFAULTS = {
   frameCount: 1,
   engine: "imgly",
   label: "sam2",
+};
+
+const STEM_DEFAULTS = {
+  sourceFile: "soundtrack.wav",
+  playFile: "generated/stems/vocals.wav",
+  stems: [
+    { name: "vocals", file: "generated/stems/vocals.wav", color: "#f472b6" },
+    {
+      name: "instrumental",
+      file: "generated/stems/instrumental.wav",
+      color: "#38bdf8",
+    },
+  ],
+  peaks: {} as Record<string, number[]>,
+  engine: "ffmpeg-ms",
+  model: "mid-side",
+  label: "audio-separator",
 };
 
 async function readMetaText(
@@ -770,6 +788,50 @@ export const RemotionRoot: React.FC = () => {
                 frameCount: meta.frameCount ?? props.frameCount,
                 engine: meta.engine ?? props.engine,
                 label: `sam2 · ${meta.mode ?? "image"}`,
+              },
+            };
+          } catch {
+            return {};
+          }
+        }}
+      />
+
+      {/* Stem separation — npm run stems */}
+      <Composition
+        id="StemDemo"
+        component={StemDemo}
+        durationInFrames={150}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={STEM_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          try {
+            const response = await fetch(staticFile("stems-meta.json"));
+            if (!response.ok) return {};
+            const meta = (await response.json()) as {
+              sourceFile?: string;
+              playFile?: string;
+              stems?: Array<{ name: string; file: string; color: string }>;
+              peaks?: Record<string, number[]>;
+              engine?: string;
+              model?: string;
+              durationSec?: number | null;
+            };
+            const durationInFrames = meta.durationSec
+              ? Math.max(90, Math.ceil(meta.durationSec * 30))
+              : undefined;
+            return {
+              ...(durationInFrames ? { durationInFrames } : {}),
+              props: {
+                ...props,
+                sourceFile: meta.sourceFile ?? props.sourceFile,
+                playFile: meta.playFile ?? props.playFile,
+                stems: meta.stems ?? props.stems,
+                peaks: meta.peaks ?? props.peaks,
+                engine: meta.engine ?? props.engine,
+                model: meta.model ?? props.model,
+                label: `audio-separator · ${meta.engine ?? props.engine}`,
               },
             };
           } catch {
