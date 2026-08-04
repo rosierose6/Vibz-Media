@@ -1,0 +1,29 @@
+{
+  "sourceFile": "ai-clip.mp4",
+  "meta": {
+    "url": "./public/ai-clip.mp4",
+    "duration": 6,
+    "format": "mp4",
+    "video": {
+      "width": 1280,
+      "height": 720,
+      "codedWidth": 1280,
+      "codedHeight": 720,
+      "rotation": 0,
+      "codec": "avc",
+      "canDecode": false
+    },
+    "audio": null,
+    "tags": {
+      "©too": "Lavf60.3.100"
+    },
+    "engine": "mediabunny"
+  },
+  "conversion": {
+    "outPath": "/Users/beltran/Vibz Media/vanta/public/generated/ai-clip-mediabunny.webm",
+    "format": "webm",
+    "engine": "ffmpeg",
+    "bytes": 559377
+  },
+  "generatedAt": "2026-08-04T05:51:47.786Z"
+}
