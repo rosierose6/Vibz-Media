@@ -3,7 +3,7 @@
     "width": 1920,
     "height": 1080,
     "fps": 30,
-    "durationInFrames": 180
+    "durationInFrames": 240
   },
   "tracks": [
     {
@@ -12,8 +12,58 @@
       "startFrame": 0,
       "endFrame": 180,
       "layer": 0,
-      "id": "track_1_mse7ru8y",
-      "properties": {}
+      "properties": {
+        "objectFit": "cover",
+        "opacity": 1
+      },
+      "id": "track_1_msf5s7zg"
+    },
+    {
+      "type": "image",
+      "src": "cutout.png",
+      "startFrame": 60,
+      "endFrame": 240,
+      "layer": 2,
+      "properties": {
+        "scale": 1,
+        "opacity": 1
+      },
+      "id": "track_2_msf5s7zg"
+    },
+    {
+      "type": "audio",
+      "src": "voiceover.wav",
+      "startFrame": 0,
+      "endFrame": 90,
+      "layer": 3,
+      "properties": {
+        "volume": 1
+      },
+      "id": "track_3_msf5s7zg"
+    },
+    {
+      "type": "audio",
+      "src": "soundtrack.wav",
+      "startFrame": 0,
+      "endFrame": 240,
+      "layer": 4,
+      "properties": {
+        "volume": 0.35
+      },
+      "id": "track_4_msf5s7zg"
+    },
+    {
+      "type": "text",
+      "text": "Welcome to the future of video.",
+      "startFrame": 15,
+      "endFrame": 240,
+      "layer": 5,
+      "properties": {
+        "fontSize": 52,
+        "color": "#f2ebe3",
+        "textAlign": "center"
+      },
+      "id": "track_5_msf5s7zg"
     }
   ],
   "effects": [],
@@ -21,7 +71,7 @@
     "width": 1920,
     "height": 1080,
     "fps": 30,
-    "durationInFrames": 180,
+    "durationInFrames": 240,
     "tracks": [
       {
         "type": "video",
@@ -29,8 +79,58 @@
         "startFrame": 0,
         "endFrame": 180,
         "layer": 0,
-        "id": "track_1_mse7ru8y",
-        "properties": {}
+        "properties": {
+          "objectFit": "cover",
+          "opacity": 1
+        },
+        "id": "track_1_msf5s7zg"
+      },
+      {
+        "type": "image",
+        "src": "cutout.png",
+        "startFrame": 60,
+        "endFrame": 240,
+        "layer": 2,
+        "properties": {
+          "scale": 1,
+          "opacity": 1
+        },
+        "id": "track_2_msf5s7zg"
+      },
+      {
+        "type": "audio",
+        "src": "voiceover.wav",
+        "startFrame": 0,
+        "endFrame": 90,
+        "layer": 3,
+        "properties": {
+          "volume": 1
+        },
+        "id": "track_3_msf5s7zg"
+      },
+      {
+        "type": "audio",
+        "src": "soundtrack.wav",
+        "startFrame": 0,
+        "endFrame": 240,
+        "layer": 4,
+        "properties": {
+          "volume": 0.35
+        },
+        "id": "track_4_msf5s7zg"
+      },
+      {
+        "type": "text",
+        "text": "Welcome to the future of video.",
+        "startFrame": 15,
+        "endFrame": 240,
+        "layer": 5,
+        "properties": {
+          "fontSize": 52,
+          "color": "#f2ebe3",
+          "textAlign": "center"
+        },
+        "id": "track_5_msf5s7zg"
       }
     ],
     "effects": []
