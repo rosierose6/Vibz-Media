@@ -25,6 +25,7 @@
     "svg": "tsx scripts/generate-svg.ts",
     "particles": "tsx scripts/generate-particles.ts",
     "waveform": "tsx scripts/generate-waveform.ts",
+    "media": "tsx scripts/generate-mediabunny.ts",
     "render:voiceover": "npx remotion render src/index.ts VoiceoverDemo out/voiceover-demo.mp4",
     "render:avatar": "npx remotion render src/index.ts AvatarDemo out/avatar-demo.mp4",
     "render:captions": "npx remotion render src/index.ts CaptionsDemo out/captions-demo.mp4",
@@ -38,7 +39,8 @@
     "render:grade": "npx remotion render src/index.ts ImageEditDemo out/image-edit-demo.mp4",
     "render:svg": "npx remotion render src/index.ts VectorGraphicsDemo out/vector-graphics-demo.mp4",
     "render:particles": "npx remotion render src/index.ts ParticlesDemo out/particles-demo.mp4",
-    "render:waveform": "npx remotion render src/index.ts WaveformDemo out/waveform-demo.mp4"
+    "render:waveform": "npx remotion render src/index.ts WaveformDemo out/waveform-demo.mp4",
+    "render:media": "npx remotion render src/index.ts MediabunnyDemo out/mediabunny-demo.mp4"
   },
   "dependencies": {
     "@imgly/background-removal-node": "^1.4.5",

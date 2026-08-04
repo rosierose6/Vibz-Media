@@ -22,6 +22,7 @@ import { ImageEditDemo } from "./scenes/ImageEditDemo";
 import { VectorGraphicsDemo } from "./scenes/VectorGraphicsDemo";
 import { ParticlesDemo } from "./scenes/ParticlesDemo";
 import { WaveformDemo } from "./scenes/WaveformDemo";
+import { MediabunnyDemo } from "./scenes/MediabunnyDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
@@ -30,6 +31,7 @@ import type { TransitionType } from "./integrations/transitions";
 import type { ParticlePresetName } from "./integrations/tsparticles";
 import type { WaveformData } from "./integrations/wavesurfer";
 import { WAVEFORM_STYLES } from "./integrations/wavesurfer";
+import type { MediaInfo } from "./integrations/mediabunny";
 
 const VOICEOVER_DEFAULTS = {
   text: "Welcome to the future of video.",
@@ -109,6 +111,12 @@ const WAVEFORM_DEFAULTS = {
   label: "wavesurfer.js",
   waveform: null as WaveformData | null,
   background: WAVEFORM_STYLES.wavesurfer.background,
+};
+
+const MEDIABUNNY_DEFAULTS = {
+  sourceFile: "ai-clip.mp4",
+  label: "mediabunny",
+  meta: null as MediaInfo | null,
 };
 
 async function readMetaText(
@@ -514,6 +522,49 @@ export const RemotionRoot: React.FC = () => {
           return {
             durationInFrames,
             props: { ...props, audioFile, label, waveform, background },
+          };
+        }}
+      />
+
+      {/* mediabunny inspect — npm run media */}
+      <Composition
+        id="MediabunnyDemo"
+        component={MediabunnyDemo}
+        durationInFrames={180}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={MEDIABUNNY_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          let sourceFile = props.sourceFile;
+          let label = props.label;
+          let meta = props.meta;
+          let durationInFrames = 180;
+          try {
+            const response = await fetch(staticFile("mediabunny.json"));
+            if (response.ok) {
+              const payload = (await response.json()) as {
+                sourceFile?: string;
+                meta?: MediaInfo;
+              };
+              if (payload.sourceFile) sourceFile = payload.sourceFile;
+              if (payload.meta) {
+                meta = payload.meta;
+                label = `mediabunny · ${payload.meta.format ?? "media"}`;
+                if (payload.meta.duration > 0) {
+                  durationInFrames = Math.max(
+                    90,
+                    Math.ceil(payload.meta.duration * 30) + 15,
+                  );
+                }
+              }
+            }
+          } catch {
+            // keep defaults
+          }
+          return {
+            durationInFrames,
+            props: { ...props, sourceFile, label, meta },
           };
         }}
       />
