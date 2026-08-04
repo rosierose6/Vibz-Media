@@ -1,0 +1,9 @@
+{
+  "prompt": "cinematic orchestral tension building",
+  "file": "soundtrack.wav",
+  "sourceUrl": "http://localhost:8000/files/track-ee882ba906.wav",
+  "duration": 30,
+  "bpm": 96,
+  "model": "ace-step",
+  "generatedAt": "2026-08-04T05:12:23.623Z"
+}
