@@ -13,7 +13,7 @@ import {
   alignTextToDuration,
   flattenWords,
   toSRT,
-  transcribe,
+  transcribeDetailed,
   type CaptionWord,
   type TranscriptionResult,
   type WhisperModel,
@@ -140,7 +140,7 @@ async function main() {
     console.log(`Model: ${model}`);
     console.log(`Audio: ${audioPath}`);
     try {
-      result = await transcribe(audioPath, { serverUrl, model });
+      result = await transcribeDetailed(audioPath, { serverUrl, model });
       source = "whisperx";
     } catch (err) {
       console.warn(err instanceof Error ? err.message : err);

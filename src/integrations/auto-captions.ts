@@ -5,9 +5,12 @@
  * rendered as animated captions in Remotion.
  *
  * Usage:
- *   const result = await transcribe("./public/voiceover.wav", { model: "large" });
- *   const words = flattenWords(result);
- *   // [{ word: "Hello", start: 0.0, end: 0.5, confidence: 0.98 }, ...]
+ *   const captions = await transcribe("./audio.wav", { model: "large" });
+ *   // Returns: [{ word: "Hello", start: 0.0, end: 0.5, confidence: 0.98 }, ...]
+ *   // Map over these in a Remotion Sequence for animated captions
+ *
+ *   // Full segments + metadata:
+ *   const result = await transcribeDetailed("./audio.wav", { model: "large" });
  *
  * Repos (commercial-safe):
  *   - https://github.com/m-bain/whisperX — BSD-2, forced-alignment word timestamps
@@ -206,7 +209,8 @@ function normalizeResult(payload: unknown, fallbackLanguage: string): Transcript
   throw new Error(`Unrecognized transcription response: ${JSON.stringify(payload)}`);
 }
 
-export async function transcribe(
+/** Full transcription with segments, language, and duration. */
+export async function transcribeDetailed(
   audioPath: string,
   options: TranscribeOptions = {},
 ): Promise<TranscriptionResult> {
@@ -253,6 +257,18 @@ export async function transcribe(
 
   const payload = await response.json();
   return normalizeResult(payload, language);
+}
+
+/**
+ * Word-level captions for Remotion Sequences.
+ * Returns: [{ word, start, end, confidence }, ...]
+ */
+export async function transcribe(
+  audioPath: string,
+  options: TranscribeOptions = {},
+): Promise<CaptionWord[]> {
+  const result = await transcribeDetailed(audioPath, options);
+  return flattenWords(result);
 }
 
 /**
