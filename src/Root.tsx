@@ -19,6 +19,7 @@ import { TimelineDemo } from "./scenes/TimelineDemo";
 import { TransitionsDemo } from "./scenes/TransitionsDemo";
 import { MotionGraphicsDemo } from "./scenes/MotionGraphicsDemo";
 import { ImageEditDemo } from "./scenes/ImageEditDemo";
+import { VectorGraphicsDemo } from "./scenes/VectorGraphicsDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
@@ -87,6 +88,10 @@ const IMAGE_EDIT_DEFAULTS = {
   beforeFile: "presenter-photo.jpg",
   afterFile: "photo-graded.jpg",
   recipe: "cinematic",
+};
+
+const VECTOR_DEFAULTS = {
+  label: "vector graphics · svg",
 };
 
 async function readMetaText(
@@ -408,6 +413,17 @@ export const RemotionRoot: React.FC = () => {
         width={1920}
         height={1080}
         defaultProps={IMAGE_EDIT_DEFAULTS}
+      />
+
+      {/* Vector mark — npm run svg */}
+      <Composition
+        id="VectorGraphicsDemo"
+        component={VectorGraphicsDemo}
+        durationInFrames={90}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={VECTOR_DEFAULTS}
       />
 
       {/* Individual scenes for testing */}

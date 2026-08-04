@@ -22,6 +22,7 @@
     "transitions": "tsx scripts/list-transitions.ts",
     "motion": "tsx scripts/generate-motion-graphics.ts",
     "grade": "tsx scripts/grade-image.ts",
+    "svg": "tsx scripts/generate-svg.ts",
     "render:voiceover": "npx remotion render src/index.ts VoiceoverDemo out/voiceover-demo.mp4",
     "render:avatar": "npx remotion render src/index.ts AvatarDemo out/avatar-demo.mp4",
     "render:captions": "npx remotion render src/index.ts CaptionsDemo out/captions-demo.mp4",
@@ -32,7 +33,8 @@
     "render:timeline": "npx remotion render src/index.ts TimelineDemo out/timeline-demo.mp4",
     "render:transitions": "npx remotion render src/index.ts TransitionsDemo out/transitions-demo.mp4",
     "render:motion": "npx remotion render src/index.ts MotionGraphicsDemo out/motion-graphics-demo.mp4",
-    "render:grade": "npx remotion render src/index.ts ImageEditDemo out/image-edit-demo.mp4"
+    "render:grade": "npx remotion render src/index.ts ImageEditDemo out/image-edit-demo.mp4",
+    "render:svg": "npx remotion render src/index.ts VectorGraphicsDemo out/vector-graphics-demo.mp4"
   },
   "dependencies": {
     "@imgly/background-removal-node": "^1.4.5",
