@@ -18,13 +18,15 @@
  *   - @remotion/transitions — TransitionSeries presentations
  */
 
-import type { TransitionPresentation } from "@remotion/transitions";
+import type {
+  TransitionPresentation,
+  TransitionTiming,
+} from "@remotion/transitions";
 import { linearTiming, springTiming } from "@remotion/transitions";
 import { fade } from "@remotion/transitions/fade";
 import { slide } from "@remotion/transitions/slide";
 import { wipe } from "@remotion/transitions/wipe";
 import { flip } from "@remotion/transitions/flip";
-import { clockWipe } from "@remotion/transitions/clock-wipe";
 import { iris } from "@remotion/transitions/iris";
 
 export type TransitionType =
@@ -75,7 +77,7 @@ export interface TransitionResult {
   /** Remotion presentation used by TransitionSeries */
   presentation: TransitionPresentation<Record<string, unknown>>;
   /** Remotion timing for TransitionSeries.Transition */
-  timing: ReturnType<typeof linearTiming>;
+  timing: TransitionTiming;
 }
 
 const GL_TRANSITION_SHADERS: Partial<Record<TransitionType, string>> = {
@@ -110,6 +112,12 @@ const CATEGORIES: Record<string, TransitionType[]> = {
   pattern: ["circle-reveal", "diamond-reveal", "heart-reveal", "star-reveal"],
 };
 
+function asPresentation(
+  presentation: TransitionPresentation<any>,
+): TransitionPresentation<Record<string, unknown>> {
+  return presentation as unknown as TransitionPresentation<Record<string, unknown>>;
+}
+
 function presentationFor(
   type: TransitionType,
   config: TransitionConfig,
@@ -125,73 +133,61 @@ function presentationFor(
     case "film-burn":
     case "burn":
     case "morph":
-      return fade() as TransitionPresentation<Record<string, unknown>>;
+      return asPresentation(fade());
     case "wipe-left":
-      return wipe({ direction: "from-left" }) as TransitionPresentation<
-        Record<string, unknown>
-      >;
+      return asPresentation(wipe({ direction: "from-left" }));
     case "wipe-right":
-      return wipe({ direction: "from-right" }) as TransitionPresentation<
-        Record<string, unknown>
-      >;
+      return asPresentation(wipe({ direction: "from-right" }));
     case "wipe-up":
-      return wipe({ direction: "from-top" }) as TransitionPresentation<
-        Record<string, unknown>
-      >;
+      return asPresentation(wipe({ direction: "from-top" }));
     case "wipe-down":
-      return wipe({ direction: "from-bottom" }) as TransitionPresentation<
-        Record<string, unknown>
-      >;
+      return asPresentation(wipe({ direction: "from-bottom" }));
     case "slide-left":
-      return slide({ direction: "from-left" }) as TransitionPresentation<
-        Record<string, unknown>
-      >;
+      return asPresentation(slide({ direction: "from-left" }));
     case "slide-right":
-      return slide({ direction: "from-right" }) as TransitionPresentation<
-        Record<string, unknown>
-      >;
+      return asPresentation(slide({ direction: "from-right" }));
     case "slide-up":
-      return slide({ direction: "from-top" }) as TransitionPresentation<
-        Record<string, unknown>
-      >;
+      return asPresentation(slide({ direction: "from-top" }));
     case "slide-down":
-      return slide({ direction: "from-bottom" }) as TransitionPresentation<
-        Record<string, unknown>
-      >;
+      return asPresentation(slide({ direction: "from-bottom" }));
     case "cube":
     case "flip":
     case "rotate":
     case "swap":
-      return flip({
-        direction: dir === "up" || dir === "down" ? "from-top" : "from-left",
-      }) as TransitionPresentation<Record<string, unknown>>;
+      return asPresentation(
+        flip({
+          direction: dir === "up" || dir === "down" ? "from-top" : "from-left",
+        }),
+      );
     case "glitch":
     case "pixelate":
     case "kaleidoscope":
     case "ripple":
-      return wipe({
-        direction:
-          dir === "right"
-            ? "from-right"
-            : dir === "up"
-              ? "from-top"
-              : dir === "down"
-                ? "from-bottom"
-                : "from-left",
-      }) as TransitionPresentation<Record<string, unknown>>;
+      return asPresentation(
+        wipe({
+          direction:
+            dir === "right"
+              ? "from-right"
+              : dir === "up"
+                ? "from-top"
+                : dir === "down"
+                  ? "from-bottom"
+                  : "from-left",
+        }),
+      );
     case "circle-reveal":
     case "diamond-reveal":
     case "heart-reveal":
     case "star-reveal":
     case "zoom-in":
     case "zoom-out":
-      return iris() as TransitionPresentation<Record<string, unknown>>;
+      return asPresentation(iris({ width: 1920, height: 1080 }));
     default:
-      return fade() as TransitionPresentation<Record<string, unknown>>;
+      return asPresentation(fade());
   }
 }
 
-function timingFor(config: TransitionConfig) {
+function timingFor(config: TransitionConfig): TransitionTiming {
   const durationInFrames = Math.max(1, Math.round(config.duration));
   if (config.easing === "ease-in-out" || config.easing === "ease-out") {
     return springTiming({
@@ -244,6 +240,3 @@ export function listTransitions(): Record<string, TransitionType[]> {
 export function listTransitionNames(): TransitionType[] {
   return Object.values(CATEGORIES).flat();
 }
-
-// Keep clockWipe available for demos that want it explicitly
-export { clockWipe };

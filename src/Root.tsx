@@ -16,10 +16,12 @@ import { MusicDemo } from "./scenes/MusicDemo";
 import { BgRemoveDemo } from "./scenes/BgRemoveDemo";
 import { EditorDemo } from "./scenes/EditorDemo";
 import { TimelineDemo } from "./scenes/TimelineDemo";
+import { TransitionsDemo } from "./scenes/TransitionsDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
 import type { RemotionSequenceData } from "./integrations/timeline";
+import type { TransitionType } from "./integrations/transitions";
 
 const VOICEOVER_DEFAULTS = {
   text: "Welcome to the future of video.",
@@ -66,6 +68,12 @@ const TIMELINE_DEFAULTS = {
   sequences: [] as RemotionSequenceData[],
   fps: 30,
   durationInFrames: 300,
+};
+
+const TRANSITIONS_DEFAULTS = {
+  firstTransition: "cube" as TransitionType,
+  secondTransition: "glitch" as TransitionType,
+  sceneDuration: 75,
 };
 
 async function readMetaText(
@@ -354,6 +362,17 @@ export const RemotionRoot: React.FC = () => {
             return { durationInFrames: props.durationInFrames };
           }
         }}
+      />
+
+      {/* Named transitions — npm run transitions */}
+      <Composition
+        id="TransitionsDemo"
+        component={TransitionsDemo}
+        durationInFrames={180}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={TRANSITIONS_DEFAULTS}
       />
 
       {/* Individual scenes for testing */}
