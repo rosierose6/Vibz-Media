@@ -10,6 +10,8 @@ import { DataVizScene } from "./scenes/DataVizScene";
 import { WaveformScene } from "./scenes/WaveformScene";
 import { VoiceoverDemo } from "./scenes/VoiceoverDemo";
 import { AvatarDemo } from "./scenes/AvatarDemo";
+import { CaptionsDemo } from "./scenes/CaptionsDemo";
+import type { CaptionWord } from "./integrations/auto-captions";
 
 const VOICEOVER_DEFAULTS = {
   text: "Welcome to the future of video.",
@@ -19,6 +21,11 @@ const VOICEOVER_DEFAULTS = {
 const AVATAR_DEFAULTS = {
   text: "Welcome to the future of video.",
   videoFile: "avatar.mp4",
+};
+
+const CAPTIONS_DEFAULTS = {
+  audioFile: "voiceover.wav",
+  words: [] as CaptionWord[],
 };
 
 async function readMetaText(
@@ -108,6 +115,43 @@ export const RemotionRoot: React.FC = () => {
             } catch {
               return { props: { ...props, text }, durationInFrames: 150 };
             }
+          }
+        }}
+      />
+
+      {/* Word captions demo — run `npm run tts` then `npm run captions` */}
+      <Composition
+        id="CaptionsDemo"
+        component={CaptionsDemo}
+        durationInFrames={150}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={CAPTIONS_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          let words = props.words;
+          try {
+            const response = await fetch(staticFile("captions.json"));
+            if (response.ok) {
+              const payload = (await response.json()) as {
+                words?: CaptionWord[];
+              };
+              if (payload.words?.length) words = payload.words;
+            }
+          } catch {
+            // captions.json missing until `npm run captions`
+          }
+
+          try {
+            const seconds = await getAudioDurationInSeconds(
+              staticFile(props.audioFile),
+            );
+            return {
+              props: { ...props, words },
+              durationInFrames: Math.max(1, Math.ceil(seconds * 30) + 15),
+            };
+          } catch {
+            return { props: { ...props, words }, durationInFrames: 150 };
           }
         }}
       />
