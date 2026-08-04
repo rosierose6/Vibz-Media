@@ -163,6 +163,15 @@ async function convertWithMediabunny(
   });
 
   try {
+    // Node (without @mediabunny/server) often can't decode AVC/AAC via WebCodecs.
+    // Bail early to avoid Conversion.init console noise, then use ffmpeg.
+    const videoTrack = await input.getPrimaryVideoTrack();
+    const audioTrack = await input.getPrimaryAudioTrack();
+    if (videoTrack && !(await videoTrack.canDecode())) return null;
+    if (audioTrack && !(await audioTrack.canDecode()) && !videoTrack) {
+      return null;
+    }
+
     const init: {
       input: Input;
       output: Output;
