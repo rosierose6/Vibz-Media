@@ -1,0 +1,12 @@
+{
+  "sourceFile": "ai-clip.mp4",
+  "outputFile": "generated/ai-clip-2x.mp4",
+  "multi": 2,
+  "model": "rife-v4",
+  "engine": "rife-ncnn-vulkan",
+  "inputFps": 24,
+  "outputFps": 48,
+  "duration": 6,
+  "bytes": 433108,
+  "generatedAt": "2026-08-04T06:27:49.954Z"
+}
