@@ -18,6 +18,7 @@ import { EditorDemo } from "./scenes/EditorDemo";
 import { TimelineDemo } from "./scenes/TimelineDemo";
 import { TransitionsDemo } from "./scenes/TransitionsDemo";
 import { MotionGraphicsDemo } from "./scenes/MotionGraphicsDemo";
+import { ImageEditDemo } from "./scenes/ImageEditDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
@@ -80,6 +81,12 @@ const TRANSITIONS_DEFAULTS = {
 const MOTION_DEFAULTS = {
   lowerThirdText: "John Smith — CEO",
   accent: "#FFD700",
+};
+
+const IMAGE_EDIT_DEFAULTS = {
+  beforeFile: "presenter-photo.jpg",
+  afterFile: "photo-graded.jpg",
+  recipe: "cinematic",
 };
 
 async function readMetaText(
@@ -390,6 +397,17 @@ export const RemotionRoot: React.FC = () => {
         width={1920}
         height={1080}
         defaultProps={MOTION_DEFAULTS}
+      />
+
+      {/* Image grade — npm run grade */}
+      <Composition
+        id="ImageEditDemo"
+        component={ImageEditDemo}
+        durationInFrames={90}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={IMAGE_EDIT_DEFAULTS}
       />
 
       {/* Individual scenes for testing */}

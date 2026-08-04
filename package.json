@@ -21,6 +21,7 @@
     "timeline": "tsx scripts/generate-timeline.ts",
     "transitions": "tsx scripts/list-transitions.ts",
     "motion": "tsx scripts/generate-motion-graphics.ts",
+    "grade": "tsx scripts/grade-image.ts",
     "render:voiceover": "npx remotion render src/index.ts VoiceoverDemo out/voiceover-demo.mp4",
     "render:avatar": "npx remotion render src/index.ts AvatarDemo out/avatar-demo.mp4",
     "render:captions": "npx remotion render src/index.ts CaptionsDemo out/captions-demo.mp4",
@@ -30,7 +31,8 @@
     "render:editor": "npx remotion render src/index.ts EditorDemo out/editor-demo.mp4",
     "render:timeline": "npx remotion render src/index.ts TimelineDemo out/timeline-demo.mp4",
     "render:transitions": "npx remotion render src/index.ts TransitionsDemo out/transitions-demo.mp4",
-    "render:motion": "npx remotion render src/index.ts MotionGraphicsDemo out/motion-graphics-demo.mp4"
+    "render:motion": "npx remotion render src/index.ts MotionGraphicsDemo out/motion-graphics-demo.mp4",
+    "render:grade": "npx remotion render src/index.ts ImageEditDemo out/image-edit-demo.mp4"
   },
   "dependencies": {
     "@imgly/background-removal-node": "^1.4.5",
@@ -44,7 +46,8 @@
     "kokoro-js": "^1.2.1",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
-    "remotion": "^4.0.0"
+    "remotion": "^4.0.0",
+    "sharp": "^0.35.3"
   },
   "devDependencies": {
     "@remotion/bundler": "^4.0.0",
@@ -91,6 +94,7 @@
     "esbuild@0.28.1": true,
     "onnxruntime-node@1.21.0": true,
     "protobufjs@7.6.5": true,
-    "sharp@0.34.5": true
+    "sharp@0.34.5": true,
+    "sharp@0.35.3": true
   }
 }
