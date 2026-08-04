@@ -97,8 +97,8 @@ const VECTOR_DEFAULTS = {
 };
 
 const PARTICLES_DEFAULTS = {
-  preset: "links" as ParticlePresetName,
-  label: "tsparticles · links",
+  preset: "confetti" as ParticlePresetName,
+  label: "tsparticles · confetti",
 };
 
 async function readMetaText(

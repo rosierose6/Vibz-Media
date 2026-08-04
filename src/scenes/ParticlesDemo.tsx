@@ -22,24 +22,26 @@ export interface ParticlesDemoProps {
  *   npm run particles
  */
 export const ParticlesDemo: React.FC<ParticlesDemoProps> = ({
-  preset = "links",
-  label = "tsparticles · links",
+  preset = "confetti",
+  label = "tsparticles · confetti",
 }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
 
-  const factory = PRESETS[preset] ?? PRESETS.links;
-  const system = createParticles(
-    factory(
-      preset === "links"
-        ? {
-            count: 60,
-            colors: ["#ffffff"],
-            background: "#0d1117",
-          }
-        : {},
-    ),
-  );
+  const system =
+    preset === "confetti"
+      ? createParticles(PRESETS.confetti({ count: 90 }))
+      : createParticles(
+          (PRESETS[preset] ?? PRESETS.links)(
+            preset === "links"
+              ? {
+                  count: 60,
+                  colors: ["#ffffff"],
+                  background: "#0d1117",
+                }
+              : {},
+          ),
+        );
   const { particles, links, background } = system.getStateAtFrame(frame, fps);
 
   const fadeIn = interpolate(frame, [0, 0.4 * fps], [0, 1], {

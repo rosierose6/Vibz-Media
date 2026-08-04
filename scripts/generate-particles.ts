@@ -15,24 +15,26 @@ import {
 } from "../src/integrations/tsparticles";
 
 async function main() {
-  const arg = (process.argv[2] ?? "links").toLowerCase();
+  const arg = (process.argv[2] ?? "confetti").toLowerCase();
   const presets = listPresets();
   const preset = (
-    presets.includes(arg as ParticlePresetName) ? arg : "links"
+    presets.includes(arg as ParticlePresetName) ? arg : "confetti"
   ) as ParticlePresetName;
 
-  const factory = PRESETS[preset];
-  const system = createParticles(
-    factory(
-      preset === "links"
-        ? {
-            count: 60,
-            colors: ["#ffffff"],
-            background: "#0d1117",
-          }
-        : {},
-    ),
-  );
+  const system =
+    preset === "confetti"
+      ? createParticles(PRESETS.confetti({ count: 90 }))
+      : createParticles(
+          PRESETS[preset](
+            preset === "links"
+              ? {
+                  count: 60,
+                  colors: ["#ffffff"],
+                  background: "#0d1117",
+                }
+              : {},
+          ),
+        );
 
   const sample = system.getStateAtFrame(30, 30);
   const out = path.resolve(__dirname, "../public/particles.json");
