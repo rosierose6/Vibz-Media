@@ -1,19 +1,21 @@
 {
-  "mode": "image",
-  "sourceFile": "presenter-photo.jpg",
-  "maskFile": "presenter-photo-mask.png",
-  "cutoutFile": "presenter-photo-sam-cutout.png",
+  "mode": "track",
+  "sourceFile": "generated/sam2/frames/frame_00000001.png",
+  "maskFile": "generated/sam2/masks/frame_00000001.png",
+  "cutoutFile": null,
+  "previewFile": "generated/sam2/preview.mp4",
   "points": [
     {
-      "x": 512,
-      "y": 576,
+      "x": 480,
+      "y": 243,
       "label": 1
     }
   ],
   "model": "sam2.1_hiera_tiny",
   "engine": "imgly",
-  "width": 1024,
-  "height": 1280,
+  "frameCount": 24,
+  "width": 960,
+  "height": 540,
   "sam2Available": false,
-  "generatedAt": "2026-08-04T15:30:07.384Z"
+  "generatedAt": "2026-08-04T15:33:30.423Z"
 }
