@@ -12,6 +12,7 @@ import { VoiceoverDemo } from "./scenes/VoiceoverDemo";
 import { AvatarDemo } from "./scenes/AvatarDemo";
 import { CaptionsDemo } from "./scenes/CaptionsDemo";
 import { AiVideoDemo } from "./scenes/AiVideoDemo";
+import { MusicDemo } from "./scenes/MusicDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
 
 const VOICEOVER_DEFAULTS = {
@@ -32,6 +33,12 @@ const CAPTIONS_DEFAULTS = {
 const AI_VIDEO_DEFAULTS = {
   prompt: "A sunset over the ocean, cinematic 4K",
   videoFile: "ai-clip.mp4",
+};
+
+const MUSIC_DEFAULTS = {
+  prompt: "cinematic orchestral tension building",
+  audioFile: "soundtrack.wav",
+  bpm: 96,
 };
 
 async function readMetaText(
@@ -196,6 +203,46 @@ export const RemotionRoot: React.FC = () => {
             };
           } catch {
             return { props: { ...props, prompt }, durationInFrames: 180 };
+          }
+        }}
+      />
+
+      {/* Soundtrack demo — run `npm run music:server` then `npm run music` */}
+      <Composition
+        id="MusicDemo"
+        component={MusicDemo}
+        durationInFrames={900}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={MUSIC_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          let prompt = props.prompt;
+          let bpm = props.bpm;
+          try {
+            const response = await fetch(staticFile("soundtrack-meta.json"));
+            if (response.ok) {
+              const meta = (await response.json()) as {
+                prompt?: string;
+                bpm?: number;
+              };
+              if (meta.prompt?.trim()) prompt = meta.prompt.trim();
+              if (meta.bpm) bpm = meta.bpm;
+            }
+          } catch {
+            // meta missing until `npm run music`
+          }
+
+          try {
+            const seconds = await getAudioDurationInSeconds(
+              staticFile(props.audioFile),
+            );
+            return {
+              props: { ...props, prompt, bpm },
+              durationInFrames: Math.max(1, Math.ceil(seconds * 30)),
+            };
+          } catch {
+            return { props: { ...props, prompt, bpm }, durationInFrames: 900 };
           }
         }}
       />
