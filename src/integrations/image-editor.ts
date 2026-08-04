@@ -219,16 +219,18 @@ function applyColorCorrection(pipeline: Sharp, cc: ColorCorrection): Sharp {
     next = next.linear(cc.contrast, -(128 * cc.contrast) + 128);
   }
 
-  // Approximate shadow/highlight lift with mild gamma
+  // Approximate shadow/highlight lift with mild gamma (Sharp: 1.0–3.0)
   if (cc.shadows || cc.highlights || cc.blacks || cc.whites) {
     const shadows = (cc.shadows ?? 0) / 100;
     const highlights = (cc.highlights ?? 0) / 100;
     const blacks = (cc.blacks ?? 0) / 100;
     const gamma = Math.max(
-      0.5,
-      Math.min(3, 1 - shadows * 0.25 + highlights * 0.15 - blacks * 0.1),
+      1,
+      Math.min(3, 1 + Math.abs(shadows) * 0.2 + Math.abs(highlights) * 0.1 + Math.abs(blacks) * 0.05),
     );
-    next = next.gamma(gamma);
+    if (gamma > 1) {
+      next = next.gamma(gamma);
+    }
   }
 
   return next;
