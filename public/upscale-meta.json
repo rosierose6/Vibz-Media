@@ -1,0 +1,11 @@
+{
+  "beforeFile": "presenter-photo.jpg",
+  "afterFile": "presenter-photo-upscaled-2x.png",
+  "scale": 2,
+  "model": "realesrgan-x4plus",
+  "engine": "sharp",
+  "width": 2048,
+  "height": 2560,
+  "bytes": 14238093,
+  "generatedAt": "2026-08-04T06:00:41.403Z"
+}
