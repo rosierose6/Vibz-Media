@@ -8,24 +8,29 @@
     "render": "npx remotion render src/index.ts VantaShowcase out/vanta-showcase.mp4",
     "render:gif": "npx remotion render src/index.ts VantaShowcase out/vanta-showcase.gif --image-format png",
     "preview": "npx remotion preview src/index.ts",
-    "upgrade": "npx remotion upgrade"
+    "upgrade": "npx remotion upgrade",
+    "tts": "tsx scripts/generate-voiceover.ts",
+    "render:voiceover": "npx remotion render src/index.ts VoiceoverDemo out/voiceover-demo.mp4"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.0",
-    "@remotion/player": "^4.0.0",
-    "@remotion/transitions": "^4.0.0",
-    "@remotion/shapes": "^4.0.0",
-    "@remotion/noise": "^4.0.0",
+    "@remotion/media-utils": "^4.0.419",
     "@remotion/motion-blur": "^4.0.0",
-    "remotion": "^4.0.0",
+    "@remotion/noise": "^4.0.0",
+    "@remotion/player": "^4.0.0",
+    "@remotion/shapes": "^4.0.0",
+    "@remotion/transitions": "^4.0.0",
+    "kokoro-js": "^1.2.1",
     "react": "^18.3.0",
-    "react-dom": "^18.3.0"
+    "react-dom": "^18.3.0",
+    "remotion": "^4.0.0"
   },
   "devDependencies": {
     "@remotion/bundler": "^4.0.0",
     "@types/react": "^18.3.0",
-    "typescript": "^5.5.0",
-    "prettier": "^3.0.0"
+    "prettier": "^3.0.0",
+    "tsx": "^4.23.5",
+    "typescript": "^5.5.0"
   },
   "keywords": [
     "remotion",
@@ -59,5 +64,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/itsjwill/vanta"
+  },
+  "allowScripts": {
+    "esbuild@0.25.0": true,
+    "esbuild@0.28.1": true,
+    "onnxruntime-node@1.21.0": true,
+    "protobufjs@7.6.5": true,
+    "sharp@0.34.5": true
   }
 }
