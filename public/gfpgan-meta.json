@@ -1,0 +1,12 @@
+{
+  "beforeFile": "presenter-photo.jpg",
+  "afterFile": "presenter-photo-restored-v1.4.png",
+  "version": "1.4",
+  "scale": 2,
+  "engine": "sharp",
+  "width": 2048,
+  "height": 2560,
+  "bytes": 14449680,
+  "gfpganAvailable": false,
+  "generatedAt": "2026-08-04T06:35:14.746Z"
+}
