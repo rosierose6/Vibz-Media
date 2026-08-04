@@ -18,9 +18,10 @@ import type {
 
 const execFileAsync = promisify(execFile);
 
-const RELEASE_TAG = "v0.2.0";
+// Full portable builds (binary + models) ship from the Real-ESRGAN repo.
+const RELEASE_TAG = "v0.2.5.0";
 const RELEASE_BASE =
-  "https://github.com/xinntao/Real-ESRGAN-ncnn-vulkan/releases/download";
+  "https://github.com/xinntao/Real-ESRGAN/releases/download";
 
 function binRoot(): string {
   return path.resolve(process.cwd(), "bin/realesrgan-ncnn-vulkan");
@@ -58,23 +59,14 @@ function defaultOutput(
   );
 }
 
-function platformZip(): { zip: string; folderHint: string } {
+function platformZip(): string {
   switch (process.platform) {
     case "darwin":
-      return {
-        zip: `realesrgan-ncnn-vulkan-${RELEASE_TAG}-macos.zip`,
-        folderHint: "macos",
-      };
+      return "realesrgan-ncnn-vulkan-20220424-macos.zip";
     case "linux":
-      return {
-        zip: `realesrgan-ncnn-vulkan-${RELEASE_TAG}-ubuntu.zip`,
-        folderHint: "ubuntu",
-      };
+      return "realesrgan-ncnn-vulkan-20220424-ubuntu.zip";
     case "win32":
-      return {
-        zip: `realesrgan-ncnn-vulkan-${RELEASE_TAG}-windows.zip`,
-        folderHint: "windows",
-      };
+      return "realesrgan-ncnn-vulkan-20220424-windows.zip";
     default:
       throw new Error(`Unsupported platform: ${process.platform}`);
   }
@@ -143,13 +135,14 @@ export async function ensureRealEsrganBinary(): Promise<string> {
   const existing = findBinary();
   if (existing) return existing;
 
-  const { zip } = platformZip();
+  const zip = platformZip();
   const root = binRoot();
+  fs.rmSync(root, { recursive: true, force: true });
   fs.mkdirSync(root, { recursive: true });
   const zipPath = path.join(os.tmpdir(), zip);
   const url = `${RELEASE_BASE}/${RELEASE_TAG}/${zip}`;
 
-  console.log(`Downloading Real-ESRGAN ${RELEASE_TAG}…`);
+  console.log(`Downloading Real-ESRGAN ${RELEASE_TAG} (${zip})…`);
   await download(url, zipPath);
 
   const extractDir = path.join(os.tmpdir(), `realesrgan-${RELEASE_TAG}`);
@@ -168,7 +161,7 @@ export async function ensureRealEsrganBinary(): Promise<string> {
       if (st.isDirectory()) {
         if (entry === "models") foundModels = full;
         stack.push(full);
-      } else if (entry === binaryName()) {
+      } else if (entry === binaryName() || entry === "realesrgan-ncnn-vulkan.exe") {
         foundBin = full;
       }
     }
@@ -187,12 +180,14 @@ export async function ensureRealEsrganBinary(): Promise<string> {
     for (const f of fs.readdirSync(foundModels)) {
       fs.copyFileSync(path.join(foundModels, f), path.join(modelsDest, f));
     }
+  } else {
+    throw new Error(`No models/ folder in ${zip}`);
   }
 
   // Copy sibling dylibs / dlls next to binary if present.
   const binDir = path.dirname(foundBin);
   for (const f of fs.readdirSync(binDir)) {
-    if (/\.(dylib|so|dll|bin)$/i.test(f) || f.startsWith("vulkansdk")) {
+    if (/\.(dylib|so|dll)$/i.test(f)) {
       fs.copyFileSync(path.join(binDir, f), path.join(root, f));
     }
   }
@@ -235,15 +230,22 @@ async function upscaleWithBinary(
   }
 
   try {
-    await execFileAsync(bin, args, {
+    const { stderr } = await execFileAsync(bin, args, {
       maxBuffer: 32 * 1024 * 1024,
       env: process.env,
     });
+    if (stderr && String(stderr).trim()) {
+      console.warn(String(stderr).trim());
+    }
   } catch (err) {
+    const detail =
+      err && typeof err === "object" && "stderr" in err
+        ? String((err as { stderr: Buffer | string }).stderr)
+        : err instanceof Error
+          ? err.message
+          : String(err);
     console.warn(
-      `realesrgan-ncnn-vulkan failed, falling back to sharp: ${
-        err instanceof Error ? err.message : err
-      }`,
+      `realesrgan-ncnn-vulkan failed, falling back to sharp: ${detail.trim()}`,
     );
     return null;
   }
