@@ -11,6 +11,7 @@ import { WaveformScene } from "./scenes/WaveformScene";
 import { VoiceoverDemo } from "./scenes/VoiceoverDemo";
 import { AvatarDemo } from "./scenes/AvatarDemo";
 import { CaptionsDemo } from "./scenes/CaptionsDemo";
+import { AiVideoDemo } from "./scenes/AiVideoDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
 
 const VOICEOVER_DEFAULTS = {
@@ -26,6 +27,11 @@ const AVATAR_DEFAULTS = {
 const CAPTIONS_DEFAULTS = {
   audioFile: "voiceover.wav",
   words: [] as CaptionWord[],
+};
+
+const AI_VIDEO_DEFAULTS = {
+  prompt: "A sunset over the ocean, cinematic 4K",
+  videoFile: "ai-clip.mp4",
 };
 
 async function readMetaText(
@@ -152,6 +158,44 @@ export const RemotionRoot: React.FC = () => {
             };
           } catch {
             return { props: { ...props, words }, durationInFrames: 150 };
+          }
+        }}
+      />
+
+      {/* AI B-roll demo — run `npm run video` with a local Wan/LTX/FramePack server */}
+      <Composition
+        id="AiVideoDemo"
+        component={AiVideoDemo}
+        durationInFrames={180}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={AI_VIDEO_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          let prompt = props.prompt;
+          try {
+            const response = await fetch(staticFile("ai-clip-meta.json"));
+            if (response.ok) {
+              const meta = (await response.json()) as { prompt?: string };
+              if (meta.prompt?.trim()) prompt = meta.prompt.trim();
+            }
+          } catch {
+            // meta missing until `npm run video`
+          }
+
+          try {
+            const { durationInSeconds } = await getVideoMetadata(
+              staticFile(props.videoFile),
+            );
+            return {
+              props: { ...props, prompt },
+              durationInFrames: Math.max(
+                1,
+                Math.ceil(durationInSeconds * 30) + 15,
+              ),
+            };
+          } catch {
+            return { props: { ...props, prompt }, durationInFrames: 180 };
           }
         }}
       />
