@@ -9,7 +9,7 @@
  *
  *   const result = await autoEdit("./public/ai-clip.mp4", {
  *     margin: "0.2sec",
- *     edit: "audio:threshold=0.04",
+ *     edit: "audio",
  *     output: "./public/generated/ai-clip-cut.mp4",
  *   });
  *   // <OffthreadVideo src={staticFile("generated/ai-clip-cut.mp4")} />
@@ -62,5 +62,5 @@ export interface AutoEditResult {
 }
 
 export const AUTO_EDITOR_VERSION = "31.4.2";
-export const DEFAULT_EDIT = "audio:threshold=0.04";
+export const DEFAULT_EDIT = "audio";
 export const DEFAULT_MARGIN = "0.2sec";

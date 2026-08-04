@@ -197,7 +197,7 @@ const AUTOEDIT_DEFAULTS = {
   outputFile: "generated/padded-talk-cut.mp4",
   engine: "ffmpeg",
   margin: "0.2sec",
-  edit: "audio:threshold=0.04",
+  edit: "audio",
   inputDurationSec: 0,
   outputDurationSec: 0,
   savedPct: 0,

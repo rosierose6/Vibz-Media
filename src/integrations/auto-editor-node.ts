@@ -375,11 +375,34 @@ async function autoEditWithBinary(
       maxBuffer: 64 * 1024 * 1024,
     });
   } catch (err) {
-    console.warn(
-      "auto-editor failed:",
-      err instanceof Error ? err.message : err,
-    );
-    return null;
+    const msg = err instanceof Error ? err.message : String(err);
+    // Silent video sources: retry with motion edit.
+    if (/audio stream|channel 'all'/i.test(msg) && !edit.startsWith("motion")) {
+      try {
+        await execFileAsync(
+          bin,
+          [
+            input,
+            "--margin",
+            margin,
+            "--edit",
+            "motion:threshold=0.02",
+            "--output",
+            output,
+          ],
+          { env: ffmpegEnv(), maxBuffer: 64 * 1024 * 1024 },
+        );
+      } catch (err2) {
+        console.warn(
+          "auto-editor failed:",
+          err2 instanceof Error ? err2.message : err2,
+        );
+        return null;
+      }
+    } else {
+      console.warn("auto-editor failed:", msg);
+      return null;
+    }
   }
 
   if (!fs.existsSync(output)) {
@@ -476,35 +499,75 @@ export async function autoEdit(
 }
 
 /**
- * Build a demo clip with intentional silence pads for before/after demos.
+ * Build a demo clip with intentional silence + speech audio for before/after demos.
+ * Source video may be silent (e.g. ai-clip); we mux voiceover with lead/trail silence.
  */
 export async function makePaddedDemo(
   url: string,
   output = path.resolve(process.cwd(), "public/generated/padded-talk.mp4"),
-  padSec = 1.2,
+  padSec = 1.5,
+  voiceover = path.resolve(process.cwd(), "public/voiceover.wav"),
 ): Promise<string> {
   const input = resolveMedia(url);
+  const vo = fs.existsSync(voiceover)
+    ? voiceover
+    : resolveMedia("./public/voiceover.wav");
   fs.mkdirSync(path.dirname(output), { recursive: true });
-  await execFileAsync(
-    "ffmpeg",
-    [
-      "-y",
-      "-i",
-      input,
-      "-vf",
-      `tpad=start_duration=${padSec}:stop_duration=${padSec}:color=black`,
-      "-af",
-      `adelay=${Math.round(padSec * 1000)}|${Math.round(padSec * 1000)},apad=pad_dur=${padSec}`,
-      "-c:v",
-      "libx264",
-      "-pix_fmt",
-      "yuv420p",
-      "-c:a",
-      "aac",
-      "-shortest",
-      output,
-    ],
-    { env: ffmpegEnv(), maxBuffer: 64 * 1024 * 1024 },
-  );
+
+  const hasAudio = await probeHasAudio(input);
+  if (hasAudio) {
+    await execFileAsync(
+      "ffmpeg",
+      [
+        "-y",
+        "-i",
+        input,
+        "-vf",
+        `tpad=start_duration=${padSec}:stop_duration=${padSec}:color=black`,
+        "-af",
+        `adelay=${Math.round(padSec * 1000)}|${Math.round(padSec * 1000)},apad=pad_dur=${padSec}`,
+        "-c:v",
+        "libx264",
+        "-pix_fmt",
+        "yuv420p",
+        "-c:a",
+        "aac",
+        "-shortest",
+        output,
+      ],
+      { env: ffmpegEnv(), maxBuffer: 64 * 1024 * 1024 },
+    );
+  } else {
+    await execFileAsync(
+      "ffmpeg",
+      [
+        "-y",
+        "-i",
+        input,
+        "-i",
+        vo,
+        "-filter_complex",
+        [
+          `[0:v]tpad=start_duration=${padSec}:stop_duration=${padSec}:color=black,fps=24,scale=960:540[v]`,
+          `anullsrc=r=48000:cl=mono,atrim=0:${padSec}[a0]`,
+          `[1:a]aformat=sample_rates=48000:channel_layouts=mono,apad=pad_dur=${padSec}[a1]`,
+          `[a0][a1]concat=n=2:v=0:a=1[a]`,
+        ].join(";"),
+        "-map",
+        "[v]",
+        "-map",
+        "[a]",
+        "-c:v",
+        "libx264",
+        "-pix_fmt",
+        "yuv420p",
+        "-c:a",
+        "aac",
+        "-shortest",
+        output,
+      ],
+      { env: ffmpegEnv(), maxBuffer: 64 * 1024 * 1024 },
+    );
+  }
   return output;
 }
