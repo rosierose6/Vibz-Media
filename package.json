@@ -29,6 +29,7 @@
     "upscale": "tsx scripts/generate-upscale.ts",
     "interpolate": "tsx scripts/generate-rife.ts",
     "restore": "tsx scripts/generate-gfpgan.ts",
+    "sam": "tsx scripts/generate-sam2.ts",
     "render:voiceover": "npx remotion render src/index.ts VoiceoverDemo out/voiceover-demo.mp4",
     "render:avatar": "npx remotion render src/index.ts AvatarDemo out/avatar-demo.mp4",
     "render:captions": "npx remotion render src/index.ts CaptionsDemo out/captions-demo.mp4",
@@ -46,7 +47,8 @@
     "render:media": "npx remotion render src/index.ts MediabunnyDemo out/mediabunny-demo.mp4",
     "render:upscale": "npx remotion render src/index.ts UpscaleDemo out/upscale-demo.mp4",
     "render:interpolate": "npx remotion render src/index.ts RifeDemo out/rife-demo.mp4",
-    "render:restore": "npx remotion render src/index.ts GfpganDemo out/gfpgan-demo.mp4"
+    "render:restore": "npx remotion render src/index.ts GfpganDemo out/gfpgan-demo.mp4",
+    "render:sam": "npx remotion render src/index.ts Sam2Demo out/sam2-demo.mp4"
   },
   "dependencies": {
     "@imgly/background-removal-node": "^1.4.5",

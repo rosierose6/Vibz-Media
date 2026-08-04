@@ -26,6 +26,7 @@ import { MediabunnyDemo } from "./scenes/MediabunnyDemo";
 import { UpscaleDemo } from "./scenes/UpscaleDemo";
 import { RifeDemo } from "./scenes/RifeDemo";
 import { GfpganDemo } from "./scenes/GfpganDemo";
+import { Sam2Demo } from "./scenes/Sam2Demo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
@@ -149,6 +150,14 @@ const GFPGAN_DEFAULTS = {
   scale: 2,
   engine: "sharp",
   label: "gfpgan",
+};
+
+const SAM2_DEFAULTS = {
+  sourceFile: "presenter-photo.jpg",
+  maskFile: "presenter-photo-mask.png",
+  cutoutFile: "presenter-photo-sam-cutout.png",
+  engine: "imgly",
+  label: "sam2",
 };
 
 async function readMetaText(
@@ -717,6 +726,42 @@ export const RemotionRoot: React.FC = () => {
                 scale: meta.scale ?? props.scale,
                 engine: meta.engine ?? props.engine,
                 label: `gfpgan · v${meta.version ?? props.version}`,
+              },
+            };
+          } catch {
+            return {};
+          }
+        }}
+      />
+
+      {/* SAM 2 masks — npm run sam */}
+      <Composition
+        id="Sam2Demo"
+        component={Sam2Demo}
+        durationInFrames={90}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={SAM2_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          try {
+            const response = await fetch(staticFile("sam2-meta.json"));
+            if (!response.ok) return {};
+            const meta = (await response.json()) as {
+              sourceFile?: string;
+              maskFile?: string;
+              cutoutFile?: string | null;
+              engine?: string;
+              mode?: string;
+            };
+            return {
+              props: {
+                ...props,
+                sourceFile: meta.sourceFile ?? props.sourceFile,
+                maskFile: meta.maskFile ?? props.maskFile,
+                cutoutFile: meta.cutoutFile ?? props.cutoutFile,
+                engine: meta.engine ?? props.engine,
+                label: `sam2 · ${meta.mode ?? "image"}`,
               },
             };
           } catch {
