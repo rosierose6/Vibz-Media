@@ -1,169 +1,214 @@
 /**
  * VANTA — Transitions Integration
  *
- * GPU-accelerated video transitions using WebGL shaders.
- * 100+ transition effects — crossfade, wipe, cube, pixelate, kaleidoscope.
- * Replaces Remotion Pro Cube Transition ($10) and then some.
+ * Named transition catalog + bridge to @remotion/transitions.
+ * GL-transitions shaders documented for GPU paths; Remotion presentations
+ * power the live TransitionSeries demo.
  *
  * Usage:
- *   import { applyTransition } from "./integrations/transitions";
+ *   import { applyTransition, listTransitions } from "./integrations/transitions";
  *
- *   // In your Remotion composition:
- *   <TransitionSeries>
- *     <TransitionSeries.Sequence durationInFrames={90}>
- *       <SceneA />
- *     </TransitionSeries.Sequence>
- *     <TransitionSeries.Transition
- *       presentation={applyTransition("cube", { duration: 30 })}
- *     />
- *     <TransitionSeries.Sequence durationInFrames={90}>
- *       <SceneB />
- *     </TransitionSeries.Sequence>
- *   </TransitionSeries>
+ *   const cube = applyTransition("cube", { duration: 30 });
+ *   const glitch = applyTransition("glitch", { duration: 15, intensity: 0.8 });
+ *   const all = listTransitions();
+ *   // { geometric: [...], "3d": [...], creative: [...], film: [...], ... }
  *
  * Repos:
- *   - https://github.com/gl-transitions/gl-transitions (1,200+ stars) — 100+ WebGL transition shaders
- *   - https://gl-transitions.com — Interactive gallery and playground
- *   - https://github.com/bbc/VideoContext (1,300+ stars) — HTML5/WebGL video composition (BBC)
- *   - https://github.com/martinlaxenaire/curtainsjs (4,500+ stars) — WebGL DOM-to-3D transitions
- *
- * Want help setting this up? Join The Agentic Advantage:
- * https://www.skool.com/ai-elite-9507/about
+ *   - https://github.com/gl-transitions/gl-transitions — 100+ WebGL shaders
+ *   - @remotion/transitions — TransitionSeries presentations
  */
 
+import type { TransitionPresentation } from "@remotion/transitions";
+import { linearTiming, springTiming } from "@remotion/transitions";
+import { fade } from "@remotion/transitions/fade";
+import { slide } from "@remotion/transitions/slide";
+import { wipe } from "@remotion/transitions/wipe";
+import { flip } from "@remotion/transitions/flip";
+import { clockWipe } from "@remotion/transitions/clock-wipe";
+import { iris } from "@remotion/transitions/iris";
+
 export type TransitionType =
-  // Geometric
   | "crossfade"
   | "fade"
   | "wipe-left"
   | "wipe-right"
   | "wipe-up"
   | "wipe-down"
-  // 3D
   | "cube"
   | "flip"
   | "rotate"
   | "swap"
-  // Creative
   | "pixelate"
   | "morph"
   | "kaleidoscope"
   | "glitch"
   | "burn"
   | "ripple"
-  // Film
   | "dissolve"
   | "dip-to-black"
   | "dip-to-white"
   | "film-burn"
-  // Directional
   | "slide-left"
   | "slide-right"
   | "slide-up"
   | "slide-down"
   | "zoom-in"
   | "zoom-out"
-  // Pattern
   | "circle-reveal"
   | "diamond-reveal"
   | "heart-reveal"
   | "star-reveal";
 
 export interface TransitionConfig {
-  duration: number;         // Frames
+  duration: number;
   direction?: "left" | "right" | "up" | "down";
   easing?: "linear" | "ease-in" | "ease-out" | "ease-in-out";
-  color?: string;           // For dip-to-color transitions
-  intensity?: number;       // 0-1 for effects like pixelate, glitch
-  customGLSL?: string;      // Custom GL Transitions shader code
+  color?: string;
+  intensity?: number;
+  customGLSL?: string;
 }
 
 export interface TransitionResult {
   type: TransitionType;
   config: TransitionConfig;
   glslShader?: string;
-  cssTransform?: string;
+  /** Remotion presentation used by TransitionSeries */
+  presentation: TransitionPresentation<Record<string, unknown>>;
+  /** Remotion timing for TransitionSeries.Transition */
+  timing: ReturnType<typeof linearTiming>;
 }
 
-/**
- * Collection of GLSL shader snippets from gl-transitions.com
- * Each transition is a GLSL fragment shader that takes:
- *   - progress: 0.0 → 1.0 (transition progress)
- *   - from: sampler2D (outgoing scene texture)
- *   - to: sampler2D (incoming scene texture)
- *   - resolution: vec2 (video dimensions)
- */
 const GL_TRANSITION_SHADERS: Partial<Record<TransitionType, string>> = {
-  cube: `
-    // Cube rotation transition — rotates outgoing scene away like a 3D cube
-    // revealing incoming scene on the adjacent face
-    uniform float persp; // 0.7
-    uniform float unzoom; // 0.3
-    vec4 transition(vec2 uv) {
-      float uz = unzoom * 2.0 * (0.5 - distance(0.5, progress));
-      vec2 p = -uz * 0.5 + (1.0 + uz) * uv;
-      vec2 fromP = p;
-      vec2 toP = p;
-      // ... full shader at gl-transitions.com/editor/cube
-      return mix(getFromColor(fromP), getToColor(toP), step(0.5, progress));
-    }
-  `,
-  pixelate: `
-    // Pixelate transition — scene breaks into pixels that reform as new scene
-    uniform ivec2 squaresMin; // ivec2(20, 20)
-    uniform int steps; // 50
-    vec4 transition(vec2 uv) {
-      float d = min(progress, 1.0 - progress);
-      float dist = steps > 0 ? ceil(d * float(steps)) / float(steps) : d;
-      vec2 sq = vec2(squaresMin) + dist * vec2(squaresMin);
-      vec2 p = dist > 0.0 ? (floor(uv * sq) + 0.5) / sq : uv;
-      return mix(getFromColor(p), getToColor(p), progress);
-    }
-  `,
-  morph: `
-    // Morph transition — organic morphing between scenes
-    uniform float strength; // 0.1
-    vec4 transition(vec2 uv) {
-      vec4 ca = getFromColor(uv);
-      vec4 cb = getToColor(uv);
-      vec2 oa = (ca.rg - 0.5) * 2.0 * vec2(1.0, -1.0);
-      vec2 ob = (cb.rg - 0.5) * 2.0 * vec2(1.0, -1.0);
-      vec2 disp = mix(oa, ob, 0.5) * strength * (1.0 - step(1.0, progress));
-      return mix(
-        getFromColor(uv + progress * disp),
-        getToColor(uv - (1.0 - progress) * disp),
-        progress
-      );
-    }
-  `,
+  cube: `// gl-transitions.com/editor/cube`,
+  pixelate: `// gl-transitions.com/editor/pixelize`,
+  morph: `// gl-transitions.com/editor/morph`,
+  glitch: `// gl-transitions.com/editor/GlitchDisplace`,
+  burn: `// gl-transitions.com/editor/burn`,
+  ripple: `// gl-transitions.com/editor/ripple`,
 };
+
+const CATEGORIES: Record<string, TransitionType[]> = {
+  geometric: [
+    "crossfade",
+    "fade",
+    "wipe-left",
+    "wipe-right",
+    "wipe-up",
+    "wipe-down",
+  ],
+  "3d": ["cube", "flip", "rotate", "swap"],
+  creative: ["pixelate", "morph", "kaleidoscope", "glitch", "burn", "ripple"],
+  film: ["dissolve", "dip-to-black", "dip-to-white", "film-burn"],
+  directional: [
+    "slide-left",
+    "slide-right",
+    "slide-up",
+    "slide-down",
+    "zoom-in",
+    "zoom-out",
+  ],
+  pattern: ["circle-reveal", "diamond-reveal", "heart-reveal", "star-reveal"],
+};
+
+function presentationFor(
+  type: TransitionType,
+  config: TransitionConfig,
+): TransitionPresentation<Record<string, unknown>> {
+  const dir = config.direction ?? "left";
+
+  switch (type) {
+    case "crossfade":
+    case "fade":
+    case "dissolve":
+    case "dip-to-black":
+    case "dip-to-white":
+    case "film-burn":
+    case "burn":
+    case "morph":
+      return fade() as TransitionPresentation<Record<string, unknown>>;
+    case "wipe-left":
+      return wipe({ direction: "from-left" }) as TransitionPresentation<
+        Record<string, unknown>
+      >;
+    case "wipe-right":
+      return wipe({ direction: "from-right" }) as TransitionPresentation<
+        Record<string, unknown>
+      >;
+    case "wipe-up":
+      return wipe({ direction: "from-top" }) as TransitionPresentation<
+        Record<string, unknown>
+      >;
+    case "wipe-down":
+      return wipe({ direction: "from-bottom" }) as TransitionPresentation<
+        Record<string, unknown>
+      >;
+    case "slide-left":
+      return slide({ direction: "from-left" }) as TransitionPresentation<
+        Record<string, unknown>
+      >;
+    case "slide-right":
+      return slide({ direction: "from-right" }) as TransitionPresentation<
+        Record<string, unknown>
+      >;
+    case "slide-up":
+      return slide({ direction: "from-top" }) as TransitionPresentation<
+        Record<string, unknown>
+      >;
+    case "slide-down":
+      return slide({ direction: "from-bottom" }) as TransitionPresentation<
+        Record<string, unknown>
+      >;
+    case "cube":
+    case "flip":
+    case "rotate":
+    case "swap":
+      return flip({
+        direction: dir === "up" || dir === "down" ? "from-top" : "from-left",
+      }) as TransitionPresentation<Record<string, unknown>>;
+    case "glitch":
+    case "pixelate":
+    case "kaleidoscope":
+    case "ripple":
+      return wipe({
+        direction:
+          dir === "right"
+            ? "from-right"
+            : dir === "up"
+              ? "from-top"
+              : dir === "down"
+                ? "from-bottom"
+                : "from-left",
+      }) as TransitionPresentation<Record<string, unknown>>;
+    case "circle-reveal":
+    case "diamond-reveal":
+    case "heart-reveal":
+    case "star-reveal":
+    case "zoom-in":
+    case "zoom-out":
+      return iris() as TransitionPresentation<Record<string, unknown>>;
+    default:
+      return fade() as TransitionPresentation<Record<string, unknown>>;
+  }
+}
+
+function timingFor(config: TransitionConfig) {
+  const durationInFrames = Math.max(1, Math.round(config.duration));
+  if (config.easing === "ease-in-out" || config.easing === "ease-out") {
+    return springTiming({
+      config: { damping: 200 },
+      durationInFrames,
+    });
+  }
+  return linearTiming({ durationInFrames });
+}
 
 export function applyTransition(
   type: TransitionType,
-  config: Partial<TransitionConfig> = {}
+  config: Partial<TransitionConfig> = {},
 ): TransitionResult {
-  // Creates a transition configuration that can be used with
-  // Remotion's <TransitionSeries> or applied manually between scenes.
-  //
-  // For WebGL transitions (cube, pixelate, morph, etc.):
-  //   Uses gl-transitions shaders rendered via a <canvas> element
-  //   that Remotion captures frame-by-frame.
-  //
-  // For CSS transitions (slide, fade, zoom):
-  //   Uses Remotion's interpolate() with CSS transforms.
-  //
-  // npm install gl-transitions
-  // npm install @remotion/transitions
-  //
-  // With @remotion/transitions (built-in):
-  //   import { TransitionSeries } from "@remotion/transitions";
-  //   import { slide } from "@remotion/transitions/slide";
-  //
-  //   <TransitionSeries>
-  //     <TransitionSeries.Sequence><SceneA /></TransitionSeries.Sequence>
-  //     <TransitionSeries.Transition presentation={slide()} />
-  //     <TransitionSeries.Sequence><SceneB /></TransitionSeries.Sequence>
-  //   </TransitionSeries>
+  if (!(Object.values(CATEGORIES).flat() as TransitionType[]).includes(type)) {
+    throw new Error(`Unknown transition: ${type}`);
+  }
 
   const fullConfig: TransitionConfig = {
     duration: config.duration ?? 30,
@@ -173,23 +218,32 @@ export function applyTransition(
     ...config,
   };
 
+  // Intensity shortens aggressive effects like glitch
+  if (type === "glitch" && fullConfig.intensity !== undefined) {
+    fullConfig.duration = Math.max(
+      6,
+      Math.round(fullConfig.duration * (0.5 + fullConfig.intensity * 0.5)),
+    );
+  }
+
   return {
     type,
     config: fullConfig,
-    glslShader: GL_TRANSITION_SHADERS[type],
+    glslShader: config.customGLSL ?? GL_TRANSITION_SHADERS[type],
+    presentation: presentationFor(type, fullConfig),
+    timing: timingFor(fullConfig),
   };
 }
 
-/**
- * List all available transitions grouped by category
- */
+/** List all available transitions grouped by category */
 export function listTransitions(): Record<string, TransitionType[]> {
-  return {
-    geometric: ["crossfade", "fade", "wipe-left", "wipe-right", "wipe-up", "wipe-down"],
-    "3d": ["cube", "flip", "rotate", "swap"],
-    creative: ["pixelate", "morph", "kaleidoscope", "glitch", "burn", "ripple"],
-    film: ["dissolve", "dip-to-black", "dip-to-white", "film-burn"],
-    directional: ["slide-left", "slide-right", "slide-up", "slide-down", "zoom-in", "zoom-out"],
-    pattern: ["circle-reveal", "diamond-reveal", "heart-reveal", "star-reveal"],
-  };
+  return { ...CATEGORIES };
 }
+
+/** Flat list of every named transition */
+export function listTransitionNames(): TransitionType[] {
+  return Object.values(CATEGORIES).flat();
+}
+
+// Keep clockWipe available for demos that want it explicitly
+export { clockWipe };
