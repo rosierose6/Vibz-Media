@@ -9,22 +9,13 @@
  * this handles the visual presentation layer.
  *
  * Usage:
- *   import { AnimatedCaption } from "./integrations/animated-captions";
- *   <AnimatedCaption
- *     words={transcription.segments[0].words}
- *     style="tiktok"
- *     frame={frame}
- *     fps={fps}
- *   />
+ *   import { AnimatedCaption } from "../components/AnimatedCaption";
+ *   <AnimatedCaption words={words} style="tiktok" />
  *
  * Repos:
  *   - https://github.com/ahgsql/remotion-subtitles — Animated subtitles for Remotion from SRT files
- *   - https://github.com/zernonia/vista — Auto-generate animated subtitles with AssemblyAI + ffmpeg
- *   - https://github.com/vidstack/captions (130 stars) — Lightweight caption parser/renderer
+ *   - https://github.com/vidstack/captions — Lightweight caption parser/renderer
  *   - @remotion/captions — Official Remotion captions package
- *
- * Want help setting this up? Join The Agentic Advantage:
- * https://www.skool.com/ai-elite-9507/about
  */
 
 import type { CaptionWord } from "./auto-captions";
@@ -151,22 +142,22 @@ export function getCaptionStyleCSS(
 export const CAPTION_PRESETS: Record<string, CaptionStyleConfig> = {
   tiktok: {
     style: "tiktok",
-    fontFamily: "Inter, system-ui, sans-serif",
+    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
     fontSize: 64,
-    color: "#FFFFFF",
-    activeColor: "#FFD700",
+    color: "#F2EBE3",
+    activeColor: "#F2C94C",
     position: "center",
     maxWordsPerLine: 4,
     shadow: true,
     outline: true,
-    outlineColor: "#000000",
+    outlineColor: "#0a0a0a",
     outlineWidth: 3,
   },
   youtube: {
     style: "subtitle",
-    fontFamily: "Roboto, sans-serif",
+    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
     fontSize: 48,
-    color: "#FFFFFF",
+    color: "#F2EBE3",
     backgroundColor: "rgba(0, 0, 0, 0.75)",
     position: "bottom",
     maxWordsPerLine: 10,
@@ -176,23 +167,23 @@ export const CAPTION_PRESETS: Record<string, CaptionStyleConfig> = {
   },
   reels: {
     style: "pop",
-    fontFamily: "Montserrat, sans-serif",
+    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
     fontSize: 56,
-    color: "#FFFFFF",
-    activeColor: "#FF4444",
+    color: "#F2EBE3",
+    activeColor: "#E85D4C",
     position: "center",
     maxWordsPerLine: 3,
     shadow: true,
     outline: true,
-    outlineColor: "#000000",
+    outlineColor: "#0a0a0a",
     outlineWidth: 4,
   },
   karaoke: {
     style: "karaoke",
-    fontFamily: "Poppins, sans-serif",
+    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
     fontSize: 60,
-    color: "#666666",
-    activeColor: "#00FF88",
+    color: "#8A857C",
+    activeColor: "#7DCFB6",
     position: "bottom",
     maxWordsPerLine: 6,
     shadow: false,
