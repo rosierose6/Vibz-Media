@@ -20,11 +20,13 @@ import { TransitionsDemo } from "./scenes/TransitionsDemo";
 import { MotionGraphicsDemo } from "./scenes/MotionGraphicsDemo";
 import { ImageEditDemo } from "./scenes/ImageEditDemo";
 import { VectorGraphicsDemo } from "./scenes/VectorGraphicsDemo";
+import { ParticlesDemo } from "./scenes/ParticlesDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
 import type { RemotionSequenceData } from "./integrations/timeline";
 import type { TransitionType } from "./integrations/transitions";
+import type { ParticlePresetName } from "./integrations/tsparticles";
 
 const VOICEOVER_DEFAULTS = {
   text: "Welcome to the future of video.",
@@ -92,6 +94,11 @@ const IMAGE_EDIT_DEFAULTS = {
 
 const VECTOR_DEFAULTS = {
   label: "vector graphics · svg",
+};
+
+const PARTICLES_DEFAULTS = {
+  preset: "links" as ParticlePresetName,
+  label: "tsparticles · links",
 };
 
 async function readMetaText(
@@ -424,6 +431,36 @@ export const RemotionRoot: React.FC = () => {
         width={1920}
         height={1080}
         defaultProps={VECTOR_DEFAULTS}
+      />
+
+      {/* tsparticles presets — npm run particles */}
+      <Composition
+        id="ParticlesDemo"
+        component={ParticlesDemo}
+        durationInFrames={120}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={PARTICLES_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          let preset = props.preset;
+          let label = props.label;
+          try {
+            const response = await fetch(staticFile("particles.json"));
+            if (response.ok) {
+              const meta = (await response.json()) as {
+                preset?: ParticlePresetName;
+              };
+              if (meta.preset) {
+                preset = meta.preset;
+                label = `tsparticles · ${meta.preset}`;
+              }
+            }
+          } catch {
+            // keep defaults
+          }
+          return { props: { ...props, preset, label } };
+        }}
       />
 
       {/* Individual scenes for testing */}
