@@ -9,11 +9,11 @@
 import path from "path";
 import fs from "fs";
 import {
-  createWaveform,
   listWaveformStyles,
   serializeWaveform,
   WAVEFORM_STYLES,
 } from "../src/integrations/wavesurfer";
+import { createWaveform } from "../src/integrations/wavesurfer-node";
 
 function argValue(flag: string): string | undefined {
   const idx = process.argv.indexOf(flag);
