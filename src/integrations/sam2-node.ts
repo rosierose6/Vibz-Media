@@ -300,7 +300,6 @@ async function segmentWithImgly(
     points,
     meta.width ?? size.width,
     meta.height ?? size.height,
-    true,
   );
 
   return {
@@ -457,7 +456,12 @@ export async function trackObject(
     outputDir,
     maskDir,
     preview: fs.existsSync(preview) ? preview : undefined,
-    points: toPixelPoints(points, width || 1, height || 1, options.normalized ?? true),
+    points: toPixelPoints(
+      points,
+      width || 1,
+      height || 1,
+      options.normalized,
+    ),
     frame,
     model,
     engine,
