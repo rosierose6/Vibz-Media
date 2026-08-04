@@ -65,8 +65,9 @@ async function main() {
       JSON.stringify(
         {
           mode: "track",
-          sourceFile: path.basename(result.input),
+          sourceFile: "generated/sam2/frames/frame_00000001.png",
           maskFile: "generated/sam2/masks/frame_00000001.png",
+          cutoutFile: null,
           previewFile: previewRel?.split(path.sep).join("/") ?? null,
           points: result.points,
           model: result.model,

@@ -382,6 +382,12 @@ export async function trackObject(
   const frameDir = path.join(outputDir, "frames");
   fs.mkdirSync(maskDir, { recursive: true });
   fs.mkdirSync(frameDir, { recursive: true });
+  for (const f of fs.readdirSync(frameDir)) {
+    if (f.endsWith(".png")) fs.rmSync(path.join(frameDir, f), { force: true });
+  }
+  for (const f of fs.readdirSync(maskDir)) {
+    if (f.endsWith(".png")) fs.rmSync(path.join(maskDir, f), { force: true });
+  }
 
   await execFileAsync(
     "ffmpeg",

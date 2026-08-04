@@ -156,6 +156,9 @@ const SAM2_DEFAULTS = {
   sourceFile: "presenter-photo.jpg",
   maskFile: "presenter-photo-mask.png",
   cutoutFile: "presenter-photo-sam-cutout.png",
+  previewFile: "",
+  mode: "image" as const,
+  frameCount: 1,
   engine: "imgly",
   label: "sam2",
 };
@@ -751,8 +754,10 @@ export const RemotionRoot: React.FC = () => {
               sourceFile?: string;
               maskFile?: string;
               cutoutFile?: string | null;
+              previewFile?: string | null;
               engine?: string;
-              mode?: string;
+              mode?: "image" | "track";
+              frameCount?: number;
             };
             return {
               props: {
@@ -760,6 +765,9 @@ export const RemotionRoot: React.FC = () => {
                 sourceFile: meta.sourceFile ?? props.sourceFile,
                 maskFile: meta.maskFile ?? props.maskFile,
                 cutoutFile: meta.cutoutFile ?? props.cutoutFile,
+                previewFile: meta.previewFile ?? props.previewFile,
+                mode: meta.mode ?? props.mode,
+                frameCount: meta.frameCount ?? props.frameCount,
                 engine: meta.engine ?? props.engine,
                 label: `sam2 · ${meta.mode ?? "image"}`,
               },

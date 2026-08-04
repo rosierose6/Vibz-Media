@@ -3,6 +3,7 @@ import {
   AbsoluteFill,
   Img,
   interpolate,
+  OffthreadVideo,
   staticFile,
   useCurrentFrame,
   useVideoConfig,
@@ -12,12 +13,19 @@ export interface Sam2DemoProps {
   sourceFile: string;
   maskFile: string;
   cutoutFile: string;
+  previewFile: string;
+  mode: "image" | "track";
+  frameCount: number;
   engine: string;
   label: string;
 }
 
+function padFrame(n: number): string {
+  return String(n).padStart(8, "0");
+}
+
 /**
- * SAM 2 click-to-mask demo (subject cutout + mask wipe).
+ * SAM 2 click-to-mask demo (subject cutout + mask wipe / track).
  *
  *   npm run sam
  */
@@ -25,6 +33,9 @@ export const Sam2Demo: React.FC<Sam2DemoProps> = ({
   sourceFile = "presenter-photo.jpg",
   maskFile = "presenter-photo-mask.png",
   cutoutFile = "presenter-photo-sam-cutout.png",
+  previewFile = "",
+  mode = "image",
+  frameCount = 1,
   engine = "imgly",
   label = "sam2",
 }) => {
@@ -40,6 +51,23 @@ export const Sam2Demo: React.FC<Sam2DemoProps> = ({
   const fadeIn = interpolate(frame, [0, 0.35 * fps], [0, 1], {
     extrapolateRight: "clamp",
   });
+
+  const trackIndex =
+    mode === "track" && frameCount > 1
+      ? Math.min(
+          frameCount,
+          1 + Math.floor((frame / durationInFrames) * frameCount),
+        )
+      : 1;
+
+  const trackSource =
+    mode === "track"
+      ? `generated/sam2/frames/frame_${padFrame(trackIndex)}.png`
+      : sourceFile;
+  const trackMask =
+    mode === "track"
+      ? `generated/sam2/masks/frame_${padFrame(trackIndex)}.png`
+      : maskFile;
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#0a0a0a" }}>
@@ -61,7 +89,7 @@ export const Sam2Demo: React.FC<Sam2DemoProps> = ({
           }}
         >
           <Img
-            src={staticFile(sourceFile)}
+            src={staticFile(trackSource)}
             style={{
               position: "absolute",
               inset: 0,
@@ -80,12 +108,13 @@ export const Sam2Demo: React.FC<Sam2DemoProps> = ({
             }}
           >
             <Img
-              src={staticFile(maskFile)}
+              src={staticFile(trackMask)}
               style={{
                 width: 720,
                 height: 900,
                 objectFit: "cover",
-                filter: "brightness(0) saturate(100%) invert(76%) sepia(61%) saturate(747%) hue-rotate(360deg)",
+                filter:
+                  "brightness(0) saturate(100%) invert(76%) sepia(61%) saturate(747%) hue-rotate(360deg)",
               }}
             />
           </div>
@@ -114,14 +143,25 @@ export const Sam2Demo: React.FC<Sam2DemoProps> = ({
             overflow: "hidden",
           }}
         >
-          <Img
-            src={staticFile(cutoutFile)}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "contain",
-            }}
-          />
+          {mode === "track" && previewFile ? (
+            <OffthreadVideo
+              src={staticFile(previewFile)}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+              }}
+            />
+          ) : (
+            <Img
+              src={staticFile(cutoutFile || trackMask)}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+              }}
+            />
+          )}
         </div>
       </AbsoluteFill>
 
