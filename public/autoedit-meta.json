@@ -1,0 +1,18 @@
+{
+  "sourceFile": "generated/padded-talk.mp4",
+  "outputFile": "generated/padded-talk-cut.mp4",
+  "margin": "0.3sec",
+  "edit": "audio",
+  "engine": "auto-editor",
+  "inputDurationSec": 5.4,
+  "outputDurationSec": 2.22,
+  "savedPct": 58.88888888888889,
+  "keptSegments": [
+    {
+      "start": 1.81979,
+      "end": 3.69075
+    }
+  ],
+  "autoEditorAvailable": true,
+  "generatedAt": "2026-08-04T18:01:33.383Z"
+}
