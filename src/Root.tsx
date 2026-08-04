@@ -24,6 +24,7 @@ import { ParticlesDemo } from "./scenes/ParticlesDemo";
 import { WaveformDemo } from "./scenes/WaveformDemo";
 import { MediabunnyDemo } from "./scenes/MediabunnyDemo";
 import { UpscaleDemo } from "./scenes/UpscaleDemo";
+import { RifeDemo } from "./scenes/RifeDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
@@ -127,6 +128,17 @@ const UPSCALE_DEFAULTS = {
   model: "realesrgan-x4plus",
   engine: "sharp",
   label: "real-esrgan",
+};
+
+const RIFE_DEFAULTS = {
+  sourceFile: "ai-clip.mp4",
+  outputFile: "generated/ai-clip-2x.mp4",
+  multi: 2,
+  model: "rife-v4",
+  engine: "ffmpeg",
+  inputFps: 30,
+  outputFps: 60,
+  label: "practical-rife",
 };
 
 async function readMetaText(
@@ -608,6 +620,56 @@ export const RemotionRoot: React.FC = () => {
                 model: meta.model ?? props.model,
                 engine: meta.engine ?? props.engine,
                 label: `real-esrgan · ${meta.scale ?? props.scale}×`,
+              },
+            };
+          } catch {
+            return {};
+          }
+        }}
+      />
+
+      {/* RIFE interpolate — npm run interpolate */}
+      <Composition
+        id="RifeDemo"
+        component={RifeDemo}
+        durationInFrames={180}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={RIFE_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          let durationInFrames = 180;
+          try {
+            const response = await fetch(staticFile("rife-meta.json"));
+            if (!response.ok) return {};
+            const meta = (await response.json()) as {
+              sourceFile?: string;
+              outputFile?: string;
+              multi?: number;
+              model?: string;
+              engine?: string;
+              inputFps?: number;
+              outputFps?: number;
+              duration?: number;
+            };
+            if (meta.duration && meta.duration > 0) {
+              durationInFrames = Math.max(
+                90,
+                Math.ceil(meta.duration * 30) + 15,
+              );
+            }
+            return {
+              durationInFrames,
+              props: {
+                ...props,
+                sourceFile: meta.sourceFile ?? props.sourceFile,
+                outputFile: meta.outputFile ?? props.outputFile,
+                multi: meta.multi ?? props.multi,
+                model: meta.model ?? props.model,
+                engine: meta.engine ?? props.engine,
+                inputFps: meta.inputFps ?? props.inputFps,
+                outputFps: meta.outputFps ?? props.outputFps,
+                label: `practical-rife · ${meta.multi ?? props.multi}×`,
               },
             };
           } catch {

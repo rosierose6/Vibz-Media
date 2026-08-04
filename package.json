@@ -27,6 +27,7 @@
     "waveform": "tsx scripts/generate-waveform.ts",
     "media": "tsx scripts/generate-mediabunny.ts",
     "upscale": "tsx scripts/generate-upscale.ts",
+    "interpolate": "tsx scripts/generate-rife.ts",
     "render:voiceover": "npx remotion render src/index.ts VoiceoverDemo out/voiceover-demo.mp4",
     "render:avatar": "npx remotion render src/index.ts AvatarDemo out/avatar-demo.mp4",
     "render:captions": "npx remotion render src/index.ts CaptionsDemo out/captions-demo.mp4",
@@ -42,7 +43,8 @@
     "render:particles": "npx remotion render src/index.ts ParticlesDemo out/particles-demo.mp4",
     "render:waveform": "npx remotion render src/index.ts WaveformDemo out/waveform-demo.mp4",
     "render:media": "npx remotion render src/index.ts MediabunnyDemo out/mediabunny-demo.mp4",
-    "render:upscale": "npx remotion render src/index.ts UpscaleDemo out/upscale-demo.mp4"
+    "render:upscale": "npx remotion render src/index.ts UpscaleDemo out/upscale-demo.mp4",
+    "render:interpolate": "npx remotion render src/index.ts RifeDemo out/rife-demo.mp4"
   },
   "dependencies": {
     "@imgly/background-removal-node": "^1.4.5",
