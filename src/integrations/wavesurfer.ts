@@ -116,16 +116,8 @@ async function decodeMonoF32(filePath: string): Promise<{
   sampleRate: number;
   duration: number;
 }> {
-  const { stdout: probeOut } = await execFileAsync("ffprobe", [
-    "-v",
-    "error",
-    "-show_entries",
-    "stream=sample_rate",
-    "-of",
-    "default=noprint_wrappers=1:nokey=1",
-    filePath,
-  ]);
-  const sampleRate = Number.parseInt(String(probeOut).trim(), 10) || 44100;
+  // Resample to a known rate so we don't depend on ffprobe.
+  const sampleRate = 44100;
 
   const { stdout } = await execFileAsync(
     "ffmpeg",
@@ -134,6 +126,8 @@ async function decodeMonoF32(filePath: string): Promise<{
       filePath,
       "-ac",
       "1",
+      "-ar",
+      String(sampleRate),
       "-f",
       "f32le",
       "-acodec",
@@ -142,7 +136,14 @@ async function decodeMonoF32(filePath: string): Promise<{
       "error",
       "pipe:1",
     ],
-    { encoding: "buffer", maxBuffer: 256 * 1024 * 1024 },
+    {
+      encoding: "buffer",
+      maxBuffer: 256 * 1024 * 1024,
+      env: {
+        ...process.env,
+        PATH: `${process.env.HOME}/.local/bin:${process.env.PATH ?? ""}`,
+      },
+    },
   );
 
   const buffer = Buffer.isBuffer(stdout) ? stdout : Buffer.from(stdout);
