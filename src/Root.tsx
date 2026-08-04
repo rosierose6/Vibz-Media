@@ -21,12 +21,15 @@ import { MotionGraphicsDemo } from "./scenes/MotionGraphicsDemo";
 import { ImageEditDemo } from "./scenes/ImageEditDemo";
 import { VectorGraphicsDemo } from "./scenes/VectorGraphicsDemo";
 import { ParticlesDemo } from "./scenes/ParticlesDemo";
+import { WaveformDemo } from "./scenes/WaveformDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
 import type { RemotionSequenceData } from "./integrations/timeline";
 import type { TransitionType } from "./integrations/transitions";
 import type { ParticlePresetName } from "./integrations/tsparticles";
+import type { WaveformData } from "./integrations/wavesurfer";
+import { WAVEFORM_STYLES } from "./integrations/wavesurfer";
 
 const VOICEOVER_DEFAULTS = {
   text: "Welcome to the future of video.",
@@ -99,6 +102,13 @@ const VECTOR_DEFAULTS = {
 const PARTICLES_DEFAULTS = {
   preset: "confetti" as ParticlePresetName,
   label: "tsparticles · confetti",
+};
+
+const WAVEFORM_DEFAULTS = {
+  audioFile: "voiceover.wav",
+  label: "wavesurfer.js",
+  waveform: null as WaveformData | null,
+  background: WAVEFORM_STYLES.wavesurfer.background,
 };
 
 async function readMetaText(
@@ -460,6 +470,51 @@ export const RemotionRoot: React.FC = () => {
             // keep defaults
           }
           return { props: { ...props, preset, label } };
+        }}
+      />
+
+      {/* wavesurfer peaks — npm run waveform */}
+      <Composition
+        id="WaveformDemo"
+        component={WaveformDemo}
+        durationInFrames={150}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={WAVEFORM_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          let audioFile = props.audioFile;
+          let label = props.label;
+          let waveform = props.waveform;
+          let background = props.background;
+          let durationInFrames = 150;
+          try {
+            const response = await fetch(staticFile("waveform.json"));
+            if (response.ok) {
+              const meta = (await response.json()) as WaveformData & {
+                audioFile?: string;
+                style?: string;
+                background?: string;
+                duration?: number;
+              };
+              if (meta.audioFile) audioFile = meta.audioFile;
+              if (meta.background) background = meta.background;
+              if (meta.style) label = `wavesurfer.js · ${meta.style}`;
+              waveform = meta;
+              if (meta.duration && meta.duration > 0) {
+                durationInFrames = Math.max(
+                  90,
+                  Math.ceil(meta.duration * 30) + 15,
+                );
+              }
+            }
+          } catch {
+            // keep defaults
+          }
+          return {
+            durationInFrames,
+            props: { ...props, audioFile, label, waveform, background },
+          };
         }}
       />
 

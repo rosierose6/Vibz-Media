@@ -21,17 +21,24 @@ function argValue(flag: string): string | undefined {
   return process.argv[idx + 1];
 }
 
-async function main() {
-  const positional = process.argv
-    .slice(2)
-    .filter((a) => !a.startsWith("--") && process.argv[process.argv.indexOf(a) - 1] !== "--style" && process.argv[process.argv.indexOf(a) - 1] !== "--bars");
+function resolveExisting(url: string): string {
+  const cleaned = url.replace(/^\.\//, "");
+  const candidates = [
+    path.resolve(process.cwd(), cleaned),
+    path.resolve(process.cwd(), "public", path.basename(cleaned)),
+  ];
+  for (const c of candidates) {
+    if (fs.existsSync(c)) return c;
+  }
+  return url;
+}
 
-  // Simpler: first non-flag arg is the file
+async function main() {
+  const flags = new Set(["--style", "--bars"]);
   const fileArg =
     process.argv.slice(2).find((a, i, arr) => {
       if (a.startsWith("--")) return false;
-      const prev = arr[i - 1];
-      return prev !== "--style" && prev !== "--bars";
+      return !flags.has(arr[i - 1] ?? "");
     }) ?? "./public/voiceover.wav";
 
   const styleName = argValue("--style") ?? "wavesurfer";
@@ -67,18 +74,6 @@ async function main() {
   console.log(`Style: ${style.name} · peaks: ${wavesurfer.peaks.length}`);
   console.log(`Styles: ${listWaveformStyles().join(", ")}`);
   console.log("Open Remotion Studio → composition WaveformDemo");
-}
-
-function resolveExisting(url: string): string {
-  const cleaned = url.replace(/^\.\//, "");
-  const candidates = [
-    path.resolve(process.cwd(), cleaned),
-    path.resolve(process.cwd(), "public", path.basename(cleaned)),
-  ];
-  for (const c of candidates) {
-    if (fs.existsSync(c)) return c;
-  }
-  return url;
 }
 
 main().catch((err) => {
