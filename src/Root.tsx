@@ -31,6 +31,7 @@ import { StemDemo } from "./scenes/StemDemo";
 import { DenoiseDemo } from "./scenes/DenoiseDemo";
 import { AutoEditDemo } from "./scenes/AutoEditDemo";
 import { SceneDetectDemo } from "./scenes/SceneDetectDemo";
+import { D3Demo } from "./scenes/D3Demo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
@@ -219,6 +220,38 @@ const SCENEDETECT_DEFAULTS = {
   threshold: 27,
   sceneCount: 0,
   label: "pyscenedetect",
+};
+
+const D3_DEFAULTS = {
+  type: "line" as const,
+  data: [] as Array<{ label: string; value: number }>,
+  bars: [] as Array<{
+    label: string;
+    value: number;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    color: string;
+  }>,
+  slices: [] as Array<{
+    label: string;
+    value: number;
+    path: string;
+    color: string;
+    centroid: [number, number];
+    startAngle: number;
+    endAngle: number;
+  }>,
+  linePath: "",
+  areaPath: "",
+  points: [] as Array<{ x: number; y: number; label: string; value: number }>,
+  ticks: [] as Array<{ value: number; y: number; label: string }>,
+  colors: ["#f59e0b"],
+  width: 1400,
+  height: 720,
+  pathLength: 2000,
+  label: "d3",
 };
 
 async function readMetaText(
@@ -1015,6 +1048,46 @@ export const RemotionRoot: React.FC = () => {
                 threshold: meta.threshold ?? props.threshold,
                 sceneCount: meta.sceneCount ?? props.sceneCount,
                 label: `pyscenedetect · ${meta.engine ?? props.engine}`,
+              },
+            };
+          } catch {
+            return {};
+          }
+        }}
+      />
+
+      {/* D3 charts — npm run d3 */}
+      <Composition
+        id="D3Demo"
+        component={D3Demo}
+        durationInFrames={120}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={D3_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          try {
+            const response = await fetch(staticFile("d3-meta.json"));
+            if (!response.ok) return {};
+            const meta = (await response.json()) as Partial<typeof D3_DEFAULTS> & {
+              type?: "line" | "area" | "bar" | "pie";
+            };
+            return {
+              props: {
+                ...props,
+                type: meta.type ?? props.type,
+                data: meta.data ?? props.data,
+                bars: meta.bars ?? props.bars,
+                slices: meta.slices ?? props.slices,
+                linePath: meta.linePath ?? props.linePath,
+                areaPath: meta.areaPath ?? props.areaPath,
+                points: meta.points ?? props.points,
+                ticks: meta.ticks ?? props.ticks,
+                colors: meta.colors ?? props.colors,
+                width: meta.width ?? props.width,
+                height: meta.height ?? props.height,
+                pathLength: meta.pathLength ?? props.pathLength,
+                label: `d3 · ${meta.type ?? props.type}`,
               },
             };
           } catch {

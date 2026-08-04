@@ -34,6 +34,7 @@
     "denoise": "tsx scripts/generate-denoise.ts",
     "autoedit": "tsx scripts/generate-autoedit.ts",
     "scenes": "tsx scripts/generate-scenes.ts",
+    "d3": "tsx scripts/generate-d3.ts",
     "render:voiceover": "npx remotion render src/index.ts VoiceoverDemo out/voiceover-demo.mp4",
     "render:avatar": "npx remotion render src/index.ts AvatarDemo out/avatar-demo.mp4",
     "render:captions": "npx remotion render src/index.ts CaptionsDemo out/captions-demo.mp4",
@@ -56,7 +57,8 @@
     "render:stems": "npx remotion render src/index.ts StemDemo out/stems-demo.mp4",
     "render:denoise": "npx remotion render src/index.ts DenoiseDemo out/denoise-demo.mp4",
     "render:autoedit": "npx remotion render src/index.ts AutoEditDemo out/autoedit-demo.mp4",
-    "render:scenes": "npx remotion render src/index.ts SceneDetectDemo out/scenes-demo.mp4"
+    "render:scenes": "npx remotion render src/index.ts SceneDetectDemo out/scenes-demo.mp4",
+    "render:d3": "npx remotion render src/index.ts D3Demo out/d3-demo.mp4"
   },
   "dependencies": {
     "@imgly/background-removal-node": "^1.4.5",
@@ -67,6 +69,7 @@
     "@remotion/player": "^4.0.0",
     "@remotion/shapes": "^4.0.0",
     "@remotion/transitions": "^4.0.0",
+    "d3": "^7.9.0",
     "kokoro-js": "^1.2.1",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
@@ -76,6 +79,7 @@
   },
   "devDependencies": {
     "@remotion/bundler": "^4.0.0",
+    "@types/d3": "^7.4.3",
     "@types/react": "^18.3.0",
     "prettier": "^3.0.0",
     "tsx": "^4.23.5",
