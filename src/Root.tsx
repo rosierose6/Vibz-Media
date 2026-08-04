@@ -25,6 +25,7 @@ import { WaveformDemo } from "./scenes/WaveformDemo";
 import { MediabunnyDemo } from "./scenes/MediabunnyDemo";
 import { UpscaleDemo } from "./scenes/UpscaleDemo";
 import { RifeDemo } from "./scenes/RifeDemo";
+import { GfpganDemo } from "./scenes/GfpganDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
@@ -139,6 +140,15 @@ const RIFE_DEFAULTS = {
   inputFps: 30,
   outputFps: 60,
   label: "practical-rife",
+};
+
+const GFPGAN_DEFAULTS = {
+  beforeFile: "presenter-photo.jpg",
+  afterFile: "presenter-photo-restored-v1.4.png",
+  version: "1.4",
+  scale: 2,
+  engine: "sharp",
+  label: "gfpgan",
 };
 
 async function readMetaText(
@@ -670,6 +680,43 @@ export const RemotionRoot: React.FC = () => {
                 inputFps: meta.inputFps ?? props.inputFps,
                 outputFps: meta.outputFps ?? props.outputFps,
                 label: `practical-rife · ${meta.multi ?? props.multi}×`,
+              },
+            };
+          } catch {
+            return {};
+          }
+        }}
+      />
+
+      {/* GFPGAN restore — npm run restore */}
+      <Composition
+        id="GfpganDemo"
+        component={GfpganDemo}
+        durationInFrames={90}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={GFPGAN_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          try {
+            const response = await fetch(staticFile("gfpgan-meta.json"));
+            if (!response.ok) return {};
+            const meta = (await response.json()) as {
+              beforeFile?: string;
+              afterFile?: string;
+              version?: string;
+              scale?: number;
+              engine?: string;
+            };
+            return {
+              props: {
+                ...props,
+                beforeFile: meta.beforeFile ?? props.beforeFile,
+                afterFile: meta.afterFile ?? props.afterFile,
+                version: meta.version ?? props.version,
+                scale: meta.scale ?? props.scale,
+                engine: meta.engine ?? props.engine,
+                label: `gfpgan · v${meta.version ?? props.version}`,
               },
             };
           } catch {
