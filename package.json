@@ -32,6 +32,7 @@
     "sam": "tsx scripts/generate-sam2.ts",
     "stems": "tsx scripts/generate-stems.ts",
     "denoise": "tsx scripts/generate-denoise.ts",
+    "autoedit": "tsx scripts/generate-autoedit.ts",
     "render:voiceover": "npx remotion render src/index.ts VoiceoverDemo out/voiceover-demo.mp4",
     "render:avatar": "npx remotion render src/index.ts AvatarDemo out/avatar-demo.mp4",
     "render:captions": "npx remotion render src/index.ts CaptionsDemo out/captions-demo.mp4",
@@ -52,7 +53,8 @@
     "render:restore": "npx remotion render src/index.ts GfpganDemo out/gfpgan-demo.mp4",
     "render:sam": "npx remotion render src/index.ts Sam2Demo out/sam2-demo.mp4",
     "render:stems": "npx remotion render src/index.ts StemDemo out/stems-demo.mp4",
-    "render:denoise": "npx remotion render src/index.ts DenoiseDemo out/denoise-demo.mp4"
+    "render:denoise": "npx remotion render src/index.ts DenoiseDemo out/denoise-demo.mp4",
+    "render:autoedit": "npx remotion render src/index.ts AutoEditDemo out/autoedit-demo.mp4"
   },
   "dependencies": {
     "@imgly/background-removal-node": "^1.4.5",

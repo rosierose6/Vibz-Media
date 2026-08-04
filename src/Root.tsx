@@ -29,6 +29,7 @@ import { GfpganDemo } from "./scenes/GfpganDemo";
 import { Sam2Demo } from "./scenes/Sam2Demo";
 import { StemDemo } from "./scenes/StemDemo";
 import { DenoiseDemo } from "./scenes/DenoiseDemo";
+import { AutoEditDemo } from "./scenes/AutoEditDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
@@ -189,6 +190,18 @@ const DENOISE_DEFAULTS = {
   peaks: { before: [] as number[], after: [] as number[] },
   engine: "ffmpeg",
   label: "deepfilternet",
+};
+
+const AUTOEDIT_DEFAULTS = {
+  sourceFile: "generated/padded-talk.mp4",
+  outputFile: "generated/padded-talk-cut.mp4",
+  engine: "ffmpeg",
+  margin: "0.2sec",
+  edit: "audio:threshold=0.04",
+  inputDurationSec: 0,
+  outputDurationSec: 0,
+  savedPct: 0,
+  label: "auto-editor",
 };
 
 async function readMetaText(
@@ -884,6 +897,56 @@ export const RemotionRoot: React.FC = () => {
                 peaks: meta.peaks ?? props.peaks,
                 engine: meta.engine ?? props.engine,
                 label: `deepfilternet · ${meta.engine ?? props.engine}`,
+              },
+            };
+          } catch {
+            return {};
+          }
+        }}
+      />
+
+      {/* Auto-editor silence cut — npm run autoedit */}
+      <Composition
+        id="AutoEditDemo"
+        component={AutoEditDemo}
+        durationInFrames={120}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={AUTOEDIT_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          try {
+            const response = await fetch(staticFile("autoedit-meta.json"));
+            if (!response.ok) return {};
+            const meta = (await response.json()) as {
+              sourceFile?: string;
+              outputFile?: string;
+              engine?: string;
+              margin?: string;
+              edit?: string;
+              inputDurationSec?: number | null;
+              outputDurationSec?: number | null;
+              savedPct?: number | null;
+            };
+            const dur = meta.outputDurationSec ?? meta.inputDurationSec;
+            const durationInFrames = dur
+              ? Math.max(90, Math.ceil(dur * 30))
+              : undefined;
+            return {
+              ...(durationInFrames ? { durationInFrames } : {}),
+              props: {
+                ...props,
+                sourceFile: meta.sourceFile ?? props.sourceFile,
+                outputFile: meta.outputFile ?? props.outputFile,
+                engine: meta.engine ?? props.engine,
+                margin: meta.margin ?? props.margin,
+                edit: meta.edit ?? props.edit,
+                inputDurationSec:
+                  meta.inputDurationSec ?? props.inputDurationSec,
+                outputDurationSec:
+                  meta.outputDurationSec ?? props.outputDurationSec,
+                savedPct: meta.savedPct ?? props.savedPct,
+                label: `auto-editor · ${meta.engine ?? props.engine}`,
               },
             };
           } catch {
