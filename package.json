@@ -10,7 +10,9 @@
     "preview": "npx remotion preview src/index.ts",
     "upgrade": "npx remotion upgrade",
     "tts": "tsx scripts/generate-voiceover.ts",
-    "render:voiceover": "npx remotion render src/index.ts VoiceoverDemo out/voiceover-demo.mp4"
+    "avatar": "tsx scripts/generate-avatar.ts",
+    "render:voiceover": "npx remotion render src/index.ts VoiceoverDemo out/voiceover-demo.mp4",
+    "render:avatar": "npx remotion render src/index.ts AvatarDemo out/avatar-demo.mp4"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.0",
