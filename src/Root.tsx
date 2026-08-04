@@ -17,6 +17,7 @@ import { BgRemoveDemo } from "./scenes/BgRemoveDemo";
 import { EditorDemo } from "./scenes/EditorDemo";
 import { TimelineDemo } from "./scenes/TimelineDemo";
 import { TransitionsDemo } from "./scenes/TransitionsDemo";
+import { MotionGraphicsDemo } from "./scenes/MotionGraphicsDemo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
@@ -74,6 +75,11 @@ const TRANSITIONS_DEFAULTS = {
   firstTransition: "cube" as TransitionType,
   secondTransition: "glitch" as TransitionType,
   sceneDuration: 75,
+};
+
+const MOTION_DEFAULTS = {
+  lowerThirdText: "John Smith — CEO",
+  accent: "#FFD700",
 };
 
 async function readMetaText(
@@ -373,6 +379,17 @@ export const RemotionRoot: React.FC = () => {
         width={1920}
         height={1080}
         defaultProps={TRANSITIONS_DEFAULTS}
+      />
+
+      {/* Motion graphics — npm run motion */}
+      <Composition
+        id="MotionGraphicsDemo"
+        component={MotionGraphicsDemo}
+        durationInFrames={120}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={MOTION_DEFAULTS}
       />
 
       {/* Individual scenes for testing */}
