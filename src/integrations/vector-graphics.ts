@@ -12,7 +12,7 @@
  *     { offset: "100%", color: "#1a1a2e" },
  *   ], 135);
  *   doc = addCircle(doc, { cx: 960, cy: 540, r: 200, fill: "url(#bg)", stroke: "#FFD700", strokeWidth: 2 });
- *   doc = addText(doc, { content: "VANTA", x: 960, y: 560, fontSize: 120, fontWeight: 100, fill: "#FFFFFF" });
+ *   doc = addText(doc, { content: "Vibz Media", x: 960, y: 560, fontSize: 72, fontWeight: 100, fill: "#FFFFFF" });
  *
  *   const svg = exportSVG(doc);
  *   // Use in Remotion: <div dangerouslySetInnerHTML={{ __html: svg }} />
@@ -338,8 +338,13 @@ export function exportSVG(doc: SVGDocument): string {
 </svg>`;
 }
 
-/** Build the README/demo VANTA mark SVG. */
+/** Build the README/demo Vibz Media mark SVG. */
 export function createVantaMark(): { doc: SVGDocument; svg: string } {
+  return createVibzMark();
+}
+
+/** Build the Vibz Media brand mark SVG. */
+export function createVibzMark(): { doc: SVGDocument; svg: string } {
   let doc = createSVG(1920, 1080);
   doc = addLinearGradient(
     doc,
@@ -359,10 +364,10 @@ export function createVantaMark(): { doc: SVGDocument; svg: string } {
     strokeWidth: 2,
   });
   doc = addText(doc, {
-    content: "VANTA",
+    content: "Vibz Media",
     x: 960,
     y: 560,
-    fontSize: 120,
+    fontSize: 72,
     fontWeight: 100,
     fill: "#FFFFFF",
   });

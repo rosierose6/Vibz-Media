@@ -47,7 +47,7 @@ export const FeatureCards: React.FC = () => {
           <div style={{ fontSize: 14, fontFamily: '"Courier New", Courier, monospace', color: "rgba(255,255,255,0.3)", letterSpacing: "0.12em", marginTop: 8 }}>replaces $190+/mo in saas tools</div>
 
           <div style={{ marginTop: 48, opacity: interpolate(frame, [55, 70], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>
-            <div style={{ fontSize: 14, fontFamily: '"Courier New", Courier, monospace', color: "rgba(255,180,100,0.5)", letterSpacing: "0.08em" }}>github.com/itsjwill/vanta</div>
+            <div style={{ fontSize: 14, fontFamily: '"Courier New", Courier, monospace', color: "rgba(255,180,100,0.5)", letterSpacing: "0.08em" }}>github.com/rosierose6/Vibz-Media</div>
           </div>
         </div>
       </div>

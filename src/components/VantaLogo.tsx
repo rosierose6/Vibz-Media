@@ -84,15 +84,16 @@ export const VantaLogo: React.FC = () => {
           <div style={{ overflow: "hidden" }}>
             <div
               style={{
-                fontSize: 80,
+                fontSize: 64,
                 fontWeight: 100,
                 fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
                 color: "rgba(255,255,255,0.95)",
-                letterSpacing: "0.28em",
+                letterSpacing: "0.18em",
                 clipPath: `inset(0 ${100 - textReveal}% 0 0)`,
+                whiteSpace: "nowrap",
               }}
             >
-              VANTA
+              Vibz Media
             </div>
           </div>
 

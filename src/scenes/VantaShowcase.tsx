@@ -8,7 +8,7 @@ import { FeatureCards } from "../components/FeatureCards";
 import { GradientBackground } from "../components/GradientBackground";
 
 /**
- * VANTA — Hero Showcase Video
+ * Vibz Media — Hero Showcase Video
  *
  * 15-second cinematic demo.
  * Each scene transitions with a smooth wipe/fade.

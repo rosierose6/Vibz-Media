@@ -1,4 +1,4 @@
-# VANTA — Open Source AI Video Engine
+# Vibz Media — Open Source AI Video Engine
 
 ### Free alternative to Adobe Creative Cloud, Synthesia, Runway ML, Descript, HeyGen, ElevenLabs, CapCut Pro, Topaz Video AI, and the Remotion Pro Store
 
@@ -12,7 +12,7 @@
 
 ---
 
-Vanta is a programmatic AI video engine built on [Remotion](https://github.com/remotion-dev/remotion) that combines 40+ open source repositories into a single creation pipeline. Voice cloning (GPT-SoVITS), talking-head avatars (MuseTalk / LatentSync), word-accurate animated captions (WhisperX), text-to-video generation (Wan 2.2 / LTX-Video), music generation (ACE-Step), background removal, image editing (Sharp), vector graphics (SVG.js), drag-and-drop editor, video timeline, 100+ GPU-accelerated transitions, and motion graphics — all running locally.
+Vibz Media is a programmatic AI video engine built on [Remotion](https://github.com/remotion-dev/remotion) that combines 40+ open source repositories into a single creation pipeline. Voice cloning (GPT-SoVITS), talking-head avatars (MuseTalk / LatentSync), word-accurate animated captions (WhisperX), text-to-video generation (Wan 2.2 / LTX-Video), music generation (ACE-Step), background removal, image editing (Sharp), vector graphics (SVG.js), drag-and-drop editor, video timeline, 100+ GPU-accelerated transitions, and motion graphics — all running locally.
 
 It replaces everything in the [Remotion Pro Store](https://www.remotion.pro/store) — Editor ($600), Animated Captions ($100), Timeline ($300), Cube Transition ($10), Colors & Shapes ($20), Watercolor Map ($50) — and most of the Adobe Creative Cloud suite. **$1,080+ in paid features and $190+/mo in subscriptions, free.**
 
