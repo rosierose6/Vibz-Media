@@ -1,11 +1,11 @@
 {
   "mode": "t2v",
-  "prompt": "A sunset over the ocean, cinematic 4K",
+  "prompt": "your prompt",
   "file": "ai-clip.mp4",
-  "sourceUrl": "public/ai-clip.mp4",
+  "sourceUrl": "http://localhost:7860/files/clip-1ef27a8b64.mp4",
   "duration": 6,
   "width": 1280,
   "height": 720,
-  "model": "placeholder",
-  "generatedAt": "2026-08-04T04:57:14Z"
+  "model": "wan2.2",
+  "generatedAt": "2026-08-05T05:15:50.087Z"
 }
