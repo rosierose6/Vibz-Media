@@ -309,7 +309,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* Talking-head demo — run `npm run tts` then `npm run avatar` */}
       <Composition
-        id="AvatarDemo"
+        id="Avatar"
         component={AvatarDemo}
         durationInFrames={150}
         fps={30}

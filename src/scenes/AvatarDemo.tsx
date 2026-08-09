@@ -15,7 +15,7 @@ export interface AvatarDemoProps {
 }
 
 /**
- * Talking-head composition: MuseTalk/LatentSync video over the Vanta backdrop.
+ * Talking-head composition: MuseTalk/LatentSync video over the Vibz Media backdrop.
  *
  * Pipeline:
  *   npm run tts

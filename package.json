@@ -36,7 +36,7 @@
     "scenes": "tsx scripts/generate-scenes.ts",
     "d3": "tsx scripts/generate-d3.ts",
     "render:voiceover": "npx remotion render src/index.ts VoiceoverDemo out/voiceover-demo.mp4",
-    "render:avatar": "npx remotion render src/index.ts AvatarDemo out/avatar-demo.mp4",
+    "render:avatar": "npx remotion render src/index.ts Avatar out/avatar-demo.mp4",
     "render:captions": "npx remotion render src/index.ts CaptionsDemo out/captions-demo.mp4",
     "render:video": "npx remotion render src/index.ts AiVideoDemo out/ai-video-demo.mp4",
     "render:music": "npx remotion render src/index.ts MusicDemo out/music-demo.mp4",

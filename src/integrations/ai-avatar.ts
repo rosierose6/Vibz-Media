@@ -1,5 +1,5 @@
 /**
- * VANTA — AI Avatar Integration
+ * VIBZ MEDIA — AI Avatar Integration
  *
  * Turns a headshot + audio into a talking-head video via a local
  * MuseTalk / LatentSync / InfiniteTalk server. Returns a video URL
