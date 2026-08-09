@@ -2,20 +2,30 @@
  * VIBZ MEDIA — Video Editor Integration
  *
  * Programmatic project format that bridges an editor timeline and
- * Remotion rendering. Build tracks in code (or import JSON from a
- * visual editor) → projectToRemotionProps() → <Composition>.
+ * Remotion rendering. Build tracks in code (or import OpenCut JSON)
+ * → projectToRemotionProps() → <Composition>.
  *
  * Usage:
  *   const editor = createEditor({ width: 1920, height: 1080, fps: 30 });
- *   // Add tracks programmatically or via the visual editor
+ *   editor.addTrack({ type: "video", src: "clip.mp4", startFrame: 0, endFrame: 90, layer: 0 });
+ *   // OpenCut CapCut-style project:
+ *   editor.importOpenCut(opencutDoc);
+ *   const opencutJson = editor.exportOpenCut();
  *   const props = projectToRemotionProps(editor);
- *   // Feed props into Remotion <Composition> for rendering
  *
  * Pattern references (not vendored — check licenses before embedding UI):
+ *   - https://github.com/OpenCut-app/OpenCut — MIT CapCut alternative (primary)
  *   - https://github.com/openvideodev/react-video-editor — Remotion-based
- *   - https://github.com/OpenCut-app/OpenCut — MIT CapCut alternative
  *   - https://github.com/omni-media/omniclip — MIT WebCodecs editor
+ *
+ * CLI: npm run editor | npm run editor:ui | npm run opencut | npm run render:editor
+ *
+ * Drag-and-drop UI: npm run editor:ui → http://localhost:5174
  */
+
+import type { OpenCutDocument } from "./opencut";
+
+export type { OpenCutDocument } from "./opencut";
 
 export interface EditorConfig {
   width: number;
@@ -82,6 +92,13 @@ export interface Editor extends EditorProject {
   removeTrack: (trackId: string) => void;
   getDurationInFrames: () => number;
   toJSON: () => EditorProject;
+  /** Replace timeline contents from an OpenCut `.opencut.json` document. */
+  importOpenCut: (doc: OpenCutDocument) => void;
+  /** Serialize the current timeline as portable OpenCut JSON. */
+  exportOpenCut: (options?: {
+    name?: string;
+    source?: string;
+  }) => OpenCutDocument;
 }
 
 let idCounter = 0;
@@ -98,6 +115,12 @@ function normalizeConfig(config: EditorConfig): Required<EditorConfig> {
     // Grows as tracks are added; override explicitly when you need a fixed length.
     durationInFrames: config.durationInFrames ?? 1,
   };
+}
+
+/** Lazy load to avoid a circular import with `./opencut`. */
+function openCutBridge(): typeof import("./opencut") {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  return require("./opencut") as typeof import("./opencut");
 }
 
 export function createEditor(config: EditorConfig): Editor {
@@ -173,6 +196,27 @@ export function createEditor(config: EditorConfig): Editor {
         tracks: [...project.tracks],
         effects: [...project.effects],
       };
+    },
+
+    importOpenCut(doc) {
+      const {
+        importOpenCut: parseOpenCut,
+        isOpenCutDocument,
+      } = openCutBridge();
+      if (!isOpenCutDocument(doc)) {
+        throw new Error(
+          "Invalid OpenCut document (need schema_version + project.tracks)",
+        );
+      }
+      const imported = parseOpenCut(doc);
+      project.config = imported.config;
+      project.tracks = [...imported.tracks];
+      project.effects = [...imported.effects];
+    },
+
+    exportOpenCut(options) {
+      const { exportOpenCut: toOpenCut } = openCutBridge();
+      return toOpenCut(editor.toJSON(), options);
     },
   };
 

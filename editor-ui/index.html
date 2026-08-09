@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vibz Cut — Video Editor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">V</span>
+          <div>
+            <div class="brand-name">Vibz Cut</div>
+            <div class="brand-sub">drag · drop · render</div>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button type="button" id="btn-reload" class="ghost">Reload media</button>
+          <button type="button" id="btn-save" class="primary">Save project</button>
+          <a class="ghost link" href="http://localhost:3000/Editor" target="_blank" rel="noreferrer"
+            >Studio preview</a
+          >
+          <span class="mono" style="opacity: 0.5">after Save</span>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="library">
+          <div class="panel-head">
+            <h2>Media</h2>
+            <label class="upload-btn">
+              Upload
+              <input id="file-input" type="file" accept="video/*,image/*,audio/*" multiple hidden />
+            </label>
+          </div>
+          <div id="drop-library" class="library-drop">
+            Drop images, video, or audio here
+          </div>
+          <div id="media-list" class="media-list"></div>
+        </aside>
+
+        <section class="stage">
+          <div class="preview-shell">
+            <div id="preview" class="preview">
+              <div class="preview-empty">Drop media onto the timeline to start</div>
+            </div>
+            <div class="transport">
+              <button type="button" id="btn-play" class="primary">Play</button>
+              <input id="playhead" type="range" min="0" max="240" value="0" />
+              <span id="timecode" class="mono">00:00:00</span>
+            </div>
+          </div>
+
+          <div class="timeline-panel">
+            <div class="panel-head">
+              <h2>Timeline</h2>
+              <span id="project-meta" class="mono">1920×1080 · 30fps</span>
+            </div>
+            <div id="timeline-drop" class="timeline-drop">
+              <div class="ruler" id="ruler"></div>
+              <div id="tracks" class="tracks"></div>
+              <div id="playhead-line" class="playhead-line"></div>
+            </div>
+            <p class="hint">
+              Drag media into the timeline. Drag clips to move. Drag the right edge to trim.
+              Delete removes the selected clip.
+            </p>
+          </div>
+        </section>
+      </main>
+
+      <div id="toast" class="toast" hidden></div>
+    </div>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

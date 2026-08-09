@@ -16,7 +16,7 @@
         "objectFit": "cover",
         "opacity": 1
       },
-      "id": "track_1_msl6jm9y"
+      "id": "track_1_mslftm5e"
     },
     {
       "type": "image",
@@ -28,7 +28,7 @@
         "scale": 1,
         "opacity": 1
       },
-      "id": "track_2_msl6jm9y"
+      "id": "track_2_mslftm5e"
     },
     {
       "type": "audio",
@@ -39,7 +39,7 @@
       "properties": {
         "volume": 1
       },
-      "id": "track_3_msl6jm9y"
+      "id": "track_3_mslftm5e"
     },
     {
       "type": "audio",
@@ -50,7 +50,7 @@
       "properties": {
         "volume": 0.35
       },
-      "id": "track_4_msl6jm9y"
+      "id": "track_4_mslftm5e"
     },
     {
       "type": "text",
@@ -63,7 +63,7 @@
         "color": "#f2ebe3",
         "textAlign": "center"
       },
-      "id": "track_5_msl6jm9y"
+      "id": "track_5_mslftm5e"
     }
   ],
   "effects": [],
@@ -83,7 +83,7 @@
           "objectFit": "cover",
           "opacity": 1
         },
-        "id": "track_1_msl6jm9y"
+        "id": "track_1_mslftm5e"
       },
       {
         "type": "image",
@@ -95,7 +95,7 @@
           "scale": 1,
           "opacity": 1
         },
-        "id": "track_2_msl6jm9y"
+        "id": "track_2_mslftm5e"
       },
       {
         "type": "audio",
@@ -106,7 +106,7 @@
         "properties": {
           "volume": 1
         },
-        "id": "track_3_msl6jm9y"
+        "id": "track_3_mslftm5e"
       },
       {
         "type": "audio",
@@ -117,7 +117,7 @@
         "properties": {
           "volume": 0.35
         },
-        "id": "track_4_msl6jm9y"
+        "id": "track_4_mslftm5e"
       },
       {
         "type": "text",
@@ -130,9 +130,146 @@
           "color": "#f2ebe3",
           "textAlign": "center"
         },
-        "id": "track_5_msl6jm9y"
+        "id": "track_5_mslftm5e"
       }
     ],
     "effects": []
+  },
+  "opencut": {
+    "schema_version": 1,
+    "exported_at": "2026-08-09T06:44:41.186Z",
+    "source": "vibz-media/video-editor",
+    "project": {
+      "name": "Vibz Media Editor Project",
+      "fps": 30,
+      "width": 1920,
+      "height": 1080,
+      "tracks": [
+        {
+          "id": "track_1",
+          "type": "video",
+          "name": "video",
+          "elements": [
+            {
+              "id": "track_1_mslftm5e",
+              "type": "video",
+              "mediaId": "media_1",
+              "src": "ai-clip.mp4",
+              "startMs": 0,
+              "endMs": 6000,
+              "layer": 0,
+              "properties": {
+                "objectFit": "cover",
+                "opacity": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "track_2",
+          "type": "image",
+          "name": "image",
+          "elements": [
+            {
+              "id": "track_2_mslftm5e",
+              "type": "image",
+              "mediaId": "media_2",
+              "src": "cutout.png",
+              "startMs": 2000,
+              "endMs": 8000,
+              "layer": 2,
+              "properties": {
+                "scale": 1,
+                "opacity": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "track_3",
+          "type": "audio",
+          "name": "audio",
+          "elements": [
+            {
+              "id": "track_3_mslftm5e",
+              "type": "audio",
+              "mediaId": "media_3",
+              "src": "voiceover.wav",
+              "startMs": 0,
+              "endMs": 3000,
+              "layer": 3,
+              "properties": {
+                "volume": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "track_4",
+          "type": "audio",
+          "name": "audio",
+          "elements": [
+            {
+              "id": "track_4_mslftm5e",
+              "type": "audio",
+              "mediaId": "media_4",
+              "src": "soundtrack.wav",
+              "startMs": 0,
+              "endMs": 8000,
+              "layer": 4,
+              "properties": {
+                "volume": 0.35
+              }
+            }
+          ]
+        },
+        {
+          "id": "track_5",
+          "type": "text",
+          "name": "text",
+          "elements": [
+            {
+              "id": "track_5_mslftm5e",
+              "type": "text",
+              "text": "Welcome to the future of video.",
+              "startMs": 500,
+              "endMs": 8000,
+              "layer": 5,
+              "properties": {
+                "fontSize": 52,
+                "color": "#f2ebe3",
+                "textAlign": "center"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "media": [
+      {
+        "mediaId": "media_1",
+        "filename": "ai-clip.mp4",
+        "type": "video",
+        "duration": 6000
+      },
+      {
+        "mediaId": "media_2",
+        "filename": "cutout.png",
+        "type": "image",
+        "duration": 6000
+      },
+      {
+        "mediaId": "media_3",
+        "filename": "voiceover.wav",
+        "type": "audio",
+        "duration": 3000
+      },
+      {
+        "mediaId": "media_4",
+        "filename": "soundtrack.wav",
+        "type": "audio",
+        "duration": 8000
+      }
+    ]
   }
 }

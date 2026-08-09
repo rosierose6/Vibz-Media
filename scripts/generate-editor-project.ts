@@ -1,10 +1,16 @@
 /**
  * Build a sample EditorProject from assets already in public/.
  *
+ * Also writes an OpenCut-compatible export so CapCut-style timelines
+ * round-trip through the same video editor pipeline.
+ *
  *   npm run tts && npm run cutout && npm run video && npm run music
  *   npm run editor
+ *   npm run editor -- --import ./my-edit.opencut.json
  *
- * Writes public/editor-project.json for the EditorDemo composition.
+ * Writes:
+ *   public/editor-project.json
+ *   public/opencut-project.json
  */
 
 import path from "path";
@@ -13,6 +19,11 @@ import {
   createEditor,
   projectToRemotionProps,
 } from "../src/integrations/video-editor";
+import {
+  isOpenCutDocument,
+  resolveEditorProps,
+  type OpenCutDocument,
+} from "../src/integrations/opencut";
 
 const PUBLIC = path.resolve(__dirname, "../public");
 
@@ -20,11 +31,20 @@ function exists(name: string): boolean {
   return fs.existsSync(path.join(PUBLIC, name));
 }
 
-async function main() {
+function parseArgs(argv: string[]) {
+  let importPath: string | null = null;
+  for (let i = 0; i < argv.length; i++) {
+    if (argv[i] === "--import" && argv[i + 1]) {
+      importPath = path.resolve(argv[++i]);
+    }
+  }
+  return { importPath };
+}
+
+function buildSampleEditor() {
   const editor = createEditor({ width: 1920, height: 1080, fps: 30 });
   const fps = 30;
 
-  // ~8s timeline composed from whatever assets exist
   if (exists("ai-clip.mp4")) {
     editor.addTrack({
       type: "video",
@@ -95,25 +115,81 @@ async function main() {
     },
   });
 
-  if (editor.tracks.length === 1) {
-    // Only the text track — still a valid project
+  return editor;
+}
+
+async function main() {
+  const { importPath } = parseArgs(process.argv.slice(2));
+  const editor = createEditor({ width: 1920, height: 1080, fps: 30 });
+
+  if (importPath) {
+    if (!fs.existsSync(importPath)) {
+      throw new Error(`Project file not found: ${importPath}`);
+    }
+    const raw = JSON.parse(fs.readFileSync(importPath, "utf8")) as unknown;
+    if (isOpenCutDocument(raw)) {
+      editor.importOpenCut(raw);
+      console.log(`Imported OpenCut project: ${importPath}`);
+    } else {
+      const props = resolveEditorProps(raw);
+      if (!props) {
+        throw new Error(
+          `Unrecognized editor/OpenCut JSON: ${importPath}`,
+        );
+      }
+      for (const track of props.tracks) {
+        editor.addTrack(track);
+      }
+      for (const effect of props.effects) {
+        editor.addEffect(effect);
+      }
+      console.log(`Imported editor project: ${importPath}`);
+    }
+  } else {
+    const sample = buildSampleEditor();
+    for (const track of sample.tracks) {
+      editor.addTrack(track);
+    }
+    for (const effect of sample.effects) {
+      editor.addEffect(effect);
+    }
+  }
+
+  if (editor.tracks.length <= 1) {
     console.warn(
       "Few media assets found in public/. Run tts / cutout / video / music for a richer timeline.",
     );
   }
 
   const props = projectToRemotionProps(editor);
+  const opencut: OpenCutDocument = editor.exportOpenCut({
+    name: "Vibz Media Editor Project",
+    source: "vibz-media/video-editor",
+  });
+
   const projectPath = path.join(PUBLIC, "editor-project.json");
+  const opencutPath = path.join(PUBLIC, "opencut-project.json");
+
   fs.writeFileSync(
     projectPath,
-    JSON.stringify({ ...editor.toJSON(), remotionProps: props }, null, 2),
+    JSON.stringify(
+      {
+        ...editor.toJSON(),
+        remotionProps: props,
+        opencut,
+      },
+      null,
+      2,
+    ),
   );
+  fs.writeFileSync(opencutPath, JSON.stringify(opencut, null, 2));
 
   console.log(`Wrote ${projectPath}`);
+  console.log(`Wrote ${opencutPath}`);
   console.log(
     `Tracks: ${props.tracks.length} · Duration: ${props.durationInFrames} frames @ ${props.fps}fps`,
   );
-  console.log("Open Remotion Studio → composition EditorDemo");
+  console.log("Open Remotion Studio → composition Editor");
 }
 
 main().catch((err) => {

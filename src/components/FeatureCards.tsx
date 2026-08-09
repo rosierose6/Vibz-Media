@@ -9,7 +9,7 @@ const CAPABILITIES = [
   { name: "Music Generation", detail: "ACE-Step  /  free Suno alt" },
   { name: "Image Editing", detail: "Sharp  /  31K stars" },
   { name: "Vector Graphics", detail: "SVG.js + Paper.js" },
-  { name: "Visual Editor", detail: "react-video-editor  /  CapCut clone" },
+  { name: "Visual Editor", detail: "OpenCut  /  CapCut alternative" },
   { name: "Transitions", detail: "GL Transitions  /  100+ effects" },
   { name: "Motion Graphics", detail: "Anime.js  /  46K stars" },
 ];

@@ -35,6 +35,7 @@ import { D3Demo } from "./scenes/D3Demo";
 import type { CaptionWord } from "./integrations/auto-captions";
 import type { CaptionPresetName } from "./integrations/animated-captions";
 import type { RemotionEditorProps } from "./integrations/video-editor";
+import { resolveEditorProps } from "./integrations/opencut";
 import type { RemotionSequenceData } from "./integrations/timeline";
 import type { TransitionType } from "./integrations/transitions";
 import type { ParticlePresetName } from "./integrations/tsparticles";
@@ -475,7 +476,7 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={BG_REMOVE_DEFAULTS}
       />
 
-      {/* Programmatic editor project — run `npm run editor` */}
+      {/* Video editor (+ OpenCut JSON) — run `npm run editor` or `npm run opencut` */}
       <Composition
         id="Editor"
         component={EditorDemo}
@@ -486,21 +487,50 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={EDITOR_DEFAULTS}
         calculateMetadata={async ({ props }) => {
           try {
-            const response = await fetch(staticFile("editor-project.json"));
-            if (!response.ok) {
-              return { durationInFrames: props.durationInFrames };
+            // Prefer Vibz editor project; fall back to standalone OpenCut export
+            const sources = ["editor-project.json", "opencut-project.json"];
+            for (const file of sources) {
+              const response = await fetch(staticFile(file));
+              if (!response.ok) continue;
+              const payload = await response.json();
+              const next = resolveEditorProps(payload);
+              if (!next) continue;
+              return {
+                props: { ...props, ...next },
+                durationInFrames: Math.max(1, next.durationInFrames),
+              };
             }
-            const payload = (await response.json()) as {
-              remotionProps?: RemotionEditorProps;
-            };
-            const next = payload.remotionProps;
-            if (!next) {
-              return { durationInFrames: props.durationInFrames };
+            return { durationInFrames: props.durationInFrames };
+          } catch {
+            return { durationInFrames: props.durationInFrames };
+          }
+        }}
+      />
+
+      {/* Alias — same editor pipeline, loads OpenCut JSON first */}
+      <Composition
+        id="VibzCut"
+        component={EditorDemo}
+        durationInFrames={240}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={EDITOR_DEFAULTS}
+        calculateMetadata={async ({ props }) => {
+          try {
+            const sources = ["opencut-project.json", "editor-project.json"];
+            for (const file of sources) {
+              const response = await fetch(staticFile(file));
+              if (!response.ok) continue;
+              const payload = await response.json();
+              const next = resolveEditorProps(payload);
+              if (!next) continue;
+              return {
+                props: { ...props, ...next },
+                durationInFrames: Math.max(1, next.durationInFrames),
+              };
             }
-            return {
-              props: { ...props, ...next },
-              durationInFrames: Math.max(1, next.durationInFrames),
-            };
+            return { durationInFrames: props.durationInFrames };
           } catch {
             return { durationInFrames: props.durationInFrames };
           }
