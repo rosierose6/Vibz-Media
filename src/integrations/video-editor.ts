@@ -1,5 +1,5 @@
 /**
- * VANTA — Video Editor Integration
+ * VIBZ MEDIA — Video Editor Integration
  *
  * Programmatic project format that bridges an editor timeline and
  * Remotion rendering. Build tracks in code (or import JSON from a

@@ -90,7 +90,7 @@ function findSam2Python(): { python: string; root: string } | null {
 }
 
 function writeSam2ImageScript(tmp: string): string {
-  const script = path.join(tmp, "vanta_sam2_image.py");
+  const script = path.join(tmp, "vibz_sam2_image.py");
   fs.writeFileSync(
     script,
     `#!/usr/bin/env python3
@@ -232,7 +232,7 @@ async function segmentWithSam2(
   const height = meta.height ?? 0;
   const pixelPoints = toPixelPoints(points, width, height, normalized);
 
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "vanta-sam2-"));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "vibz-sam2-"));
   try {
     const script = writeSam2ImageScript(tmp);
     await execFileAsync(
@@ -287,7 +287,7 @@ async function segmentWithImgly(
 ): Promise<SegmentObjectResult> {
   const tmpCutout =
     cutoutPath ??
-    path.join(os.tmpdir(), `vanta-sam2-cutout-${Date.now()}.png`);
+    path.join(os.tmpdir(), `vibz-sam2-cutout-${Date.now()}.png`);
   await removeBackground(input, { outputPath: tmpCutout });
   const size = await alphaToMask(tmpCutout, maskPath);
   if (cutoutPath) {

@@ -5,7 +5,7 @@ import React from "react";
  * Logo reveal — minimal V mark + wordmark.
  * Two converging lines form the V, then text wipes in.
  */
-export const VantaLogo: React.FC = () => {
+export const VibzLogo: React.FC = () => {
   const frame = useCurrentFrame();
 
   // V mark — two lines converge

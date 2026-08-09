@@ -1,6 +1,6 @@
-# VANTA Enhancement Roadmap
+# VIBZ MEDIA Enhancement Roadmap
 
-> **Pipeline status: verified ✅** — `npm install`, `tsc --noEmit`, and full `npm run render` (450/450 frames → `out/vanta-showcase.mp4`) all pass clean as of 2026-07-25.
+> **Pipeline status: verified ✅** — `npm install`, `tsc --noEmit`, and full `npm run render` (450/450 frames → `out/vibz-showcase.mp4`) all pass clean as of 2026-07-25.
 >
 > Deep-dive audit of the current integration stack + verified GitHub research for what to add next.
 > Every repo below was verified live via the GitHub API on **2026-07-25** — stars, last push date, and license checked. Nothing here is from memory.
@@ -11,7 +11,7 @@
 
 ## 1. Urgent: License Landmines in the Current Stack
 
-VANTA is pitched as a **free commercial** Adobe/Synthesia/Runway alternative under MIT. These current picks break that pitch:
+VIBZ MEDIA is pitched as a **free commercial** Adobe/Synthesia/Runway alternative under MIT. These current picks break that pitch:
 
 | Current pick | Problem | Action |
 |---|---|---|
@@ -105,7 +105,7 @@ VANTA is pitched as a **free commercial** Adobe/Synthesia/Runway alternative und
 | Repo | Stars | License | What it adds | Integration |
 |---|---|---|---|---|
 | [ACE-Step-1.5](https://github.com/ace-step/ACE-Step-1.5) | 11.8K | ✅ MIT | Official successor to the ace-step-ui wrapper. Mac/AMD/Intel/CUDA (MLX on Apple Silicon), LoRA training | **First-party REST API: `uv run acestep-api` → localhost:8001** (docs/en/API.md). Easiest drop-in in this doc |
-| [MMAudio](https://github.com/hkchengrex/MMAudio) | 2.2K | ✅ MIT incl. weights | SOTA **video-to-audio foley** — synchronized SFX from video+text. Lane VANTA lacks entirely | Gradio + CLI + [ComfyUI-MMAudio](https://github.com/kijai/ComfyUI-MMAudio) |
+| [MMAudio](https://github.com/hkchengrex/MMAudio) | 2.2K | ✅ MIT incl. weights | SOTA **video-to-audio foley** — synchronized SFX from video+text. Lane VIBZ MEDIA lacks entirely | Gradio + CLI + [ComfyUI-MMAudio](https://github.com/kijai/ComfyUI-MMAudio) |
 | [YuE](https://github.com/multimodal-art-projection/YuE) | 6.3K | ✅ Apache-2.0 (weights relicensed 2025) | Full songs with **vocals + lyrics** (Suno-style) | CLI + community UIs |
 | [stable-audio-tools](https://github.com/Stability-AI/stable-audio-tools) | 3.8K | ⚠️ MIT code; weights <$1M revenue free | Stable Audio Open Small: text-to-SFX <1s, CPU-capable | Python/gradio |
 | [DiffRhythm](https://github.com/ASLP-lab/DiffRhythm) | 2.3K | ✅ Apache-2.0 | Full 4m45s song in ~10s | Gradio + ComfyUI node |
@@ -128,7 +128,7 @@ These extend the "$190/mo replaced" pitch. Every pick is commercial-safe, and mo
 | Rotoscoping / video matting | [SAM2](https://github.com/facebookresearch/sam2) + [BiRefNet](https://github.com/ZhengPeng7/BiRefNet) | 19.6K / 3.9K | ✅ Apache / MIT | Click object → masks across all frames = AE Roto Brush. BiRefNet = MIT answer to BRIA RMBG-2.0 (paywalled commercial). BiRefNet has ONNX export → onnxruntime-node |
 | Object / watermark removal | [IOPaint](https://github.com/Sanster/IOPaint) | 23.3K | ✅ Apache-2.0 (archived but stable) | `iopaint start` = instant localhost REST API. (**ProPainter, MatAnyone, E2FGVI all non-commercial** — per-frame LaMa + SAM2 mask propagation is the commercial-safe video path) |
 | Color grading / LUTs | FFmpeg `lut3d`/`haldclut` + [parse-cube-lut](https://github.com/thibauts/parse-cube-lut) + [glsl-lut](https://github.com/mattdesl/glsl-lut) | — | ✅ MIT (JS) | Near-zero integration cost. glsl-lut applies LUTs **inside Remotion compositions** at preview time. [lutgen-rs](https://github.com/ozwaldorf/lutgen-rs) (MIT) generates LUTs from palettes |
-| Auto rough-cut | [auto-editor](https://github.com/WyattBlue/auto-editor) | 4.6K | ✅ **Unlicense** (public domain) | Silence/motion cutting; EDL/JSON output → drive the VANTA timeline for one-command rough cuts |
+| Auto rough-cut | [auto-editor](https://github.com/WyattBlue/auto-editor) | 4.6K | ✅ **Unlicense** (public domain) | Silence/motion cutting; EDL/JSON output → drive the VIBZ MEDIA timeline for one-command rough cuts |
 | Scene detection | [PySceneDetect](https://github.com/Breakthrough/PySceneDetect) | 5K | ✅ BSD-3 | Auto-split source footage into clips |
 | BG removal (server-grade) | [rembg](https://github.com/danielgatis/rembg) | 24K | ✅ MIT | `rembg s` REST server mode; complements the existing imgly client-side path |
 
@@ -141,7 +141,7 @@ These extend the "$190/mo replaced" pitch. Every pick is commercial-safe, and mo
 1. **[ComfyUI](https://github.com/comfyanonymous/ComfyUI) as universal AI backend** — 122K★, pushed daily. One localhost HTTP API (`POST /prompt` on :8188 + websocket progress) runs nearly every model in this doc: Wan2.2, LTX, FLUX, Qwen-Image, SD3.5, MMAudio, ACE-Step. Turns N bespoke server integrations into **one TypeScript client**. GPL-3.0 is a non-issue across a process/HTTP boundary. Best TS client: [StableCanvas/comfyui-client](https://github.com/StableCanvas/comfyui-client) (MIT, http+ws).
 2. **[mediabunny](https://github.com/Vanilagy/mediabunny)** — 6.8K★, MPL-2.0, pure-TS media read/write/convert in browser + Node on WebCodecs. The modern replacement for **archived** fluent-ffmpeg and heavyweight ffmpeg.wasm. Server-side native alternative: [node-av](https://github.com/seydx/node-av) (MIT).
 3. **[Remocn](https://github.com/Remocn/remocn)** — 1K★, MIT, shadcn-style registry of ready-made Remotion animations/transitions/backgrounds/scenes. Direct drop-ins for the motion-graphics layer.
-4. **[remotion-dev/skills](https://github.com/remotion-dev/skills)** + official templates ([template-tiktok](https://github.com/remotion-dev/template-tiktok) word-timed captions, template-prompt-to-motion-graphics-saas) — VANTA is an AI video engine; shipping Remotion's own agent skills in-repo makes every coding agent a competent VANTA operator.
+4. **[remotion-dev/skills](https://github.com/remotion-dev/skills)** + official templates ([template-tiktok](https://github.com/remotion-dev/template-tiktok) word-timed captions, template-prompt-to-motion-graphics-saas) — VIBZ MEDIA is an AI video engine; shipping Remotion's own agent skills in-repo makes every coding agent a competent VIBZ MEDIA operator.
 5. **[OpenCut](https://github.com/OpenCut-app/OpenCut)** — 78.7K★, MIT. The richest modern timeline/preview architecture to study (react-timeline-editor revived Jan 2026 but moves slowly). Also MIT: [omniclip](https://github.com/omni-media/omniclip), [freecut](https://github.com/walterlow/freecut), [clip-js](https://github.com/mohyware/clip-js) (Remotion + ffmpeg.wasm, same stack).
 6. **[sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx)** — strategic: native Node bindings for ASR (and k2's OmniVoice TTS) enable a **"no localhost servers" mode** where everything runs in-process.
 
@@ -154,7 +154,7 @@ These extend the "$190/mo replaced" pitch. Every pick is commercial-safe, and mo
 
 ## 6. Competitor Alert
 
-**[OpenMontage](https://github.com/calesthio/OpenMontage)** — 42K★, created Mar 2026, AGPL-3.0. "Agentic video production system": 12 pipelines, 100+ tools, 700+ agent skills. Direct competitor. Study the agent-orchestration design; AGPL blocks any code reuse — **VANTA's MIT license is the differentiator**.
+**[OpenMontage](https://github.com/calesthio/OpenMontage)** — 42K★, created Mar 2026, AGPL-3.0. "Agentic video production system": 12 pipelines, 100+ tools, 700+ agent skills. Direct competitor. Study the agent-orchestration design; AGPL blocks any code reuse — **VIBZ MEDIA's MIT license is the differentiator**.
 
 ---
 

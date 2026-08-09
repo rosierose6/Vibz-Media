@@ -1,5 +1,5 @@
 /**
- * Local AI-video stub server for Vanta.
+ * Local AI-video stub server for Vibz Media.
  *
  * Implements the /generate and /animate contract expected by
  * src/integrations/ai-video.ts. Uses ffmpeg for placeholder clips
@@ -127,7 +127,7 @@ const server = http.createServer(async (req, res) => {
   if (req.method === "GET" && url.pathname === "/") {
     sendJson(res, 200, {
       ok: true,
-      service: "vanta-video-server",
+      service: "vibz-video-server",
       mode: "ffmpeg-stub",
       endpoints: ["/generate", "/animate", "/files/:name"],
     });
@@ -220,7 +220,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Vanta video server (ffmpeg stub) on http://localhost:${PORT}`);
+  console.log(`Vibz Media video server (ffmpeg stub) on http://localhost:${PORT}`);
   console.log("POST /generate  — text → video");
   console.log("POST /animate   — image → video");
   console.log("Swap this for ComfyUI/Wan when GPU models are installed.");

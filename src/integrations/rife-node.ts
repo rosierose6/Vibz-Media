@@ -274,7 +274,7 @@ async function interpolateWithNcnn(
     return null;
   }
 
-  const work = fs.mkdtempSync(path.join(os.tmpdir(), "vanta-rife-"));
+  const work = fs.mkdtempSync(path.join(os.tmpdir(), "vibz-rife-"));
   const inDir = path.join(work, "in");
   const outDir = path.join(work, "out");
   const audioPath = path.join(work, "audio.m4a");

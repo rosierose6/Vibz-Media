@@ -1,5 +1,5 @@
 /**
- * VANTA — Motion Graphics Integration
+ * VIBZ MEDIA — Motion Graphics Integration
  *
  * Frame-based shape animation, bursts, and motion templates for Remotion.
  *

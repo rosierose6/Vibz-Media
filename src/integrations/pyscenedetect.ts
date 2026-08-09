@@ -1,5 +1,5 @@
 /**
- * VANTA — Scene Detection (PySceneDetect)
+ * VIBZ MEDIA — Scene Detection (PySceneDetect)
  *
  * Detect hard cuts / scene boundaries. Prefers the `scenedetect` CLI;
  * falls back to ffmpeg content-aware scene scoring.

@@ -1,5 +1,5 @@
 /**
- * VANTA — Rotoscoping / Object Masks (SAM 2)
+ * VIBZ MEDIA — Rotoscoping / Object Masks (SAM 2)
  *
  * Click an object, get a mask (and track it across video frames).
  * Prefers Meta SAM 2 when installed; falls back to local subject

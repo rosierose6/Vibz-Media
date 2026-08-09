@@ -7,8 +7,8 @@
 [![Join The Agentic Advantage](https://img.shields.io/badge/THE_AGENTIC_ADVANTAGE-000000?style=for-the-badge&logoColor=white)](https://www.skool.com/ai-elite-9507/about?ref=67521860944147018da6145e3db6e51c)
 [![MIT License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![Built with Remotion](https://img.shields.io/badge/Remotion-6366f1?style=for-the-badge)](https://remotion.dev)
-[![GitHub Stars](https://img.shields.io/github/stars/itsjwill/vanta?style=for-the-badge&color=FFD700)](https://github.com/itsjwill/vanta/stargazers)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge)](https://github.com/itsjwill/vanta/pulls)
+[![GitHub Stars](https://img.shields.io/github/stars/itsjwill/vibz-media?style=for-the-badge&color=FFD700)](https://github.com/itsjwill/vibz-media/stargazers)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge)](https://github.com/itsjwill/vibz-media/pulls)
 
 ---
 
@@ -18,18 +18,18 @@ It replaces everything in the [Remotion Pro Store](https://www.remotion.pro/stor
 
 No API keys. No subscriptions. No per-video charges. You own the entire stack.
 
-**Every integration is audited for commercial-safe licensing** (Apache-2.0 / MIT / BSD) — so what you build on Vanta, you can actually sell. See [ENHANCEMENTS.md](ENHANCEMENTS.md) for the full verified audit + what's coming next.
+**Every integration is audited for commercial-safe licensing** (Apache-2.0 / MIT / BSD) — so what you build on Vibz Media, you can actually sell. See [ENHANCEMENTS.md](ENHANCEMENTS.md) for the full verified audit + what's coming next.
 
 ---
 
 ## Quick Start
 
 ```bash
-git clone https://github.com/itsjwill/vanta.git
-cd vanta
+git clone https://github.com/itsjwill/vibz-media.git
+cd vibz-media
 npm install
 npm start          # Opens Remotion Studio in browser
-npm run render     # Renders showcase → out/vanta-showcase.mp4
+npm run render     # Renders showcase → out/vibz-showcase.mp4
 ```
 
 ---
@@ -48,7 +48,7 @@ Each integration below has a working TypeScript module in `src/integrations/` an
 
 OpenVoice (35K+ stars) takes a different approach with instant voice transfer. Instead of training on a sample, it decouples style (tone, emotion, accent) from content, letting you transfer voice characteristics in a single forward pass. This means zero training time — upload a sample, get a clone instantly.
 
-**How it connects to Vanta:** The `voice-clone.ts` integration runs a local GPT-SoVITS or OpenVoice server. You call `cloneVoice()` with a WAV sample, then `voice.speak("your text")` returns an audio URL. Drop that URL into Remotion's `<Audio>` component and your video has a cloned voiceover.
+**How it connects to Vibz Media:** The `voice-clone.ts` integration runs a local GPT-SoVITS or OpenVoice server. You call `cloneVoice()` with a WAV sample, then `voice.speak("your text")` returns an audio URL. Drop that URL into Remotion's `<Audio>` component and your video has a cloned voiceover.
 
 ```typescript
 import { cloneVoice } from "./integrations/voice-clone";
@@ -83,9 +83,9 @@ LatentSync (5.9K+ stars, Apache-2.0, from ByteDance) is the quality pick: an aud
 
 InfiniteTalk (7.5K+ stars, Apache-2.0) generates **unlimited-length** talking video from a single image plus audio — full head movement, expressions, and identity consistency across minutes of footage, not seconds. EchoMimicV3 (Apache-2.0) extends this to full-body and half-body animation on just 12GB VRAM.
 
-**License note:** Vanta previously referenced SadTalker (abandoned 2024), Wav2Lip (non-commercial — README prohibits commercial use), and V-Express (research-only checkpoints). All replaced with the commercial-safe stack above. See [ENHANCEMENTS.md](ENHANCEMENTS.md) for the full audit.
+**License note:** Vibz Media previously referenced SadTalker (abandoned 2024), Wav2Lip (non-commercial — README prohibits commercial use), and V-Express (research-only checkpoints). All replaced with the commercial-safe stack above. See [ENHANCEMENTS.md](ENHANCEMENTS.md) for the full audit.
 
-**How it connects to Vanta:** The `ai-avatar.ts` integration sends your headshot and audio to a local MuseTalk or LatentSync server. It returns a video URL that you use with Remotion's `<OffthreadVideo>` component. The avatar video composites directly into your scene layout.
+**How it connects to Vibz Media:** The `ai-avatar.ts` integration sends your headshot and audio to a local MuseTalk or LatentSync server. It returns a video URL that you use with Remotion's `<OffthreadVideo>` component. The avatar video composites directly into your scene layout.
 
 ```typescript
 import { createAvatar } from "./integrations/ai-avatar";
@@ -117,7 +117,7 @@ const videoUrl = await avatar.speak("./voiceover.wav");
 
 The transcription feeds into Remotion's rendering system where each word becomes a React component positioned in the timeline. You can style them however you want — scale, color, position, animation — because they're just React elements with frame-accurate timing.
 
-**How it connects to Vanta:** The `auto-captions.ts` integration sends audio to a local Whisper server and returns an array of `CaptionWord` objects with `start`, `end`, and `confidence` values. Map over these in a Remotion `<Sequence>` and you have animated captions.
+**How it connects to Vibz Media:** The `auto-captions.ts` integration sends audio to a local Whisper server and returns an array of `CaptionWord` objects with `start`, `end`, and `confidence` values. Map over these in a Remotion `<Sequence>` and you have animated captions.
 
 ```typescript
 import { transcribe } from "./integrations/auto-captions";
@@ -148,7 +148,7 @@ LTX-Video (10.7K+ stars, from Lightricks) is the speed pick — **real-time-clas
 
 FramePack (17K+ stars, Apache-2.0, from the ControlNet author) generates long image-to-video on just **6GB VRAM** using next-frame-section prediction — the consumer-hardware king.
 
-**How it connects to Vanta:** The `ai-video.ts` integration talks to a local generation server (ComfyUI runs all three models behind one HTTP API on `:8188`). `generateVideo()` takes a text prompt and returns a clip URL. `animateImage()` takes a still image and motion description and returns an animated version. Both feed directly into Remotion's `<OffthreadVideo>`.
+**How it connects to Vibz Media:** The `ai-video.ts` integration talks to a local generation server (ComfyUI runs all three models behind one HTTP API on `:8188`). `generateVideo()` takes a text prompt and returns a clip URL. `animateImage()` takes a still image and motion description and returns an animated version. Both feed directly into Remotion's `<OffthreadVideo>`.
 
 ```typescript
 import { generateVideo, animateImage } from "./integrations/ai-video";
@@ -183,7 +183,7 @@ const animated = await animateImage("./product.png", "slow zoom with particles",
 
 MMAudio (2.2K+ stars, MIT including weights) fills the other half of the audio story: **video-to-audio foley**. Feed it a video clip and optional text, and it generates synchronized sound effects — footsteps, doors, ambience — matched to what's happening on screen. YuE (6.3K+ stars, Apache-2.0) adds full-song generation with vocals and lyrics.
 
-**How it connects to Vanta:** The `ai-music.ts` integration sends a text prompt to the local ACE-Step server and returns a track URL with BPM metadata. Drop it into Remotion's `<Audio>` component for a custom soundtrack on every video.
+**How it connects to Vibz Media:** The `ai-music.ts` integration sends a text prompt to the local ACE-Step server and returns a track URL with BPM metadata. Drop it into Remotion's `<Audio>` component for a custom soundtrack on every video.
 
 ```typescript
 import { generateMusic } from "./integrations/ai-music";
@@ -211,7 +211,7 @@ const track = await generateMusic("cinematic orchestral tension building", {
 
 This is the same technology powering the background removal in apps like Canva and Remove.bg, except it's running locally in your pipeline with no usage limits.
 
-**How it connects to Vanta:** The `background-removal.ts` integration wraps imgly's library. Call `removeBackground()` with an image and get back a transparent PNG as an object URL. Use it as an `<Img>` source in Remotion to composite subjects over any background — generated scenes, gradients, video footage.
+**How it connects to Vibz Media:** The `background-removal.ts` integration wraps imgly's library. Call `removeBackground()` with an image and get back a transparent PNG as an object URL. Use it as an `<Img>` source in Remotion to composite subjects over any background — generated scenes, gradients, video footage.
 
 ```typescript
 import { removeBackground } from "./integrations/background-removal";
@@ -236,7 +236,7 @@ const result = await removeBackground("./presenter-photo.jpg");
 
 Twick takes a different approach — a video editor SDK that uses Canvas API rendering with built-in auto-captions and serverless MP4 export. Standalone, less configuration, no Remotion dependency.
 
-**How it connects to Vanta:** The `video-editor.ts` integration provides a project format that bridges the editor UI and Remotion's renderer. Create a project in the editor, export it, and render it — or build projects programmatically with `createEditor()` and feed them into the same pipeline.
+**How it connects to Vibz Media:** The `video-editor.ts` integration provides a project format that bridges the editor UI and Remotion's renderer. Create a project in the editor, export it, and render it — or build projects programmatically with `createEditor()` and feed them into the same pipeline.
 
 ```typescript
 import { createEditor, projectToRemotionProps } from "./integrations/video-editor";
@@ -265,7 +265,7 @@ const props = projectToRemotionProps(editor);
 
 Vidstack Captions (~5KB) handles format parsing — VTT, SRT, SSA — if you need to work with existing subtitle files. Vista automates the full pipeline from audio to animated captions using AssemblyAI + ffmpeg-wasm.
 
-**How it connects to Vanta:** The `animated-captions.ts` integration takes word timestamps from `auto-captions.ts` and provides style presets (TikTok, YouTube, Reels, Karaoke) plus helper functions for determining which word is active, which words are visible, and what CSS styles to apply at each frame.
+**How it connects to Vibz Media:** The `animated-captions.ts` integration takes word timestamps from `auto-captions.ts` and provides style presets (TikTok, YouTube, Reels, Karaoke) plus helper functions for determining which word is active, which words are visible, and what CSS styles to apply at each frame.
 
 ```typescript
 import { transcribe } from "./integrations/auto-captions";
@@ -292,7 +292,7 @@ const style = CAPTION_PRESETS.tiktok; // or youtube, reels, karaoke
 
 **How it works:** react-timeline-editor (661 stars) provides a multi-track timeline where each track holds clips (video, audio, image, text). Clips can be dragged to reposition, edges dragged to trim, and the playhead scrubbed to any point. Keyframe diamonds on clips control property animation (opacity, scale, position) over time. The timeline data exports as JSON that maps directly to Remotion `<Sequence>` components.
 
-**How it connects to Vanta:** The `timeline.ts` integration provides a full timeline data model — create timelines, add/remove/split clips, add keyframes, and convert the whole thing to Remotion-compatible sequence data with `toRemotionSequences()`.
+**How it connects to Vibz Media:** The `timeline.ts` integration provides a full timeline data model — create timelines, add/remove/split clips, add keyframes, and convert the whole thing to Remotion-compatible sequence data with `toRemotionSequences()`.
 
 ```typescript
 import { createTimeline, addClip, toRemotionSequences } from "./integrations/timeline";
@@ -322,7 +322,7 @@ const sequences = toRemotionSequences(timeline);
 
 The BBC's VideoContext (1.3K+ stars) provides a higher-level composition API with shader-based transitions built in. Curtains.js (4.5K+ stars) converts DOM elements into WebGL textured planes for 3D transition effects.
 
-**How it connects to Vanta:** The `transitions.ts` integration provides a `applyTransition()` function that returns configuration for Remotion's `<TransitionSeries>`. Choose from 30+ named transitions or pass custom GLSL shader code.
+**How it connects to Vibz Media:** The `transitions.ts` integration provides a `applyTransition()` function that returns configuration for Remotion's `<TransitionSeries>`. Choose from 30+ named transitions or pass custom GLSL shader code.
 
 ```typescript
 import { applyTransition, listTransitions } from "./integrations/transitions";
@@ -356,7 +356,7 @@ const all = listTransitions();
 - **Mo.js** (18.6K+ stars) — Purpose-built for motion graphics. Pre-made shape primitives (burst, swirl, stagger) that would take hours to code from scratch.
 - **GSAP** (23.2K+ stars) — Industry standard. SVG morphing (MorphSVGPlugin), draw-SVG line animations, motion paths, and stagger effects used in every major studio.
 
-**How it connects to Vanta:** The `motion-graphics.ts` integration provides `animateShape()` for individual elements, `createBurst()` for particle effects, `animatePath()` for SVG line drawing, and pre-built templates for common motion graphics (lower thirds, countdowns, confetti, progress bars).
+**How it connects to Vibz Media:** The `motion-graphics.ts` integration provides `animateShape()` for individual elements, `createBurst()` for particle effects, `animatePath()` for SVG line drawing, and pre-built templates for common motion graphics (lower thirds, countdowns, confetti, progress bars).
 
 ```typescript
 import { animateShape, createBurst, TEMPLATES } from "./integrations/motion-graphics";
@@ -395,7 +395,7 @@ JIMP (14.6K+ stars) is the pure JavaScript alternative. Zero native dependencies
 
 Fabric.js bridges both into a visual canvas editor with layers, blend modes, and real-time preview — the Photoshop layer panel, in the browser.
 
-**How it connects to Vanta:** The `image-editor.ts` integration provides `processImage()` for single edits, `batchProcess()` for folder-level operations, `createComposition()` for layered compositing, and 17 filter presets (cinematic, noir, chrome, warm-vintage, etc.) that apply directly to images before they enter the Remotion render pipeline.
+**How it connects to Vibz Media:** The `image-editor.ts` integration provides `processImage()` for single edits, `batchProcess()` for folder-level operations, `createComposition()` for layered compositing, and 17 filter presets (cinematic, noir, chrome, warm-vintage, etc.) that apply directly to images before they enter the Remotion render pipeline.
 
 ```typescript
 import { processImage, FILTER_RECIPES } from "./integrations/image-editor";
@@ -429,7 +429,7 @@ await processImage("./photo.jpg", {
 
 SVG-Edit gives you a full browser-based editor when you need visual control. Fabric.js bridges vector and raster, letting you mix SVG elements with bitmap images on the same canvas.
 
-**How it connects to Vanta:** The `vector-graphics.ts` integration provides document creation, shape helpers (circle, rect, path, text), gradient definitions, boolean path operations, and SVG export. The output plugs directly into Remotion as inline SVG inside `<AbsoluteFill>` components, or converts to PNG via Sharp for raster rendering.
+**How it connects to Vibz Media:** The `vector-graphics.ts` integration provides document creation, shape helpers (circle, rect, path, text), gradient definitions, boolean path operations, and SVG export. The output plugs directly into Remotion as inline SVG inside `<AbsoluteFill>` components, or converts to PNG via Sharp for raster rendering.
 
 ```typescript
 import { createSVG, addCircle, addText, addLinearGradient, exportSVG } from "./integrations/vector-graphics";
@@ -440,7 +440,7 @@ doc = addLinearGradient(doc, "bg", [
   { offset: "100%", color: "#1a1a2e" },
 ], 135);
 doc = addCircle(doc, { cx: 960, cy: 540, r: 200, fill: "url(#bg)", stroke: "#FFD700", strokeWidth: 2 });
-doc = addText(doc, { content: "VANTA", x: 960, y: 560, fontSize: 120, fontWeight: 100, fill: "#FFFFFF" });
+doc = addText(doc, { content: "VIBZ MEDIA", x: 960, y: 560, fontSize: 120, fontWeight: 100, fill: "#FFFFFF" });
 
 const svg = exportSVG(doc);
 // Use in Remotion: <div dangerouslySetInnerHTML={{ __html: svg }} />
@@ -460,7 +460,7 @@ const svg = exportSVG(doc);
 
 **What it does:** Adds particle systems to video scenes — confetti, fireworks, snow, floating orbs, constellation networks, smoke, custom shapes. GPU-accelerated, runs at 60fps.
 
-**How it works:** tsparticles (8.6K+ stars) is a JavaScript particle engine that renders via Canvas or WebGL. It supports attractors, collision detection, custom shapes, image particles, and trail effects. In Vanta, particles render as React components inside Remotion compositions, so they're frame-accurate and deterministic — the same render always produces the same output.
+**How it works:** tsparticles (8.6K+ stars) is a JavaScript particle engine that renders via Canvas or WebGL. It supports attractors, collision detection, custom shapes, image particles, and trail effects. In Vibz Media, particles render as React components inside Remotion compositions, so they're frame-accurate and deterministic — the same render always produces the same output.
 
 **Repos:**
 - [tsparticles](https://github.com/tsparticles/tsparticles) — 8,600+ stars
@@ -471,7 +471,7 @@ const svg = exportSVG(doc);
 
 **What it does:** Takes any audio file and produces real-time waveform and spectrogram visualizations. Beat-synced bars, frequency analysis, audio-reactive motion.
 
-**How it works:** wavesurfer.js (10K+ stars) uses the Web Audio API to decode audio and extract amplitude, frequency, and time-domain data. In Vanta, this data drives visual elements in Remotion scenes — bar heights, particle velocities, color shifts, text reveals — all synced to the audio.
+**How it works:** wavesurfer.js (10K+ stars) uses the Web Audio API to decode audio and extract amplitude, frequency, and time-domain data. In Vibz Media, this data drives visual elements in Remotion scenes — bar heights, particle velocities, color shifts, text reveals — all synced to the audio.
 
 **Repos:**
 - [wavesurfer.js](https://github.com/katspaugh/wavesurfer.js) — 10,000+ stars
@@ -498,7 +498,7 @@ const svg = exportSVG(doc);
 
 ## The Pipeline
 
-This is how a full production runs through Vanta:
+This is how a full production runs through Vibz Media:
 
 ```
                     YOUR SCRIPT
@@ -548,7 +548,7 @@ This is how a full production runs through Vanta:
 
 ## Compositions
 
-### VantaShowcase (15 seconds, 1080p)
+### VibzShowcase (15 seconds, 1080p)
 
 The hero video. Five scenes:
 
@@ -574,16 +574,16 @@ npx remotion render src/index.ts Waveform out/waveform.mp4
 ## Project Structure
 
 ```
-vanta/
+vibz-media/
 ├── src/
 │   ├── index.ts                    # Remotion entry point
 │   ├── Root.tsx                    # Composition registry
 │   ├── components/
-│   │   ├── VantaLogo.tsx           # Animated V mark + wordmark
+│   │   ├── VibzLogo.tsx           # Animated V mark + wordmark
 │   │   ├── FeatureCards.tsx        # Two-column capability list
 │   │   └── GradientBackground.tsx  # Cinematic background + film grain
 │   ├── scenes/
-│   │   ├── VantaShowcase.tsx       # Main hero video (15s)
+│   │   ├── VibzShowcase.tsx       # Main hero video (15s)
 │   │   ├── ParticleScene.tsx       # Constellation particle field
 │   │   ├── KineticText.tsx         # Wipe-reveal typography
 │   │   ├── DataVizScene.tsx        # Horizontal bar chart
@@ -609,11 +609,11 @@ vanta/
 
 ---
 
-## What Vanta Replaces
+## What Vibz Media Replaces
 
 ### SaaS Subscriptions
 
-| Tool | Monthly Cost | Vanta Equivalent |
+| Tool | Monthly Cost | Vibz Media Equivalent |
 |---|---|---|
 | Adobe Photoshop | $22.99/mo | `image-editor.ts` — Sharp + JIMP + Fabric.js |
 | Adobe Illustrator | $22.99/mo | `vector-graphics.ts` — SVG.js + Paper.js |
@@ -632,7 +632,7 @@ vanta/
 
 ### Remotion Pro Store (one-time purchases)
 
-| Store Item | Price | Vanta Equivalent |
+| Store Item | Price | Vibz Media Equivalent |
 |---|---|---|
 | Editor Starter | $600 | `video-editor.ts` — DesignCombo react-video-editor (1.4K stars) |
 | Animated Captions | $100 | `animated-captions.ts` — remotion-subtitles + style presets |
@@ -680,10 +680,10 @@ Reading open source repos is step one. Shipping products that make money is wher
 
 ## FAQ
 
-**Is Vanta really free for commercial use?**
-Yes. Vanta itself is MIT. Every default integration is audited for commercial-safe licensing (Apache-2.0 / MIT / BSD — code AND model weights). The full audit lives in [ENHANCEMENTS.md](ENHANCEMENTS.md). Note: Remotion itself requires a company license for for-profit teams of 4+ — individuals and small teams are free.
+**Is Vibz Media really free for commercial use?**
+Yes. Vibz Media itself is MIT. Every default integration is audited for commercial-safe licensing (Apache-2.0 / MIT / BSD — code AND model weights). The full audit lives in [ENHANCEMENTS.md](ENHANCEMENTS.md). Note: Remotion itself requires a company license for for-profit teams of 4+ — individuals and small teams are free.
 
-**What is Vanta an alternative to?**
+**What is Vibz Media an alternative to?**
 Synthesia, HeyGen, and D-ID (AI avatars) · Runway ML and Pika (AI video generation) · ElevenLabs, PlayHT, and Murf (voice cloning) · Descript and Captions (auto-captions) · Suno, Udio, and Epidemic Sound (music) · CapCut Pro and Canva (video editing) · Topaz Video AI (upscaling) · Adobe Photoshop, Illustrator, Lightroom, and Podcast (Creative Cloud) · the entire Remotion Pro Store.
 
 **Do I need a GPU?**

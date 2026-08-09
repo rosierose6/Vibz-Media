@@ -1,18 +1,18 @@
 /**
- * Generate the VANTA vector mark for Remotion.
+ * Generate the VIBZ MEDIA vector mark for Remotion.
  *
  *   npm run svg
  */
 
 import path from "path";
 import fs from "fs";
-import { createVantaMark } from "../src/integrations/vector-graphics";
+import { createVibzMark } from "../src/integrations/vector-graphics";
 
 async function main() {
-  const { doc, svg } = createVantaMark();
+  const { doc, svg } = createVibzMark();
   const outDir = path.resolve(__dirname, "../public");
-  const outSvg = path.join(outDir, "vanta-mark.svg");
-  const outMeta = path.join(outDir, "vanta-mark-meta.json");
+  const outSvg = path.join(outDir, "vibz-mark.svg");
+  const outMeta = path.join(outDir, "vibz-mark-meta.json");
 
   fs.mkdirSync(outDir, { recursive: true });
   fs.writeFileSync(outSvg, svg);
@@ -20,7 +20,7 @@ async function main() {
     outMeta,
     JSON.stringify(
       {
-        file: "vanta-mark.svg",
+        file: "vibz-mark.svg",
         width: doc.width,
         height: doc.height,
         elements: doc.elements.length,

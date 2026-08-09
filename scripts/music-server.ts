@@ -1,5 +1,5 @@
 /**
- * Local AI-music stub server for Vanta.
+ * Local AI-music stub server for Vibz Media.
  *
  * Implements /generate expected by src/integrations/ai-music.ts.
  * Uses ffmpeg synth tones until ACE-Step 1.5 (`uv run acestep-api`) is installed.
@@ -123,7 +123,7 @@ const server = http.createServer(async (req, res) => {
   if (req.method === "GET" && url.pathname === "/") {
     sendJson(res, 200, {
       ok: true,
-      service: "vanta-music-server",
+      service: "vibz-music-server",
       mode: "ffmpeg-stub",
       endpoints: ["/generate", "/files/:name"],
     });
@@ -177,7 +177,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Vanta music server (ffmpeg stub) on http://localhost:${PORT}`);
+  console.log(`Vibz Media music server (ffmpeg stub) on http://localhost:${PORT}`);
   console.log("POST /generate — text → soundtrack");
   console.log("Swap this for ACE-Step 1.5 (`uv run acestep-api`) when ready.");
 });

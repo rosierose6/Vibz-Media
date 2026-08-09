@@ -1,5 +1,5 @@
 /**
- * VANTA — AI Video Generation Integration
+ * VIBZ MEDIA — AI Video Generation Integration
  *
  * Text-to-video and image-to-video via a local Wan 2.2 / LTX-Video /
  * FramePack server (Gradio :7860 or ComfyUI :8188).

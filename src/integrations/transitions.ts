@@ -1,5 +1,5 @@
 /**
- * VANTA — Transitions Integration
+ * VIBZ MEDIA — Transitions Integration
  *
  * Named transition catalog + bridge to @remotion/transitions.
  * GL-transitions shaders documented for GPU paths; Remotion presentations

@@ -15,7 +15,7 @@ export interface BgRemoveDemoProps {
 }
 
 /**
- * Composite a transparent cutout over the Vanta backdrop.
+ * Composite a transparent cutout over the Vibz Media backdrop.
  *
  *   npm run cutout
  */

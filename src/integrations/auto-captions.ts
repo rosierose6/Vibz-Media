@@ -1,5 +1,5 @@
 /**
- * VANTA — Auto-Captions Integration
+ * VIBZ MEDIA — Auto-Captions Integration
  *
  * WhisperX-powered transcription with word-level timestamps,
  * rendered as animated captions in Remotion.
@@ -131,7 +131,7 @@ function normalizeResult(payload: unknown, fallbackLanguage: string): Transcript
 
   const data = payload as Record<string, unknown>;
 
-  // Already in Vanta shape
+  // Already in Vibz Media shape
   if (Array.isArray(data.segments) || Array.isArray(data.words)) {
     const segmentWords = Array.isArray(data.segments)
       ? (data.segments as Record<string, unknown>[]).flatMap((segment) => {

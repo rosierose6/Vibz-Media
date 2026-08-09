@@ -1,5 +1,5 @@
 /**
- * VANTA — Face Restoration (GFPGAN)
+ * VIBZ MEDIA — Face Restoration (GFPGAN)
  *
  * Fix AI-garbled / degraded faces. Prefers official GFPGAN (Python);
  * falls back to a sharp face-friendly enhance when GFPGAN isn't installed.

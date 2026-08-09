@@ -20,7 +20,7 @@
     "engine": "mediabunny"
   },
   "conversion": {
-    "outPath": "/Users/beltran/Vibz Media/vanta/public/generated/ai-clip-mediabunny.webm",
+    "outPath": "/Users/beltran/Vibz Media/vibz-media/public/generated/ai-clip-mediabunny.webm",
     "format": "webm",
     "engine": "ffmpeg",
     "bytes": 559377

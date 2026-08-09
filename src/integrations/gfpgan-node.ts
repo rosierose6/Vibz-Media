@@ -129,7 +129,7 @@ function findGfpganPython(): {
 }
 
 function writeInlineInferScript(tmpDir: string): string {
-  const script = path.join(tmpDir, "vanta_gfpgan_infer.py");
+  const script = path.join(tmpDir, "vibz_gfpgan_infer.py");
   fs.writeFileSync(
     script,
     `#!/usr/bin/env python3
@@ -209,7 +209,7 @@ async function restoreWithGfpgan(
     return null;
   }
 
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "vanta-gfpgan-"));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "vibz-gfpgan-"));
   try {
     if (py.script) {
       // Official inference_gfpgan.py writes into an output directory.

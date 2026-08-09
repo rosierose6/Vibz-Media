@@ -1,5 +1,5 @@
 /**
- * VANTA — Audio Visualization Integration (wavesurfer.js)
+ * VIBZ MEDIA — Audio Visualization Integration (wavesurfer.js)
  *
  * Waveform peaks + envelope helpers for Remotion (browser-safe).
  * Use createWaveform() from wavesurfer-node.ts in CLI scripts.
@@ -65,8 +65,8 @@ export const WAVEFORM_STYLES: Record<string, WaveformStyle> = {
     cursorColor: "#ffffff",
     background: "#0d1117",
   },
-  vanta: {
-    name: "vanta",
+  vibz: {
+    name: "vibz",
     waveColor: "rgba(255,255,255,0.25)",
     progressColor: "#FFD700",
     cursorColor: "#FFD700",

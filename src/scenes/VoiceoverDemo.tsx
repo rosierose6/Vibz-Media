@@ -16,7 +16,7 @@ export interface VoiceoverDemoProps {
 
 /**
  * Minimal composition that plays a Kokoro-generated voiceover
- * over the cinematic Vanta background.
+ * over the cinematic Vibz Media background.
  *
  * Generate audio first: `npm run tts`
  */

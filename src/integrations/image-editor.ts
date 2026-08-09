@@ -1,5 +1,5 @@
 /**
- * VANTA — Image Editor Integration
+ * VIBZ MEDIA — Image Editor Integration
  *
  * Programmatic image editing via Sharp (libvips).
  *

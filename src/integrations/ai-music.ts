@@ -1,5 +1,5 @@
 /**
- * VANTA — AI Music Generation Integration
+ * VIBZ MEDIA — AI Music Generation Integration
  *
  * Generate custom soundtracks via a local ACE-Step 1.5 server.
  * Free, local, unlimited — no Suno subscription needed.

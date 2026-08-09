@@ -1,12 +1,12 @@
 /**
- * VANTA — Voice Cloning Integration
+ * VIBZ MEDIA — Voice Cloning Integration
  *
  * Integrates GPT-SoVITS (54K+ stars) and OpenVoice (35K+ stars)
  * for instant voice cloning from 60 seconds of audio.
  *
  * Usage:
  *   const voice = await cloneVoice("./sample.wav");
- *   const audio = await voice.speak("Hello from Vanta");
+ *   const audio = await voice.speak("Hello from Vibz Media");
  *   // Use audio URL in Remotion's <Audio> component
  *
  * Setup:

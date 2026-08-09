@@ -3,7 +3,7 @@ import {
   getAudioDurationInSeconds,
   getVideoMetadata,
 } from "@remotion/media-utils";
-import { VantaShowcase } from "./scenes/VantaShowcase";
+import { VibzShowcase } from "./scenes/VibzShowcase";
 import { ParticleScene } from "./scenes/ParticleScene";
 import { KineticText } from "./scenes/KineticText";
 import { DataVizScene } from "./scenes/DataVizScene";
@@ -273,8 +273,8 @@ export const RemotionRoot: React.FC = () => {
     <>
       {/* Main showcase — the hero video */}
       <Composition
-        id="VantaShowcase"
-        component={VantaShowcase}
+        id="VibzShowcase"
+        component={VibzShowcase}
         durationInFrames={450}
         fps={30}
         width={1920}
@@ -283,7 +283,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* Kokoro in-process TTS demo — run `npm run tts` first */}
       <Composition
-        id="VoiceoverDemo"
+        id="Voiceover"
         component={VoiceoverDemo}
         durationInFrames={150}
         fps={30}
@@ -347,7 +347,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* Word captions demo — run `npm run tts` then `npm run captions` */}
       <Composition
-        id="CaptionsDemo"
+        id="Captions"
         component={CaptionsDemo}
         durationInFrames={150}
         fps={30}
@@ -384,7 +384,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* AI B-roll demo — run `npm run video` with a local Wan/LTX/FramePack server */}
       <Composition
-        id="AiVideoDemo"
+        id="AiVideo"
         component={AiVideoDemo}
         durationInFrames={180}
         fps={30}
@@ -422,7 +422,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* Soundtrack demo — run `npm run music:server` then `npm run music` */}
       <Composition
-        id="MusicDemo"
+        id="Music"
         component={MusicDemo}
         durationInFrames={900}
         fps={30}
@@ -462,7 +462,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* Cutout demo — run `npm run cutout` after adding public/presenter-photo.jpg */}
       <Composition
-        id="BgRemoveDemo"
+        id="BgRemove"
         component={BgRemoveDemo}
         durationInFrames={150}
         fps={30}
@@ -473,7 +473,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* Programmatic editor project — run `npm run editor` */}
       <Composition
-        id="EditorDemo"
+        id="Editor"
         component={EditorDemo}
         durationInFrames={240}
         fps={30}
@@ -505,7 +505,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* Timeline sequences — run `npm run timeline` */}
       <Composition
-        id="TimelineDemo"
+        id="Timeline"
         component={TimelineDemo}
         durationInFrames={300}
         fps={30}
@@ -544,7 +544,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* Named transitions — npm run transitions */}
       <Composition
-        id="TransitionsDemo"
+        id="Transitions"
         component={TransitionsDemo}
         durationInFrames={180}
         fps={30}
@@ -555,7 +555,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* Motion graphics — npm run motion */}
       <Composition
-        id="MotionGraphicsDemo"
+        id="MotionGraphics"
         component={MotionGraphicsDemo}
         durationInFrames={120}
         fps={30}
@@ -566,7 +566,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* Image grade — npm run grade */}
       <Composition
-        id="ImageEditDemo"
+        id="ImageEdit"
         component={ImageEditDemo}
         durationInFrames={90}
         fps={30}
@@ -577,7 +577,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* Vector mark — npm run svg */}
       <Composition
-        id="VectorGraphicsDemo"
+        id="VectorGraphics"
         component={VectorGraphicsDemo}
         durationInFrames={90}
         fps={30}
@@ -588,7 +588,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* tsparticles presets — npm run particles */}
       <Composition
-        id="ParticlesDemo"
+        id="Particles"
         component={ParticlesDemo}
         durationInFrames={120}
         fps={30}
@@ -618,7 +618,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* wavesurfer peaks — npm run waveform */}
       <Composition
-        id="WaveformDemo"
+        id="Waveform"
         component={WaveformDemo}
         durationInFrames={150}
         fps={30}
@@ -663,7 +663,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* mediabunny inspect — npm run media */}
       <Composition
-        id="MediabunnyDemo"
+        id="Mediabunny"
         component={MediabunnyDemo}
         durationInFrames={180}
         fps={30}
@@ -706,7 +706,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* Real-ESRGAN upscale — npm run upscale */}
       <Composition
-        id="UpscaleDemo"
+        id="Upscale"
         component={UpscaleDemo}
         durationInFrames={90}
         fps={30}
@@ -743,7 +743,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* RIFE interpolate — npm run interpolate */}
       <Composition
-        id="RifeDemo"
+        id="Rife"
         component={RifeDemo}
         durationInFrames={180}
         fps={30}
@@ -793,7 +793,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* GFPGAN restore — npm run restore */}
       <Composition
-        id="GfpganDemo"
+        id="Gfpgan"
         component={GfpganDemo}
         durationInFrames={90}
         fps={30}
@@ -830,7 +830,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* SAM 2 masks — npm run sam */}
       <Composition
-        id="Sam2Demo"
+        id="Sam2"
         component={Sam2Demo}
         durationInFrames={90}
         fps={30}
@@ -871,7 +871,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* Stem separation — npm run stems */}
       <Composition
-        id="StemDemo"
+        id="Stem"
         component={StemDemo}
         durationInFrames={150}
         fps={30}
@@ -915,7 +915,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* DeepFilterNet denoise — npm run denoise */}
       <Composition
-        id="DenoiseDemo"
+        id="Denoise"
         component={DenoiseDemo}
         durationInFrames={150}
         fps={30}
@@ -957,7 +957,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* Auto-editor silence cut — npm run autoedit */}
       <Composition
-        id="AutoEditDemo"
+        id="AutoEdit"
         component={AutoEditDemo}
         durationInFrames={120}
         fps={30}
@@ -1007,7 +1007,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* PySceneDetect — npm run scenes */}
       <Composition
-        id="SceneDetectDemo"
+        id="SceneDetect"
         component={SceneDetectDemo}
         durationInFrames={150}
         fps={30}
@@ -1058,7 +1058,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* D3 charts — npm run d3 */}
       <Composition
-        id="D3Demo"
+        id="D3"
         component={D3Demo}
         durationInFrames={120}
         fps={30}
@@ -1098,7 +1098,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* Individual scenes for testing */}
       <Composition
-        id="Particles"
+        id="ParticlesScene"
         component={ParticleScene}
         durationInFrames={150}
         fps={30}
@@ -1123,7 +1123,7 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
       <Composition
-        id="Waveform"
+        id="WaveformScene"
         component={WaveformScene}
         durationInFrames={120}
         fps={30}

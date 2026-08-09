@@ -1,5 +1,5 @@
 /**
- * VANTA — Kokoro TTS Integration
+ * VIBZ MEDIA — Kokoro TTS Integration
  *
  * In-process text-to-speech via kokoro-js (ONNX). No Python server,
  * no API keys — runs locally and writes a WAV for Remotion.

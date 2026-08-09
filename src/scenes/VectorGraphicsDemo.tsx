@@ -5,7 +5,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { createVantaMark } from "../integrations/vector-graphics";
+import { createVibzMark } from "../integrations/vector-graphics";
 
 export interface VectorGraphicsDemoProps {
   label: string;
@@ -21,7 +21,7 @@ export const VectorGraphicsDemo: React.FC<VectorGraphicsDemoProps> = ({
 }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
-  const { svg } = createVantaMark();
+  const { svg } = createVibzMark();
 
   const fadeIn = interpolate(frame, [0, 0.5 * fps], [0, 1], {
     extrapolateLeft: "clamp",

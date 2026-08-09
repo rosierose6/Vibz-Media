@@ -1,5 +1,5 @@
 /**
- * VANTA — Media Processing Integration (mediabunny)
+ * VIBZ MEDIA — Media Processing Integration (mediabunny)
  *
  * Pure-TypeScript mux/demux/convert helpers. Node I/O lives in
  * mediabunny-node.ts (do not import that from Remotion scenes).

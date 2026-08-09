@@ -176,7 +176,7 @@ export function deepFilterAvailable(): boolean {
 async function toWav48k(input: string): Promise<string> {
   const tmp = path.join(
     os.tmpdir(),
-    `vanta-df-${Date.now()}-${path.basename(input, path.extname(input))}.wav`,
+    `vibz-df-${Date.now()}-${path.basename(input, path.extname(input))}.wav`,
   );
   await execFileAsync(
     "ffmpeg",
@@ -214,7 +214,7 @@ async function denoiseWithDeepFilter(
   }
 
   const work48 = await toWav48k(input);
-  const tmpOutDir = path.join(os.tmpdir(), `vanta-df-out-${Date.now()}`);
+  const tmpOutDir = path.join(os.tmpdir(), `vibz-df-out-${Date.now()}`);
   fs.mkdirSync(tmpOutDir, { recursive: true });
 
   const args = ["-o", tmpOutDir];

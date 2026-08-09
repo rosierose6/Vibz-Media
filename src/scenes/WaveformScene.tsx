@@ -47,7 +47,7 @@ export const WaveformScene: React.FC = () => {
           Beat-synced visuals from any audio source
         </div>
         <div style={{ fontSize: 11, fontFamily: '"Courier New", Courier, monospace', color: "rgba(255,255,255,0.2)", letterSpacing: "0.15em" }}>
-          wavesurfer.js / vanta
+          wavesurfer.js / vibz
         </div>
       </div>
     </AbsoluteFill>

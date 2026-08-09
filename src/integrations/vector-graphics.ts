@@ -1,5 +1,5 @@
 /**
- * VANTA — Vector Graphics Integration
+ * VIBZ MEDIA — Vector Graphics Integration
  *
  * Programmatic SVG creation for Remotion (inline or file export).
  *
@@ -336,11 +336,6 @@ export function exportSVG(doc: SVGDocument): string {
   ${defs}
   ${elements}
 </svg>`;
-}
-
-/** Build the README/demo Vibz Media mark SVG. */
-export function createVantaMark(): { doc: SVGDocument; svg: string } {
-  return createVibzMark();
 }
 
 /** Build the Vibz Media brand mark SVG. */

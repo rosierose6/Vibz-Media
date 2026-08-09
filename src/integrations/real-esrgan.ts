@@ -1,5 +1,5 @@
 /**
- * VANTA — Video / Image Upscaling (Real-ESRGAN ncnn Vulkan)
+ * VIBZ MEDIA — Video / Image Upscaling (Real-ESRGAN ncnn Vulkan)
  *
  * 2×–4× super-resolution via the portable GPU binary.
  * Node I/O lives in real-esrgan-node.ts.

@@ -3,7 +3,7 @@ import { ParticleScene } from "./ParticleScene";
 import { KineticText } from "./KineticText";
 import { DataVizScene } from "./DataVizScene";
 import { WaveformScene } from "./WaveformScene";
-import { VantaLogo } from "../components/VantaLogo";
+import { VibzLogo } from "../components/VibzLogo";
 import { FeatureCards } from "../components/FeatureCards";
 import { GradientBackground } from "../components/GradientBackground";
 
@@ -20,7 +20,7 @@ import { GradientBackground } from "../components/GradientBackground";
  *   270-360 (9-12s)  — Audio waveform
  *   360-450 (12-15s) — Feature cards + CTA
  */
-export const VantaShowcase: React.FC = () => {
+export const VibzShowcase: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -38,7 +38,7 @@ export const VantaShowcase: React.FC = () => {
             }),
           }}
         >
-          <VantaLogo />
+          <VibzLogo />
           <ParticleScene />
         </AbsoluteFill>
       </Sequence>

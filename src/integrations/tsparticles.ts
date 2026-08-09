@@ -1,5 +1,5 @@
 /**
- * VANTA — Particle Effects Integration (tsparticles)
+ * VIBZ MEDIA — Particle Effects Integration (tsparticles)
  *
  * Deterministic, frame-accurate particle systems for Remotion.
  * Presets mirror tsparticles (links, snow, confetti, fireworks, stars).

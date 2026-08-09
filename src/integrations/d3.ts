@@ -1,5 +1,5 @@
 /**
- * VANTA — D3 Data Visualization
+ * VIBZ MEDIA — D3 Data Visualization
  *
  * Remotion-safe D3 helpers: scales + shape generators only (no DOM timers).
  * Animate with Remotion's frame / interpolate; D3 computes geometry.

@@ -1,5 +1,5 @@
 /**
- * VANTA — Stem Separation (python-audio-separator)
+ * VIBZ MEDIA — Stem Separation (python-audio-separator)
  *
  * Split mix audio into vocals / instrumental (and more) via UVR models.
  * Prefers the `audio-separator` CLI; falls back to ffmpeg mid-side isolation.

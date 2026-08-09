@@ -1,5 +1,5 @@
 /**
- * VANTA — Audio Denoise (DeepFilterNet)
+ * VIBZ MEDIA — Audio Denoise (DeepFilterNet)
  *
  * Studio-grade speech enhancement via the portable `deep-filter` Rust binary.
  * Falls back to ffmpeg spectral denoise when the binary isn't available.

@@ -1,5 +1,5 @@
 /**
- * VANTA — Frame Interpolation (Practical-RIFE / RIFE ncnn Vulkan)
+ * VIBZ MEDIA — Frame Interpolation (Practical-RIFE / RIFE ncnn Vulkan)
  *
  * 2×–4× FPS conversion and smooth slow-mo.
  * Node I/O lives in rife-node.ts.

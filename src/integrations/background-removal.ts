@@ -1,5 +1,5 @@
 /**
- * VANTA — Background Removal Integration
+ * VIBZ MEDIA — Background Removal Integration
  *
  * Local background removal via @imgly/background-removal-node (ONNX).
  * No cloud API — runs on your machine and writes a transparent PNG.

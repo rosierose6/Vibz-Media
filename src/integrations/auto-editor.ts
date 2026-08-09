@@ -1,5 +1,5 @@
 /**
- * VANTA — Auto rough-cut (auto-editor)
+ * VIBZ MEDIA — Auto rough-cut (auto-editor)
  *
  * Cut silence / dead space from video or audio. Prefers the official
  * `auto-editor` binary; falls back to ffmpeg silence detection + trim.

@@ -1,5 +1,5 @@
 /**
- * VANTA — Animated Captions Integration
+ * VIBZ MEDIA — Animated Captions Integration
  *
  * Styled, animated caption rendering for video.
  * TikTok-style word-by-word highlights, karaoke effects, bounce animations.

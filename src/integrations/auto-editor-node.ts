@@ -275,7 +275,7 @@ async function cutWithFfmpeg(
     return;
   }
 
-  const tmpDir = path.join(os.tmpdir(), `vanta-ae-${Date.now()}`);
+  const tmpDir = path.join(os.tmpdir(), `vibz-ae-${Date.now()}`);
   fs.mkdirSync(tmpDir, { recursive: true });
   const parts: string[] = [];
 

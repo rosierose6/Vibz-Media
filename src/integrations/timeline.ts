@@ -1,5 +1,5 @@
 /**
- * VANTA — Timeline Integration
+ * VIBZ MEDIA — Timeline Integration
  *
  * Multi-track timeline data model: add/remove/split clips, keyframes,
  * export to Remotion <Sequence> props via toRemotionSequences().
