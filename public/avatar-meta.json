@@ -1,0 +1,9 @@
+{
+  "text": "Welcome to the future of video.",
+  "file": "avatar.mp4",
+  "audioFile": "voiceover.wav",
+  "imagePath": "presenter-photo.jpg",
+  "method": "ffmpeg-still",
+  "sourceUrl": "file:///Users/beltran/Vibz Media/vibz-media/public/avatar.mp4",
+  "generatedAt": "2026-08-09T02:26:57.049Z"
+}

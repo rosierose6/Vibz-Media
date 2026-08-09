@@ -12,6 +12,8 @@ import { GradientBackground } from "../components/GradientBackground";
 export interface AvatarDemoProps {
   text: string;
   videoFile: string;
+  /** False when public/avatar.mp4 is missing — avoids OffthreadVideo crash. */
+  hasVideo?: boolean;
 }
 
 /**
@@ -19,12 +21,13 @@ export interface AvatarDemoProps {
  *
  * Pipeline:
  *   npm run tts
- *   # place public/headshot.jpg, start avatar server on :8080
- *   npm run avatar
+ *   # place public/headshot.jpg (or use presenter-photo.jpg), start avatar server on :8080
+ *   npm run avatar   # falls back to ffmpeg still+audio if server is down
  */
 export const AvatarDemo: React.FC<AvatarDemoProps> = ({
   text = "Welcome to the future of video.",
   videoFile = "avatar.mp4",
+  hasVideo = true,
 }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
@@ -48,16 +51,43 @@ export const AvatarDemo: React.FC<AvatarDemoProps> = ({
     <AbsoluteFill>
       <GradientBackground frame={frame} />
 
-      <AbsoluteFill style={{ opacity }}>
-        <OffthreadVideo
-          src={staticFile(videoFile)}
+      {hasVideo ? (
+        <AbsoluteFill style={{ opacity }}>
+          <OffthreadVideo
+            src={staticFile(videoFile)}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        </AbsoluteFill>
+      ) : (
+        <AbsoluteFill
           style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
+            opacity,
+            justifyContent: "center",
+            alignItems: "center",
           }}
-        />
-      </AbsoluteFill>
+        >
+          <div
+            style={{
+              fontSize: 14,
+              fontFamily: '"Courier New", Courier, monospace',
+              color: "rgba(255,255,255,0.45)",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              textAlign: "center",
+              lineHeight: 1.8,
+              padding: "0 80px",
+            }}
+          >
+            Missing public/{videoFile}
+            <br />
+            Run npm run avatar
+          </div>
+        </AbsoluteFill>
+      )}
 
       <AbsoluteFill
         style={{
@@ -85,7 +115,7 @@ export const AvatarDemo: React.FC<AvatarDemoProps> = ({
             marginBottom: 16,
           }}
         >
-          musetalk · kokoro voiceover
+          {hasVideo ? "musetalk · kokoro voiceover" : "avatar pending"}
         </div>
         <div
           style={{

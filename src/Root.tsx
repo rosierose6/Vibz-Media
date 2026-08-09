@@ -50,6 +50,7 @@ const VOICEOVER_DEFAULTS = {
 const AVATAR_DEFAULTS = {
   text: "Welcome to the future of video.",
   videoFile: "avatar.mp4",
+  hasVideo: false,
 };
 
 const CAPTIONS_DEFAULTS = {
@@ -323,7 +324,7 @@ export const RemotionRoot: React.FC = () => {
               staticFile(props.videoFile),
             );
             return {
-              props: { ...props, text },
+              props: { ...props, text, hasVideo: true },
               durationInFrames: Math.max(
                 1,
                 Math.ceil(durationInSeconds * 30) + 15,
@@ -335,11 +336,14 @@ export const RemotionRoot: React.FC = () => {
                 staticFile("voiceover.wav"),
               );
               return {
-                props: { ...props, text },
+                props: { ...props, text, hasVideo: false },
                 durationInFrames: Math.max(1, Math.ceil(seconds * 30) + 15),
               };
             } catch {
-              return { props: { ...props, text }, durationInFrames: 150 };
+              return {
+                props: { ...props, text, hasVideo: false },
+                durationInFrames: 150,
+              };
             }
           }
         }}
