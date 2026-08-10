@@ -99,36 +99,53 @@ async function loadProject() {
   renderAll();
 }
 
+function nextLayer() {
+  if (!state.tracks.length) return 0;
+  return Math.max(...state.tracks.map((t) => t.layer)) + 1;
+}
+
 function renderMedia() {
   els.mediaList.innerHTML = "";
   for (const item of state.media) {
     const el = document.createElement("div");
     el.className = "media-item";
     el.draggable = true;
+    el.title = "Click to add to timeline, or drag onto the timeline";
     el.dataset.name = item.name;
     el.dataset.type = item.type;
 
     const thumb = document.createElement("div");
     thumb.className = "media-thumb";
     if (item.type === "image") {
-      thumb.innerHTML = `<img src="${item.url}" alt="" />`;
+      const img = document.createElement("img");
+      img.src = item.url;
+      img.alt = "";
+      img.draggable = false;
+      thumb.appendChild(img);
     } else if (item.type === "video") {
-      thumb.innerHTML = `<video src="${item.url}#t=0.1" muted preload="metadata"></video>`;
+      const video = document.createElement("video");
+      video.src = `${item.url}#t=0.1`;
+      video.muted = true;
+      video.preload = "metadata";
+      video.draggable = false;
+      thumb.appendChild(video);
     } else {
       thumb.textContent = "AUDIO";
     }
 
     const meta = document.createElement("div");
     meta.className = "media-meta";
-    meta.innerHTML = `<div class="media-name">${item.name}</div><div class="media-type">${item.type}</div>`;
+    meta.innerHTML = `<div class="media-name">${item.name}</div><div class="media-type">${item.type} · click to add</div>`;
 
     el.append(thumb, meta);
     el.addEventListener("dragstart", (e) => {
-      e.dataTransfer.setData(
-        "application/vibz-media",
-        JSON.stringify({ name: item.name, type: item.type }),
-      );
+      const payload = JSON.stringify({ name: item.name, type: item.type });
+      e.dataTransfer.setData("application/vibz-media", payload);
+      e.dataTransfer.setData("text/plain", payload);
       e.dataTransfer.effectAllowed = "copy";
+    });
+    el.addEventListener("click", () => {
+      addMediaAt(item.name, item.type, state.playhead, nextLayer());
     });
     els.mediaList.appendChild(el);
   }
@@ -326,15 +343,22 @@ function bindDropTargets() {
       return;
     }
 
-    const raw = e.dataTransfer.getData("application/vibz-media");
+    const raw =
+      e.dataTransfer.getData("application/vibz-media") ||
+      e.dataTransfer.getData("text/plain");
     if (!raw) return;
-    const payload = JSON.parse(raw);
-    addMediaAt(
-      payload.name,
-      payload.type,
-      frameFromClientX(e.clientX),
-      layerFromClientY(e.clientY),
-    );
+    try {
+      const payload = JSON.parse(raw);
+      if (!payload?.name || !payload?.type) return;
+      addMediaAt(
+        payload.name,
+        payload.type,
+        frameFromClientX(e.clientX),
+        layerFromClientY(e.clientY),
+      );
+    } catch {
+      toast("Could not read dropped media");
+    }
   });
 }
 

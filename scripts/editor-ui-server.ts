@@ -31,6 +31,8 @@ const MEDIA_EXT: Record<string, "video" | "image" | "audio"> = {
   ".png": "image",
   ".webp": "image",
   ".gif": "image",
+  ".heic": "image",
+  ".heif": "image",
   ".wav": "audio",
   ".mp3": "audio",
   ".m4a": "audio",
